@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html ng-app="hvm">
+<head>
+	<title>hvm</title>
+	<script src="./lib/angular.js"></script>
+	<link rel="stylesheet" type="text/css" href="./lib/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="./lib/bootstrap-theme.css">
+	<script>
+	angular.module("hvm", ["ngRoute"])
+		.config(function($routeProvider){
+			var cfData = "hello";
+			$routeProvider.when("/valueList",{
+				templateUrl: "/HVM/hvm/views/list/valueList.html"
+				,controller: "valueListCtrl"
+			});
+			$routeProvider.when("/activityList",{
+				templateUrl: "/HVM/hvm/views/list/activityList.html"
+				,controller: "activityListCtrl"
+			});
+			$routeProvider.when("/attributeList",{
+				templateUrl: "/HVM/hvm/views/list/attributeList.html"
+				,controller: "attributeListCtrl"
+			});
+			$routeProvider.when("/newAttr/:addType",{
+				templateUrl: "/HVM/hvm/views/newAttr.html"
+				,controller: "newAttrCtrl"
+				,cfData:cfData
+			});
+			$routeProvider.otherwise({
+		        redirectTo: '/valueList'
+			});
+		});
+	</script>
+	<script src="./controllers/hvm.js"></script>
+	<script src="./controllers/valueListCtrl.js"></script>
+	<script src="./controllers/activityListCtrl.js"></script>
+	<script src="./controllers/attributeListCtrl.js"></script>
+	<script src="./controllers/newAttributeCtrl.js"></script>
+	<script src="./lib/angular-route.js"></script>
+
+</head>
+<body ng-controller="hvmCtl">
+	<div class="navbar navbar-inverse">
+    	<div class="navbar-header">
+			<a class="navbar-brand" href="#">HVM</a>
+		</div>
+		<form class="navbar-form navbar-right">
+			<div class="form-group">
+				<select class="form-control" ng-model="viewType" ng-change="changeViewType()">
+				    <option value="value">value</option>
+				    <option value="activtiy">activtiy</option>
+				    <option value="attribute">attribute</option>
+				</select>
+				<button class="form-control" ng-click="createAttribute()">new</button> 
+			</div>
+		</form>	
+	</div>
+	<ng-view />
+</body>
+</html>

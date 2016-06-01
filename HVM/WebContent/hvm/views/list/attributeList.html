@@ -1,0 +1,47 @@
+<div>
+<h1>This is AttributeList</h1>
+<br>
+<div class="container">
+	<div class="row" style="border:1px gray solid;background-color:gray">
+		<div class="col-md-4">
+		attrName
+		</div>
+		<div class="col-md-2">
+		attrType
+		</div>
+		<div class="col-md-2">
+		prjName
+		</div>
+		<div class="col-md-2">
+		valueName
+		</div>
+		<div class="col-md-2">
+		activityName
+		</div>
+	</div>
+	<div class="row" style="border:1px gray solid;" ng-repeat="item in result">
+		<div class="col-md-4">
+		{{item.hvmAttribute.hvmAttrName}}
+		</div>
+		<div class="col-md-2">
+		{{item.hvmAttribute.hvmAttrType}}
+		</div>
+		<div class="col-md-2">
+		{{item.pssPrj.pssPrjName}}
+		</div>
+		<div class="col-md-2">
+		{{item.pssValue.pssValueName}}
+		</div>
+		<div class="col-md-2">
+		{{item.sbpAct.sbpName}}.{{item.sbpAct.sbpActName}}
+		</div>
+	</div>
+</div>
+<ul class="pagination">
+  <li><a href="">«</a></li>
+  <li><a href="" ng-repeat="n in [].constructor(totalPages) track by $index" ng-click="clickPageNo($index)">{{$index + 1}}</a></li>
+  <li><a href="">»</a></li>
+</ul>
+<div>
+	totalPage : {{totalPages}}, pageNo : {{pageNo}} , pageSize : {{pageSize}}
+</div>

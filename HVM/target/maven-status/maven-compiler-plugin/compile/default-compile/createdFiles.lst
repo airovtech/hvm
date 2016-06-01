@@ -1,0 +1,6 @@
+net/smartworks/dao/impl/DaoImpl.class
+net/smartworks/model/TestModel.class
+net/smartworks/factory/DaoFactory.class
+net/smartworks/dao/IDao.class
+net/smartworks/dao/mapper/TestMapper.class
+net/smartworks/controller/HvmController.class

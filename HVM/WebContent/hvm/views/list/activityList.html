@@ -1,0 +1,21 @@
+<div>
+<h1>This is ActivityList</h1>
+<br>
+<div class="container">
+	<div class="row" style="border:1px gray solid;" ng-repeat="item in result">
+		<div class="col-md-3">
+		{{item.pssPrj.pssPrjName}}.{{item.sbpActivity.sbpName}}.{{item.sbpActivity.sbpActName}}
+		</div>
+		<div class="col-md-9">
+			<div class="col-md-6" ng-repeat-start="value in item.pssValues" ><span ng-repeat="attr in value.hvmAttrs">{{attr.hvmAttrName}},</span></div><div class="col-md-3" ng-repeat-end>{{value.pssValueName}}</div>
+		</div>
+	</div>
+</div>
+<ul class="pagination">
+  <li><a href="">«</a></li>
+  <li><a href="" ng-repeat="n in [].constructor(totalPages) track by $index" ng-click="clickPageNo($index)">{{$index + 1}}</a></li>
+  <li><a href="">»</a></li>
+</ul>
+<div>
+	totalPage : {{totalPages}}, pageNo : {{pageNo}} , pageSize : {{pageSize}}
+</div>

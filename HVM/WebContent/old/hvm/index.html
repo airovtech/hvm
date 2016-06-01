@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html ng-app="hvm">
+<head>
+	<title>hvm</title>
+	<script src="./lib/angular.js"></script>
+	<link rel="stylesheet" type="text/css" href="./lib/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="./lib/bootstrap-theme.css">
+	<link rel="stylesheet" type="text/css" href="./lib/ngDialog.css">
+	<link rel="stylesheet" type="text/css" href="./lib/ngDialog-theme-default.css">
+	<script>
+	angular.module("hvm", ["ngRoute", "checklist-model","ngDialog"])
+		.config(function($routeProvider){
+			$routeProvider.when("/newAttr",{templateUrl: "./views/newAttr.html"});
+			$routeProvider.when("/attrList",{templateUrl: "./views/attrList.html"});
+			$routeProvider.otherwise({templateUrl: "./views/attrList.html"});
+		});
+	</script>
+	<script src="./controllers/hvm.js"></script>
+	<script src="./controllers/newattribute.js"></script>
+	<script src="./lib/angular-route.js"></script>
+	<script src="./lib/checklist-model.js"></script>
+	<script src="./lib/ngDialog.js"></script>
+
+</head>
+<body ng-controller="hvmCtl">
+	<div class="navbar navbar-inverse">
+		<a class="navbar-brand" href="#">HVM</a>	
+		<a type="button" class="btn btn-default navbar-btn pull-right" href="#/newAttr">new</a>
+	</div>
+	<div class="alert alert-danger" ng-show="data.error">
+	Error ({{data.attrList.error.status}}) <a href="/hvm/index.html">try again</a>
+	</div>
+	<ng-view />
+</body>
+</html>
