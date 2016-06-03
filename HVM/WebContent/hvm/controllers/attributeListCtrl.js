@@ -1,11 +1,9 @@
 angular.module("hvm")
-.constant("getAttributeListUrl","http://localhost:8080/HVM/getAttributeList.sw")
-.constant("getAttributeListSizeUrl","http://localhost:8080/HVM/getAttributeListSize.sw")
 .controller("attributeListCtrl", function($scope, $routeParams, getAttributeListUrl, getAttributeListSizeUrl, retrieveServicePost) {
 	$scope.view_type = "attribute";
 	//$scope.view_type = $routeParams.viewType;
 	
-	$scope.pageSize = 3;
+	$scope.pageSize = 10;
 	$scope.pageNo = 0;
 	
 	$scope.result = [];

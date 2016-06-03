@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Login</title>
+<link href="css/common.css" rel="stylesheet" type="text/css" />
+<link href="css/login.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+<script>
+  function clearText(field)
+  {
+   if (field.defaultValue == field.value) field.value = '';
+   else if (field.value == '') field.value = field.defaultValue;
+  }   
+ </script>
+<style>
+
+</style>
+
+
+
+</head>
+
+<body>
+			<div id="login">
+               <div class="mainImg">cdi</div>
+            
+                 <div class="content">
+				            <div class="signin-cont cont">
+					                <form action="#" method="post" enctype="multipart/form-data">
+						                    <input type="id" name="id" id="id" class="inpt" required="required" placeholder="ID">
+						                    <label for="email">Your email</label>
+						                    <input type="password" name="password" id="password" class="inpt" required="required" placeholder="password">
+                						    <label for="password">Your password</label>
+						                    
+						                    
+						                    <div class="submit-wrap">
+							                        <input type="submit" value="Sign in" class="submit">
+							                        
+						                    </div>
+        					        </form>
+    				        </div>
+                           
+                     </div>       
+    		 </div>
+</body>
+</html>

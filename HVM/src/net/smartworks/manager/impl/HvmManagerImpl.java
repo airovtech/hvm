@@ -53,6 +53,8 @@ public class HvmManagerImpl implements IHvmManager {
 				Map<String, String> pssPrjMap = new LinkedHashMap<String, String>();
 				pssPrjMap.put("pssPrjId", attr.getPrjId());
 				pssPrjMap.put("pssPrjName", attr.getPrjName());
+				pssPrjMap.put("pssPrjPicture", attr.getPrjPicture());
+				pssPrjMap.put("pssPrjDesc", attr.getPrjDesc());
 				result.setPssPrj(pssPrjMap);
 				
 				Map<String, String> pssValueMap = new LinkedHashMap<String, String>();
@@ -148,6 +150,8 @@ public class HvmManagerImpl implements IHvmManager {
 				Map<String, String> pssPrjMap = new LinkedHashMap<String, String>();
 				pssPrjMap.put("pssPrjId", attr.getPrjId());
 				pssPrjMap.put("pssPrjName", attr.getPrjName());
+				pssPrjMap.put("pssPrjPicture", attr.getPrjPicture());
+				pssPrjMap.put("pssPrjDesc", attr.getPrjDesc());
 				result.setPssPrj(pssPrjMap);
 				
 				Map<String, String> sbpActivityMap = new LinkedHashMap<String, String>();
@@ -235,6 +239,8 @@ public class HvmManagerImpl implements IHvmManager {
 			Map<String, String> pssPrj = new LinkedHashMap();
 			pssPrj.put("pssPrjId", attr.getPrjId());
 			pssPrj.put("pssPrjName", attr.getPrjName());
+			pssPrj.put("pssPrjPicture", attr.getPrjPicture());
+			pssPrj.put("pssPrjDesc", attr.getPrjDesc());
 			
 			Map<String, String> sbpPrj = new LinkedHashMap();
 			sbpPrj.put("sbpPrjId", attr.getSbpPrjId());

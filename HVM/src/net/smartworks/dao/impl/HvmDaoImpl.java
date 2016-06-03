@@ -69,20 +69,20 @@ public class HvmDaoImpl implements IHvmDao {
 		strBuff.append(" select b.* ");
 		strBuff.append(" from ");
 		strBuff.append(" ( ");
-		strBuff.append(" 	select prjname, valuename  ");
+		strBuff.append(" 	select prjid, prjname, valuename  ");
 		strBuff.append(" 	from hvmattribute ");
 		if (searchKey != null && searchKey.length() != 0) {
 			strBuff.append(" 	where (prjname like ? or sbpprjname like ? or valuename like ? or sbpname like ? or sbpactivityname like ? or attrname like ?) ");
 		}
-		strBuff.append(" 	group by prjname, valuename ");
-		strBuff.append(" 	order by prjname, valuename ");
+		strBuff.append(" 	group by prjid,prjname, valuename ");
+		strBuff.append(" 	order by prjid,prjname, valuename ");
 		strBuff.append(" 	limit ? offset ? ");
 		strBuff.append(" ) a ");
 		strBuff.append(" left outer join  ");
 		strBuff.append(" ( ");
 		strBuff.append(" 	select * from hvmattribute ");
 		strBuff.append(" ) b ");
-		strBuff.append(" on a.prjname = b.prjname ");
+		strBuff.append(" on a.prjid = b.prjid ");
 		strBuff.append(" and a.valuename = b.valuename ");
 		
 		List<HvmAttribute> attrList = jdbcTemplateObject.query(strBuff.toString(), 

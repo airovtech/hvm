@@ -1,4 +1,11 @@
 angular.module("hvm")
+.constant("imageServerUrl","http://www.smartworks.net/product-images/")
+.constant("getAttributeListUrl","http://localhost:8080/HVM/getAttributeList.sw")
+.constant("getAttributeListSizeUrl","http://localhost:8080/HVM/getAttributeListSize.sw")
+.constant("getActivityListUrl","http://localhost:8080/HVM/getActivityList.sw")
+.constant("getActivityListSizeUrl","http://localhost:8080/HVM/getActivityListSize.sw")
+.constant("getValueListUrl","http://localhost:8080/HVM/getValueList.sw")
+.constant("getValueListSizeUrl","http://localhost:8080/HVM/getValueListSize.sw")
 .controller("hvmCtl", function($scope, $location){
 	$scope.viewMode = "view";
 	$scope.viewType = "value";
@@ -14,6 +21,7 @@ angular.module("hvm")
 		}
 	}
 	$scope.createAttribute = function() {
+		console.log($scope.viewType);
 		$location.path("/newAttr/"+$scope.viewType);
 	}
 })
@@ -25,3 +33,11 @@ angular.module("hvm")
 		}
 	}
 }])
+.directive('bgImage', function(){
+    return function(scope, element, attrs) {
+        element.css({
+            'background-image': 'url(' + attrs.bgImage +')',
+            'background-size' : '100% 100%'
+        });
+    };
+})

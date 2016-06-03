@@ -2,6 +2,8 @@ CREATE TABLE hvmAttribute (
 	id character varying(20) NOT NULL,
 	prjId character varying(20),
 	prjName character varying(100),
+	prjPicture character varying(50),
+	prjDesc character varying(4000),
 	sbpPrjId character varying(20),
 	sbpPrjName character varying(100),
 	valueId character varying(20),

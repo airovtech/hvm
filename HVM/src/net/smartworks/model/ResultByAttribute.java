@@ -6,7 +6,7 @@ import java.util.Map;
 public class ResultByAttribute {
 
 //	$scope.result = {
-//	"pssPrj":{"pssPrjId":"a123","pssPrjName":"여성 신발 매장"}
+//	"pssPrj":{"pssPrjId":"a123","pssPrjName":"여성 신발 매장","pssPrjPicture":"XXXX.jpg","pssPrjDesc":"XXX"}
 //	,"sbpPrj":{"sbpPrjId":"spbPrjId1","sbpPrjName":"spbPrjName1"}
 //	,"hvmAttribute":{"hvmAttrId":"hvmAttrId1","hvmAttrName":hvmAttrName1","hvmAttrType":hvmAttrType1"}
 //	,"sbpAct":

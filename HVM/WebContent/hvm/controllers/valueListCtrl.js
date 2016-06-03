@@ -1,11 +1,11 @@
 angular.module("hvm")
-.constant("getValueListUrl","http://localhost:8080/HVM/getValueList.sw")
-.constant("getValueListSizeUrl","http://localhost:8080/HVM/getValueListSize.sw")
-.controller("valueListCtrl", function($scope, $routeParams, getValueListUrl, getValueListSizeUrl, retrieveServicePost) {
-	$scope.view_type = "value";
+.controller("valueListCtrl", function($scope, $routeParams, getValueListUrl, getValueListSizeUrl, retrieveServicePost, imageServerUrl) {
+	$scope.viewType = "value";
 	//$scope.view_type = $routeParams.viewType;
+
+	$scope.image_path = imageServerUrl;
 	
-	$scope.pageSize = 3;
+	$scope.pageSize = 5;
 	$scope.pageNo = 0;
 	
 	$scope.result = [];

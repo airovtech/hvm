@@ -1,0 +1,9 @@
+@font-face{
+font-family:"Nanum Barun Gothic";
+src:url('HVM/hvm/fonts/NanumBarunGothic.eot');
+src:url('HVM/hvm/fonts/NanumBarunGothic.eot?#iefix') format('embedded-opentype'),
+url('./NanumBarunGothic.woff') format('woff'),
+url('./NanumBarunGothic.ttf') format('truetype');
+url('HVM/hvm/fonts/NanumBarunGothic.svg#NanumBarunGothic') format('svg')
+src:local(※), url('HVM/hvm/fonts/NanumBarunGothic.woff') format('woff');
+}

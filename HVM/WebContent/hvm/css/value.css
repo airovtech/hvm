@@ -1,0 +1,21 @@
+@charset "UTF-8";
+
+
+
+#subwrap .contents, .contents2 {margin-top:60px; color:#535353; }
+#subwrap .contents .explain{ width:950px; background:#FFF; height:130px; margin-top:20px; padding:17px 33px 17px 17px; display:table; }
+#subwrap .contents1 { margin-top:10px;}
+#subwrap .contents1 .explain h3 { width:140px; height:100px; text-indent:-999px; float:left; margin:15px 25px 0 0; border-radius:10px;}
+#subwrap .contents2 .explain h3 { background-image:url(../images/pss2.png); width:140px; height:100px; text-indent:-999px; float:left; margin:15px 25px 0 0; border-radius:10px;}
+#subwrap .contents .title {font-size:17px;}
+#subwrap .contents .text { font-size:15px; line-height:25px; display:table-cell; vertical-align:middle; }
+
+#subwrap .contents .value .value2 { margin-top:5px;}
+#subwrap .contents .value tr th{ background-color:#b3b3bc; color:#FFF; height:40px; line-height:40px; border-right:1px solid #fff}
+#subwrap .contents .value tr td {padding:20px; border-bottom:1px dashed #c2c2c2; background-color:#fff; border-right=:1px dashed #c2c2c2; width:320px;}
+#subwrap .contents .value tr .th3 { border:none;}
+#subwrap .contents .value tr .td1 { text-align:center; color:#535353; font-size:20px; border:none}
+#subwrap .contents .value tr .td3 { border-right:none}
+#subwrap .contents .value .tr_last td{border-bottom:none;}
+
+

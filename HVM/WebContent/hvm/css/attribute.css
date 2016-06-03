@@ -1,0 +1,9 @@
+@charset "UTF-8";
+/* CSS Document */
+
+#subwrap .contents { margin-top:100px;}
+#subwrap .contents .attribute tr th { background-color:#b3b3bc; color:#FFF; height:40px; line-height:40px; border-right:1px solid #fff}
+#subwrap .contents .attribute tr td {padding:10px 20px; border-bottom:1px dashed #c2c2c2; background-color:#fff; border-right:1px dashed #c2c2c2; color:#535353; font-size:14px;}
+#subwrap .contents .attribute tr .td2 { text-align:center;}
+#subwrap .contents .attribute tr .td5 { border-right:none;}
+#subwrap .contents .attribute .tr_last td{ border-bottom:none;}

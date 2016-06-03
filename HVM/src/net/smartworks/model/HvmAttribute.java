@@ -9,6 +9,8 @@ public class HvmAttribute {
 	private String id = null;
 	private String prjId = null;
 	private String prjName = null;
+	private String prjPicture = null;
+	private String prjDesc = null;
 	private String sbpPrjId = null;
 	private String sbpPrjName = null;
 	private String valueId = null;
@@ -19,6 +21,7 @@ public class HvmAttribute {
 	private String activityName = null;
 	private String attrType = null;
 	private String attrName = null;
+	
 	public String getId() {
 		return id;
 	}
@@ -36,6 +39,18 @@ public class HvmAttribute {
 	}
 	public void setPrjName(String prjName) {
 		this.prjName = prjName;
+	}
+	public String getPrjPicture() {
+		return prjPicture;
+	}
+	public void setPrjPicture(String prjPicture) {
+		this.prjPicture = prjPicture;
+	}
+	public String getPrjDesc() {
+		return prjDesc;
+	}
+	public void setPrjDesc(String prjDesc) {
+		this.prjDesc = prjDesc;
 	}
 	public String getSbpPrjId() {
 		return sbpPrjId;

@@ -16,6 +16,8 @@ public class PssProjectMapper implements RowMapper<PssProject> {
 		
 		prj.setPssPrjId(rs.getString("id"));
 		prj.setPssPrjName(rs.getString("name"));
+		prj.setPssPrjPicture(rs.getString("picture"));
+		prj.setPssPrjDesc(rs.getString("description"));
 
 		return prj;
 	}

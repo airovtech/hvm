@@ -1,11 +1,11 @@
 angular.module("hvm")
-.constant("getActivityListUrl","http://localhost:8080/HVM/getActivityList.sw")
-.constant("getActivityListSizeUrl","http://localhost:8080/HVM/getActivityListSize.sw")
-.controller("activityListCtrl", function($scope, $routeParams, getActivityListUrl, getActivityListSizeUrl, retrieveServicePost) {
-	$scope.view_type = "activity";
+.controller("activityListCtrl", function($scope, $routeParams, getActivityListUrl, getActivityListSizeUrl, retrieveServicePost, imageServerUrl) {
+	$scope.viewType = "activity";
 	//$scope.view_type = $routeParams.viewType;
+
+	$scope.image_path = imageServerUrl;
 	
-	$scope.pageSize = 3;
+	$scope.pageSize = 5;
 	$scope.pageNo = 0;
 	
 	$scope.result = [];

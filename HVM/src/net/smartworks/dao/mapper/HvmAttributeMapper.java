@@ -17,6 +17,8 @@ public class HvmAttributeMapper implements RowMapper<HvmAttribute> {
 		attr.setId(rs.getString("id"));
 		attr.setPrjId(rs.getString("prjId"));
 		attr.setPrjName(rs.getString("prjName"));
+		attr.setPrjPicture(rs.getString("prjPicture"));
+		attr.setPrjDesc(rs.getString("prjDesc"));
 		attr.setSbpPrjId(rs.getString("sbpPrjId"));
 		attr.setSbpPrjName(rs.getString("sbpPrjName"));
 		attr.setValueId(rs.getString("valueId"));
