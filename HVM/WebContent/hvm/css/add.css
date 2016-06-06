@@ -9,26 +9,27 @@
 #subwrap .contents .pss h4, .sbp h4, .hvm h4 {color:#6b6b6b; font-size:14px; font-weight:lighter;}
 #subwrap .contents .activity h4 { margin-top:10px}
 
-#subwrap .contents .pss .project input, .sbp .project input { margin:10px 0; height:28px; width:945px; box-shadow:0px 1px 20px #e6e6e6; border:1px solid #e6e6e6; font-size:13px; padding-left:5px; color:#333 }
-#subwrap .contents .pss .project input:focus, .sbp .project input:focus{ border:1px solid #d1e701; outline:none;}
+/*
+#subwrap .contents .pss .project input, .pssValue input, .sbp .project input { margin:10px 0; height:28px; width:945px; box-shadow:0px 1px 20px #e6e6e6; border:1px solid #e6e6e6; font-size:13px; padding-left:5px; color:#333 }
+#subwrap .contents .pss .project input:focus, .pssValue input:focus, .sbp .project input:focus{ margin:10px 0; border:1px solid #d1e701; outline:none;}
+*/
 
 #subwrap .contents .sbp .activity .checkbox {margin:10px 0; height:28px; width:910px; box-shadow:0px 1px 20px #e6e6e6; border:1px solid #e6e6e6; background-color:#fff; padding:20px}
 
 #subwrap .contents .sbp .activity .checkbox p{ font-size:14px; color:#6b6b6b; line-height:28px;}
 #subwrap .contents .sbp .activity .checkbox p label { margin-right:15px }
 
-#subwrap .contents .hvm .hvmbox {margin:15px 0; height:285px; width:950px; box-shadow:0px 1px 20px #e6e6e6; border:1px solid #e6e6e6; background-color:#fff;}
+#subwrap .contents .hvm .hvmbox {margin:15px 0 30px 0;overflow:hidden;height:auto; width:950px; box-shadow:0px 1px 20px #e6e6e6; border:1px solid #e6e6e6; background-color:#fff;}
 #subwrap .contents .hvm .hvmbox h3{color:#6b6b6b; font-size:14px; font-weight:lighter; padding:10px;}
 #subwrap .contents .hvm .hvmbox .t1 { color:#fff; background-color:#898989; font-weight:bold; height:20px;}
 #subwrap .contents .hvm .hvmbox .t2 {color:#6b6b6b; background-color:#e4e4e4; text-align:center}
 
-#subwrap .contents .hvm .hvmbox .sbpActivity1, .sbpActivity2 { float:left;}
-#subwrap .contents .hvm .hvmbox .sbpActivity {height:90px; width:850px;  border:1px solid #e6e6e6; background-color:#fff; margin:20px 0 0 80px;}
+#subwrap .contents .hvm .hvmbox .sbpActivity1, .sbpActivity2 {margin:0 0 15px 0; float:left;}
+#subwrap .contents .hvm .hvmbox .sbpActivity {overflow:hidden;height:auto; width:850px;  border:1px solid #e6e6e6; background-color:#fff; margin:20px 0 0 80px;}
 
 #subwrap .contents .hvm .hvmbox .sbpActivity li{ float:left; margin-right:15px; line-height:50px; font-size:13px;}
 #subwrap .contents .hvm .hvmbox .sbpActivity p {line-height:50px; font-size:13px; margin-left:15px;}
 #subwrap .contents .hvm .hvmbox .sbpActivity input { width:18px;}
-
 
 
 

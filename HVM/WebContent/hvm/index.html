@@ -7,7 +7,7 @@
 	
 	<script src="./lib/angular.js"></script>
 	<script>
-	angular.module("hvm", ["ngRoute"])
+	angular.module("hvm", ["ngRoute","ngCookies"])
 		.config(function($routeProvider){
 			var cfData = "hello";
 			$routeProvider.when("/valueList",{
@@ -39,12 +39,18 @@
 	<script src="./controllers/attributeListCtrl.js"></script>
 	<script src="./controllers/newAttributeCtrl.js"></script>
 	<script src="./lib/angular-route.js"></script>
+	<script src="./lib/cookies.js"></script>
+	<script src="./lib/cookieStore.js"></script>
+	<script src="./lib/cookieWriter.js"></script>
+	<script src="./lib/ngDialog.js"></script>
+	<link href="./lib/ngDialog.css" rel="stylesheet" type="text/css" />
 
 
 	<link href="./css/common.css" rel="stylesheet" type="text/css" />
 	<link href="./css/sub_list.css" rel="stylesheet" type="text/css" />
 	<link href="./css/value.css" rel="stylesheet" type="text/css" />
 	<link href="./css/attribute.css" rel="stylesheet" type="text/css" />
+	<link href="./css/add.css" rel="stylesheet" type="text/css" />
 	<link href="./css/custom.css" rel="stylesheet" type="text/css" />
 
 
@@ -52,15 +58,27 @@
 <body ng-controller="hvmCtl">
 	<div id="header">
 	     <div class="headerInner">
-	         <h1><a href="#">cdi</a></h1>
+	         <h1><a href="" ng-click="mainView()">cdi</a></h1>
 	     </div>
 	     <div class="title"><strong>H</strong>ierarchical <strong>V</strong>alue <strong>M</strong>ap</div>
 	</div>
 	<div class="box1">
 		<div style="float:right; margin-left:10px;">
-	    	<button type="button">+ 새항목 추가</button>
+	    	<a href="" ng-click="createAttribute()" class="btn-new-attribute">+ 새항목 추가</a>
 		</div>
-		<div style="float:right;">
+		<!-- <div class="menubar">
+			<ul class="menuItem">
+				<li><a href="#">Select</a>
+					<ul>
+						<li><a href="#">Value</a></li>
+						<li><a href="#">Attribute</a></li>
+						<li><a href="#">Activity</a></li>
+					</ul>
+				</li>
+			</ul>
+		</div> -->
+		<div class="selectbox" style="float:right;"> 
+			<label>{{viewType}}</label>
 			<select ng-model="viewType" ng-change="changeViewType()">
 			    <option value="value">value</option>
 			    <option value="activtiy">activtiy</option>

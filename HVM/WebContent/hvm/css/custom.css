@@ -1,4 +1,14 @@
+.btn-new-attribute {
+	background-color: #cbe000;
+}
 
+.btn-new-attribute:hover {
+	background-color: #b9cb08;
+}
+
+.btn-new-attribute:active {
+	background-color: #b9cb08;
+}
 
 .pagination {
   display: inline-block;
@@ -95,4 +105,219 @@
 .pagination-sm > li:last-child > span {
   border-top-right-radius: 3px;
   border-bottom-right-radius: 3px;
+}
+
+.searchBox { margin:10px 0; height:28px; width:945px; box-shadow:0px 1px 20px #e6e6e6; border:1px solid #e6e6e6; font-size:13px; padding-left:5px; color:#333 }
+.searchBox:focus { margin:10px 0; border:1px solid #d1e701; outline:none;}
+
+.searchBox_activity { margin:10px 0; height:28px; width:895px; box-shadow:0px 1px 20px #e6e6e6; border:1px solid #e6e6e6; font-size:13px; padding-left:5px; color:#333 }
+.searchBox_activity:focus { margin:10px 0; border:1px solid #d1e701; outline:none;}
+
+.btn_add_activity { height:28px; width:50x; box-shadow:0px 1px 20px #e6e6e6; border:1px solid #e6e6e6; font-size:13px; padding-left:5px; color:#333 ;border-radius: 4px;background-color:#e4e4e4;}
+.btn_add_activity:hover {
+	cursor: pointer;
+}
+.btn_add_activity:hover {
+	background-color: #d1e701;
+	color: #fff;
+}
+.btn_add_activity:active {
+	background-color: #d1e701;
+	color: #fff;
+}
+
+.btn-remove-act:hover {
+	cursor: pointer;
+}
+
+.remove_attribute a {
+	display:none;
+}
+.remove_attribute:hover  a{
+	display:block;
+}
+
+.modal_add_attribute {}
+.modal_add_attribute input {
+	margin:10px 0; height:28px; width:70%; box-shadow:0px 1px 20px #e6e6e6; border:1px solid #e6e6e6; font-size:13px; padding-left:5px; color:#333
+}
+.modal_add_attribute select {
+	display:inline-block; margin:10px 0; height:28px; width:20%; box-shadow:0px 1px 20px #e6e6e6; border:1px solid #e6e6e6; font-size:13px; padding-left:5px; color:#333
+}
+
+.search_result { margin:0; width:945px; box-shadow:0px 1px 20px #e6e6e6; border:1px solid #e6e6e6; font-size:13px; color:#333 }
+.search_result li {margin:0;height:25px;border:1px solid #e6e6e6;padding:5px 5px 1px 5px; color:#333 }
+.search_result a {display:block;margin:0;height:25px;border:1px solid #e6e6e6;padding:5px 5px 1px 5px; color:#333 }
+
+.search_result_activity {margin:0; width:945px; box-shadow:0px 1px 20px #e6e6e6; border:1px solid #e6e6e6; font-size:13px; color:#333 }
+.search_result_activity li {margin:0;height:25px;border:1px solid #e6e6e6;padding:5px 5px 1px 5px; color:#333 }
+.search_result_activity a {display:inline-block;margin:0;width:890px;height:25px;padding:5px 5px 1px 5px; color:#333 }
+.search_result_activity a:hover + .btn_add_activity {
+	background-color: #d1e701;
+	color: #fff;
+}
+
+
+
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 300px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%;
+}
+
+/* The Close Button */
+.close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+/* dm seol */
+.menuItem {
+	float: right;
+}
+
+.menubar ul {
+	background: #fff; /* #F6F6F6 */
+	height: 33px;
+	list-style: none;
+}
+
+.menubar li {
+	float: left;
+}
+
+.menubar a {
+	color: #5D5D5D;
+	display: block;
+	font-weight: normal;
+	line-height: 33px;
+	padding: 1px 50px;
+}
+
+.menubar li a:hover, .menubar ul li:hover a {
+	background: #fff; /* #F6F6F6 */
+	color: #5D5D5D;
+}
+
+.menubar li:hover ul {
+	display: block;
+}
+
+.menubar li:hover li a {
+	background: none;
+}
+
+.menubar li ul {
+	background: #5D5D5D;
+	display: none;
+	height: auto;
+	position: absolute;
+	z-index: 999;
+}
+
+.menubar li li a, .menubar li li {
+	background: #EAEAEA;
+	display: block;
+	float: none;
+	/*min-width:135px;*/
+}
+
+.menubar li ul a {
+	display: block;
+	height: 40px;
+	width: 37px;
+	font-size: 14px;
+	font-style: normal;
+	padding: 1px 50px;
+	text-align: left;
+}
+
+.menubar li ul a:hover, .menubar li ul li:hover a {
+	background: #F6F6F6;
+	border: 0px;
+	color: #5D5D5D;
+}
+
+.selectbox {
+	position: relative;
+	width: 110px; /* 너비설정 */
+	background: #fff;
+	z-index: 1;
+}
+.selectbox label {
+	position: absolute;
+	top: 1px; /* 위치정렬 */
+	left: 5px; /* 위치정렬 */
+	padding: .5em .5em; /* select의 여백 크기 만큼 */
+	color: #999;
+	font-size: 15px;
+	z-index: -1; /* IE8에서 label이 위치한 곳이 클릭되지 않는 것 해결 */
+}
+
+.selectbox:before { /* 화살표 대체 */
+	content: "";
+	position: absolute;
+	top: 50%;
+	right: 15px;
+	width: 0;
+	height: 0;
+	margin-top: -1px;
+	border-left: 5px solid transparent;
+	border-right: 5px solid transparent;
+	border-top: 5px solid #333;
+}
+
+.selectbox select {
+	width: 100%;
+	height: auto; /* 높이 초기화 */
+	line-height: normal; /* line-height 초기화 */
+	font-family: inherit; /* 폰트 상속 */
+	padding: 1em; /* 여백과 높이 결정 */
+	border: 0;
+	opacity: 0; /* 숨기기 */
+	filter: alpha(opacity = 0); /* IE8 숨기기 */
+	-webkit-appearance: none; /* 네이티브 외형 감추기 */
+	-moz-appearance: none;
+	appearance: none;
 }

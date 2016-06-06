@@ -60,7 +60,7 @@ angular.module("hvm")
 		});
 	};
 	$scope.clickSearchedSbpPrjItem = function(item) {
-		var searchSbpUrl = "http://localhost:8080/HVM/getSbp.sw?sbpPrjId=" + item.sbpPrjId;
+		var searchSbpUrl = getSbpUrl + "?sbpPrjId=" + item.sbpPrjId;
 		$scope.sbp_projects.length = 0;
 		$scope.result.sbpPrj = item;
 		searchServiceGet.search(searchSbpUrl).success(function(data){

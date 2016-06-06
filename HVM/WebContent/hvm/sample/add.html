@@ -1,0 +1,204 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<title>Add</title>
+
+<link href="../css/common.css" rel="stylesheet" type="text/css" />
+<link href="../css/add.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="../js/jquery-1.8.3.min.js"></script>
+
+</head>
+
+<body>
+
+	<div id="header">
+		<div class="headerInner">
+			<h1>
+				<a href="">cdi</a>
+			</h1>
+		</div>
+
+		<div class="title">
+			<strong>H</strong>ierarchical <strong>V</strong>alue <strong>M</strong>ap
+		</div>
+
+	</div>
+
+	<!-- header-->
+
+
+
+	<div id="subwrap">
+
+		<div class="contents">
+
+			<span class="s_title">새 항목 등록</span>
+
+			<div class="pss">
+				<h1>PSS</h1>
+				<div class="project">
+					<h4>pss project</h4>
+					<input name="pssproject" type="text" class="textbox" />
+				</div>
+
+				<div class="value">
+					<h4>value</h4>
+					<div class="select-list">
+						<select>
+
+							<option value="">--------------</option>
+							<option value="">@@@@@@@@</option>
+							<option value="">&&&&&&&&&&</option>
+
+						</select>
+					</div>
+				</div>
+			</div>
+
+			<div class="sbp">
+				<h1>SBP</h1>
+				<div class="project">
+					<h4>sbp project</h4>
+					<input name="sbpproject" type="text" class="textbox" />
+				</div>
+
+				<div class="sbp2">
+					<h4>sbp</h4>
+					<div class="select-list">
+						<select>
+
+							<option value="">--------------</option>
+							<option value="">@@@@@@@@</option>
+							<option value="">&&&&&&&&&&</option>
+
+						</select>
+					</div>
+				</div>
+				<div class="activity">
+					<h4>activity</h4>
+					<div class="checkbox">
+						<form id="form1" name="form1" method="post" action="">
+							<p>
+								<label> <input type="checkbox" name="CheckboxGroup1"
+									value="checkbox" id="CheckboxGroup1_0" /> sbpActivity1
+								</label> <label> <input type="checkbox" name="CheckboxGroup1"
+									value="checkbox" id="CheckboxGroup1_1" /> sbpActivity2
+								</label> <label> <input type="checkbox" name="CheckboxGroup1"
+									value="checkbox" id="CheckboxGroup1_2" /> sbpActivity3
+								</label>
+
+							</p>
+						</form>
+					</div>
+				</div>
+
+				<div class="hvm">
+					<h1>HVM</h1>
+					<div class="hvmbox">
+						<h3 class="t1">생각보다 저렴</h3>
+						<div class="sbpActivity1">
+							<div class="btn">
+								<a href="#" class="btn-add">add+</a>
+							</div>
+							<div class="sbpActivity">
+								<h3 class="t2">sbpActivity1</h3>
+
+								<ul>
+									<li><img src="../images/p-a.png" width="18" height="18"
+										class="p-attribute" />Attribute1</li>
+									<li><img src="../images/p-a.png" width="18" height="18"
+										class="p-attribute" />Attribute2</li>
+									<li><img src="../images/n-a.png" width="18" height="18"
+										class="n-attribute" />Attribute3</li>
+								</ul>
+							</div>
+						</div>
+						<div class="sbpActivity2">
+							<div class="btn">
+								<a href="#" class="btn-add">add+</a>
+							</div>
+							<div class="sbpActivity">
+								<h3 class="t2">sbpActivity2</h3>
+
+
+
+								<p>Attribute add...</p>
+
+
+
+
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="btn">
+					<a class="btn-save">Save</a>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+
+	<!-- contents-->
+
+	<div id="footer">
+		<div class="footerInner">
+			<div class="footer_logo"></div>
+			<div class="copyright"></div>
+
+			<div></div>
+
+
+
+			<script>
+$('select').each(function(){
+    var $this = $(this), numberOfOptions = $(this).children('option').length;
+  
+    $this.addClass('select-hidden'); 
+    $this.wrap('<div class="select"></div>');
+    $this.after('<div class="select-styled"></div>');
+
+    var $styledSelect = $this.next('div.select-styled');
+    $styledSelect.text($this.children('option').eq(0).text());
+  
+    var $list = $('<ul ></ul>', {
+        'class': 'select-options'
+    }).insertAfter($styledSelect);
+  
+    for (var i = 0; i < numberOfOptions; i++) {
+        $('<li ></li>', {
+            text: $this.children('option').eq(i).text(),
+            rel: $this.children('option').eq(i).val()
+        }).appendTo($list);
+    }
+  
+    var $listItems = $list.children('li');
+  
+    $styledSelect.click(function(e) {
+        e.stopPropagation();
+        $('div.select-styled.active').each(function(){
+            $(this).removeClass('active').next('ul.select-options').hide();
+        });
+        $(this).toggleClass('active').next('ul.select-options').toggle();
+    });
+  
+    $listItems.click(function(e) {
+        e.stopPropagation();
+        $styledSelect.text($(this).text()).removeClass('active');
+        $this.val($(this).attr('rel'));
+        $list.hide();
+        //console.log($this.val());
+    });
+  
+    $(document).click(function() {
+        $styledSelect.removeClass('active');
+        $list.hide();
+    });
+
+});
+         </script>
+</body>
+</html>
