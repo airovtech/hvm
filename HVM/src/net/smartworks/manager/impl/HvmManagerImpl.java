@@ -1,6 +1,7 @@
 package net.smartworks.manager.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -17,6 +18,7 @@ import net.smartworks.model.PssValue;
 import net.smartworks.model.ResultByActivity;
 import net.smartworks.model.ResultByAttribute;
 import net.smartworks.model.ResultByValue;
+import net.smartworks.util.id.IDCreator;
 
 public class HvmManagerImpl implements IHvmManager {
 
@@ -24,6 +26,267 @@ public class HvmManagerImpl implements IHvmManager {
 		return HvmDaoFactory.getInstance().getHvmDao();
 	}
 
+	@Override
+	public Map setAttribute(String setMode, Map obj) throws Exception {
+		/*{  
+			   pssPrj=   {  
+			      pssPrjId=ff8081814a0145c5014a018edb7d0025,
+			      pssPrjName=Blood Donation 제품-서비스 통합시스템,
+			      pssPrjPicture=PS_36c91f714c134f3daafcabd9687814aa.jpg,
+			      pssPrjDesc=친구,
+			      애인,
+			      가족 등 다른 사람과 같이 헌혈할 수 있는 서비스 
+			누군가와 같이 할 수 있음으로 두려움,
+			      불안감,
+			      짜증이라는 부정적 요소를 감소시킴
+			   },
+			   pssValue=   {  
+			      pssValueId=ff8081815120442f015120d6e0d9000a,
+			      pssValueName=Connected
+			   },
+			   sbpPrj=   {  
+			      sbpPrjId=spbPrjId1,
+			      sbpPrjName=sbp project 1
+			   },
+			   sbpActs=   [  
+			      {  
+			         sbpActId=spbActivityId2,
+			         sbpName=sbpName1,
+			         sbpActName=sbpActivity 2,
+			         sbpId=spbId1,
+			         actIndex=0,
+			         hvmAttrs=         [  
+			            {  
+			               hvmAttrType=p,
+			               hvmAttrName=dfsaf
+			            }
+			         ]
+			      },
+			      {  
+			         sbpActId=spbActivityId1,
+			         sbpName=sbpName1,
+			         sbpActName=sbpActivity 1,
+			         sbpId=spbId1,
+			         actIndex=1,
+			         hvmAttrs=         [  
+			            {  
+			               hvmAttrType=p,
+			               hvmAttrName=fdafs
+			            }
+			         ]
+			      },
+			      {  
+			         sbpActId=spbActivityId3,
+			         sbpName=sbpName1,
+			         sbpActName=sbpActivity 3,
+			         sbpId=spbId1,
+			         actIndex=2,
+			         hvmAttrs=         [  
+			            {  
+			               hvmAttrType=n,
+			               hvmAttrName=fdafs
+			            }
+			         ]
+			      },
+			      {  
+			         sbpActId=spbActivityId5,
+			         sbpName=sbpName2,
+			         sbpActName=sbpActivity 5,
+			         sbpId=spbId2,
+			         actIndex=3,
+			         hvmAttrs=         [  
+			            {  
+			               hvmAttrType=p,
+			               hvmAttrName=fda
+			            }
+			         ]
+			      },
+			      {  
+			         sbpActName=adafs,
+			         actIndex=4,
+			         hvmAttrs=         [  
+			            {  
+			               hvmAttrType=p,
+			               hvmAttrName=fdaf
+			            }
+			         ]
+			      }
+			   ]
+			}*/
+		if (setMode == null || obj == null)
+			return null;
+
+		List resultAttrList = null;
+		if (setMode.equalsIgnoreCase("value")) {
+			
+			List sbpActs = (List)obj.get("sbpActs");
+			if (sbpActs == null || sbpActs.size() == 0) 
+				return null;
+			
+			String pssPrjId = null;
+			String pssPrjName = null;
+			String pssPrjPicture = null;
+			String pssPrjDesc = null;
+			
+			String pssValueId = null;
+			String pssValueName = null;
+			
+			String sbpPrjId = null;
+			String sbpPrjName = null;
+			
+			Map pssPrj = (Map)obj.get("pssPrj");
+			if (pssPrj != null) {
+				pssPrjId = (String)pssPrj.get("pssPrjId");
+				pssPrjName = (String)pssPrj.get("pssPrjName");
+				pssPrjPicture = (String)pssPrj.get("pssPrjPicture");
+				pssPrjDesc = (String)pssPrj.get("pssPrjDesc");
+			}
+			Map pssValue = (Map)obj.get("pssValue");
+			if (pssValue != null) {
+				pssValueId = (String)pssValue.get("pssValueId");
+				pssValueName = (String)pssValue.get("pssValueName");
+			}
+			Map sbpPrj = (Map)obj.get("sbpPrj");
+			if (sbpPrj != null) {
+				sbpPrjId = (String)sbpPrj.get("sbpPrjId");
+				sbpPrjName = (String)sbpPrj.get("sbpPrjName");
+			}
+			
+			for (int i= 0; i < sbpActs.size();i++) {
+				Map act = (Map)sbpActs.get(i);
+				
+				String sbpActId = (String)act.get("sbpActId");
+				String sbpActName = (String)act.get("sbpActName");
+				String sbpId = (String)act.get("sbpId");
+				String sbpName = (String)act.get("sbpName");
+				
+				List attrs = (List)act.get("hvmAttrs");
+				if (attrs == null || attrs.size() == 0) 
+					continue;
+				
+				for (int j = 0; j<attrs.size(); j++) {
+					Map attr = (Map)attrs.get(j);
+					if (attr == null || attr.size() == 0) 
+						continue;
+					
+					String id = IDCreator.createId("attr");
+					String hvmAttrType = (String)attr.get("hvmAttrType");
+					String hvmAttrName = (String)attr.get("hvmAttrName");
+					
+					HvmAttribute attribute = new HvmAttribute();
+					attribute.setId(id);
+					attribute.setPrjId(pssPrjId);
+					attribute.setPrjName(pssPrjName);
+					attribute.setPrjPicture(pssPrjPicture);
+					attribute.setPrjDesc(pssPrjDesc);
+					attribute.setSbpPrjId(sbpPrjId);
+					attribute.setSbpPrjName(sbpPrjName);
+					attribute.setValueId(pssValueId);
+					attribute.setValueName(pssValueName);
+					attribute.setSbpId(sbpId);
+					attribute.setSbpName(sbpName);
+					attribute.setActivityId(sbpActId);
+					attribute.setActivityName(sbpActName);
+					attribute.setAttrType(hvmAttrType);
+					attribute.setAttrName(hvmAttrName);
+					
+					if (resultAttrList == null)
+						resultAttrList = new ArrayList();
+					resultAttrList.add(attribute);
+				}
+			}
+		} else if (setMode.equalsIgnoreCase("activity")) {
+			
+			List pssValues = (List)obj.get("pssValues");
+			if (pssValues == null || pssValues.size() == 0) 
+				return null;
+
+			String sbpPrjId = null;
+			String sbpPrjName = null;
+			
+			String pssPrjId = null;
+			String pssPrjName = null;
+			String pssPrjPicture = null;
+			String pssPrjDesc = null;
+			
+			String sbpActId = null;
+			String sbpActName = null;
+			String sbpId = null;
+			String sbpName = null;
+			
+			Map pssPrj = (Map)obj.get("pssPrj");
+			if (pssPrj != null) {
+				pssPrjId = (String)pssPrj.get("pssPrjId");
+				pssPrjName = (String)pssPrj.get("pssPrjName");
+				pssPrjPicture = (String)pssPrj.get("pssPrjPicture");
+				pssPrjDesc = (String)pssPrj.get("pssPrjDesc");
+			}
+
+			Map sbpPrj = (Map)obj.get("sbpPrj");
+			if (sbpPrj != null) {
+				sbpPrjId = (String)sbpPrj.get("sbpPrjId");
+				sbpPrjName = (String)sbpPrj.get("sbpPrjName");
+			}
+			
+			Map sbpActivity = (Map)obj.get("sbpActivity");
+			if (sbpActivity != null) {
+				sbpActId = (String)sbpActivity.get("sbpActId");
+				sbpActName = (String)sbpActivity.get("sbpActName");
+				sbpId = (String)sbpActivity.get("sbpId");
+				sbpName = (String)sbpActivity.get("sbpName");
+			}
+			for (int i= 0; i < pssValues.size();i++) {
+				Map val = (Map)pssValues.get(i);
+				
+				String pssValueId = (String)val.get("pssValueId");
+				String pssValueName = (String)val.get("pssValueName");
+				
+				List attrs = (List)val.get("hvmAttrs");
+				if (attrs == null || attrs.size() == 0) 
+					continue;
+				
+				for (int j = 0; j<attrs.size(); j++) {
+					Map attr = (Map)attrs.get(j);
+					if (attr == null || attr.size() == 0) 
+						continue;
+					
+					String id = IDCreator.createId("attr");
+					String hvmAttrType = (String)attr.get("hvmAttrType");
+					String hvmAttrName = (String)attr.get("hvmAttrName");
+					
+					HvmAttribute attribute = new HvmAttribute();
+					attribute.setId(id);
+					attribute.setPrjId(pssPrjId);
+					attribute.setPrjName(pssPrjName);
+					attribute.setPrjPicture(pssPrjPicture);
+					attribute.setPrjDesc(pssPrjDesc);
+					attribute.setSbpPrjId(sbpPrjId);
+					attribute.setSbpPrjName(sbpPrjName);
+					attribute.setValueId(pssValueId);
+					attribute.setValueName(pssValueName);
+					attribute.setSbpId(sbpId);
+					attribute.setSbpName(sbpName);
+					attribute.setActivityId(sbpActId);
+					attribute.setActivityName(sbpActName);
+					attribute.setAttrType(hvmAttrType);
+					attribute.setAttrName(hvmAttrName);
+					
+					if (resultAttrList == null)
+						resultAttrList = new ArrayList();
+					resultAttrList.add(attribute);
+				}
+			}
+		}
+		
+		if (resultAttrList == null || resultAttrList.size() == 0)
+			return null;
+		
+		//데이터베이스 저장 
+		getDao().setAttribute(resultAttrList);
+		
+		return null;
+	}
+	
 	@Override
 	public long getValueListSize(Condition cond) throws Exception {
 		return getDao().getValueListSize(cond);
@@ -46,7 +309,7 @@ public class HvmManagerImpl implements IHvmManager {
 			String valueId = attr.getValueId();
 			String valueName = attr.getValueName();
 			
-			ResultByValue result = valueResultMap.get(pssPrjId + valueId);
+			ResultByValue result = valueResultMap.get(pssPrjId + valueId + valueName);
 			if (result == null) {
 				result = new ResultByValue();
 				
@@ -68,7 +331,7 @@ public class HvmManagerImpl implements IHvmManager {
 				sbpPrjMap.put("sbpPrjName", attr.getSbpPrjName());
 				result.setSbpPrj(sbpPrjMap);
 
-				valueResultMap.put(pssPrjId + valueId, result);
+				valueResultMap.put(pssPrjId + valueId + valueName, result);
 			}
 			
 			List<Map<String, Object>> acts = result.getSbpActs();
@@ -115,6 +378,7 @@ public class HvmManagerImpl implements IHvmManager {
 			ResultByValue value = valueResultMap.get(key);
 			resultList.add(value);
 		}
+		//Collections.reverse(resultList);
 		return resultList;
 	}
 	
@@ -143,7 +407,7 @@ public class HvmManagerImpl implements IHvmManager {
 			String activityId = attr.getActivityId();
 			String activityName = attr.getActivityName();
 			
-			ResultByActivity result = activityResultMap.get(pssPrjId + activityId);
+			ResultByActivity result = activityResultMap.get(pssPrjId + activityId + activityName);
 			if (result == null) {
 				result = new ResultByActivity();
 				
@@ -166,7 +430,7 @@ public class HvmManagerImpl implements IHvmManager {
 				sbpPrjMap.put("sbpPrjName", attr.getSbpPrjName());
 				result.setSbpPrj(sbpPrjMap);
 
-				activityResultMap.put(pssPrjId + activityId, result);
+				activityResultMap.put(pssPrjId + activityId + activityName, result);
 			}
 			
 			List<Map<String, Object>> values = result.getPssValues();

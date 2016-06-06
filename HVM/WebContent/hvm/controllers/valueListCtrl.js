@@ -1,5 +1,5 @@
 angular.module("hvm")
-.controller("valueListCtrl", function($scope, $routeParams, getValueListUrl, getValueListSizeUrl, retrieveServicePost, imageServerUrl) {
+.controller("valueListCtrl", function($scope, $routeParams, $location,$rootScope, getValueListUrl, getValueListSizeUrl, retrieveServicePost, imageServerUrl) {
 	$scope.viewType = "value";
 	//$scope.view_type = $routeParams.viewType;
 
@@ -24,4 +24,8 @@ angular.module("hvm")
 	}
 	$scope.clickPageNo(0);
 	
+	$scope.editValue = function(value) {
+		$rootScope.editObj = value;
+		$location.path("/newAttr/"+$scope.viewType);
+	}
 })

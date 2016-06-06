@@ -1,6 +1,7 @@
 package net.smartworks.manager;
 
 import java.util.List;
+import java.util.Map;
 
 import net.smartworks.model.Condition;
 import net.smartworks.model.PssProject;
@@ -11,6 +12,8 @@ import net.smartworks.model.ResultByValue;
 
 public interface IHvmManager {
 
+	public Map setAttribute(String setMode, Map obj) throws Exception;
+	
 	public long getValueListSize(Condition cond) throws Exception;
 	
 	public List<ResultByValue> getValueList(Condition cond) throws Exception;

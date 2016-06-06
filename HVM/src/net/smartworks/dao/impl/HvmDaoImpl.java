@@ -3,10 +3,10 @@ package net.smartworks.dao.impl;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Map;
 
 import javax.sql.DataSource;
 
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 
@@ -30,6 +30,44 @@ public class HvmDaoImpl implements IHvmDao {
 		this.dataSource = dataSource;
 		this.jdbcTemplateObject = new JdbcTemplate(dataSource);
 	}
+	
+	
+	@Override
+	public void setAttribute(List<HvmAttribute> attrs) throws Exception {
+		// TODO Auto-generated method stub
+		
+		StringBuffer sql = new StringBuffer().append("insert into hvmattribute ");
+		sql.append(" (id, prjid, prjname, sbpprjid, sbpprjname, valueid, valuename, sbpid, sbpname, sbpactivityid, sbpactivityname, attrtype, attrname, prjpicture, prjdesc) ");
+		sql.append(" values (? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,?)");
+
+		jdbcTemplateObject.batchUpdate(sql.toString(), new BatchPreparedStatementSetter() {
+
+			@Override
+			public void setValues(PreparedStatement ps, int i) throws SQLException {
+				HvmAttribute attribute = attrs.get(i);
+				ps.setString(1, attribute.getId());
+				ps.setString(2, attribute.getPrjId());
+				ps.setString(3, attribute.getPrjName());
+				ps.setString(4, attribute.getSbpPrjId());
+				ps.setString(5, attribute.getSbpPrjName());
+				ps.setString(6, attribute.getValueId());
+				ps.setString(7, attribute.getValueName());
+				ps.setString(8, attribute.getSbpId());
+				ps.setString(9, attribute.getSbpName());
+				ps.setString(10, attribute.getActivityId());
+				ps.setString(11, attribute.getActivityName());
+				ps.setString(12, attribute.getAttrType());
+				ps.setString(13, attribute.getAttrName());
+				ps.setString(14, attribute.getPrjPicture());
+				ps.setString(15, attribute.getPrjDesc());
+			}
+			@Override
+			public int getBatchSize() {
+				return attrs.size();
+			}
+		});
+	}
+	
 	@Override
 	public long getValueListSize(Condition cond) throws Exception {
 
@@ -75,7 +113,7 @@ public class HvmDaoImpl implements IHvmDao {
 			strBuff.append(" 	where (prjname like ? or sbpprjname like ? or valuename like ? or sbpname like ? or sbpactivityname like ? or attrname like ?) ");
 		}
 		strBuff.append(" 	group by prjid,prjname, valuename ");
-		strBuff.append(" 	order by prjid,prjname, valuename ");
+		strBuff.append(" 	order by prjname, valuename ");
 		strBuff.append(" 	limit ? offset ? ");
 		strBuff.append(" ) a ");
 		strBuff.append(" left outer join  ");
@@ -84,6 +122,7 @@ public class HvmDaoImpl implements IHvmDao {
 		strBuff.append(" ) b ");
 		strBuff.append(" on a.prjid = b.prjid ");
 		strBuff.append(" and a.valuename = b.valuename ");
+		strBuff.append(" order by prjname,valuename ");
 		
 		List<HvmAttribute> attrList = jdbcTemplateObject.query(strBuff.toString(), 
 				new PreparedStatementSetter(){
@@ -155,7 +194,7 @@ public class HvmDaoImpl implements IHvmDao {
 			strBuff.append(" 	where (prjname like ? or sbpprjname like ? or valuename like ? or sbpname like ? or sbpactivityname like ? or attrname like ?) ");
 		}
 		strBuff.append(" 	group by prjid, prjname, sbpActivityName ");
-		strBuff.append(" 	order by prjid, prjname, sbpActivityName ");
+		strBuff.append(" 	order by prjname, sbpActivityName ");
 		strBuff.append(" 	limit ? offset ? ");
 		strBuff.append(" ) a ");
 		strBuff.append(" left outer join  ");
@@ -164,6 +203,7 @@ public class HvmDaoImpl implements IHvmDao {
 		strBuff.append(" ) b ");
 		strBuff.append(" on a.prjid = b.prjid ");
 		strBuff.append(" and a.sbpActivityName = b.sbpActivityName ");
+		strBuff.append(" order by prjname,sbpActivityName ");
 		
 		List<HvmAttribute> attrList = jdbcTemplateObject.query(strBuff.toString(), 
 				new PreparedStatementSetter(){

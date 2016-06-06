@@ -1,5 +1,5 @@
 angular.module("hvm")
-.controller("activityListCtrl", function($scope, $routeParams, getActivityListUrl, getActivityListSizeUrl, retrieveServicePost, imageServerUrl) {
+.controller("activityListCtrl", function($scope, $routeParams,$rootScope, $location, getActivityListUrl, getActivityListSizeUrl, retrieveServicePost, imageServerUrl) {
 	$scope.viewType = "activity";
 	//$scope.view_type = $routeParams.viewType;
 
@@ -23,5 +23,9 @@ angular.module("hvm")
 		})
 	}
 	$scope.clickPageNo(0);
-	
+
+	$scope.editActivity = function(activity) {
+		$rootScope.editObj = activity;
+		$location.path("/newAttr/"+$scope.viewType);
+	}
 })

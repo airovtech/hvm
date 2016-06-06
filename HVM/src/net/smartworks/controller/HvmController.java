@@ -29,6 +29,30 @@ import net.smartworks.model.TestModel;
 @Controller
 public class HvmController {
 	
+	
+	
+	
+///////// save attribute_value
+	@RequestMapping(value="/setValueAttribute", method=RequestMethod.POST)
+	public @ResponseBody void setValueAttribute(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	
+		IHvmManager hvmMgr = HvmManagerFactory.getInstance().getHvmManager();
+		Map resultMap = (Map)requestBody.get("result");
+		String setMode = (String)requestBody.get("setMode");
+		
+		hvmMgr.setAttribute(setMode, resultMap);
+	}
+///////// save attribute_activity
+	@RequestMapping(value="/setActivityAttribute", method=RequestMethod.POST)
+	public @ResponseBody void setActivityAttribute(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	
+		IHvmManager hvmMgr = HvmManagerFactory.getInstance().getHvmManager();
+		Map resultMap = (Map)requestBody.get("result");
+		String setMode = (String)requestBody.get("setMode");
+		
+		hvmMgr.setAttribute(setMode, resultMap);
+	}	
+	
 	///////// value list
 	@RequestMapping(value="/getValueListSize", method=RequestMethod.POST)
 	public @ResponseBody Map getValueListSize(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {

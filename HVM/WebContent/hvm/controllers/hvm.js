@@ -10,6 +10,8 @@ angular.module("hvm")
 .constant("getPssValuesUrl","http://localhost:8080/HVM/getPssValuesByPssPrjId.sw")
 .constant("getSbpProjectUrl","http://localhost:8080/HVM/getSbpProject.sw")
 .constant("getSbpActivityUrl","http://localhost:8080/HVM/getSbpActivity.sw")
+.constant("setValueAttributeUrl","http://localhost:8080/HVM/setValueAttribute.sw")
+.constant("setActivityAttributeUrl","http://localhost:8080/HVM/setActivityAttribute.sw")
 .controller("hvmCtl", function($scope, $location, $cookies){
 	$scope.viewMode = "view";
 	
@@ -25,8 +27,8 @@ angular.module("hvm")
 		if ($scope.viewType === "value") {
 			$cookies.put("nowViewType","value");
 			$location.path("/valueList");
-		} else if ($scope.viewType === "activtiy"){
-			$cookies.put("nowViewType","activtiy");
+		} else if ($scope.viewType === "activity"){
+			$cookies.put("nowViewType","activity");
 			$location.path("/activityList");
 		} else {
 			$cookies.put("nowViewType","attribute");
@@ -38,6 +40,14 @@ angular.module("hvm")
 		$location.path("/newAttr/"+$scope.viewType);
 	}
 })
+.service("setServicePost",['$http', function($http){
+	return {
+		setObj: function(url, setMode, obj) {
+			console.log(url, obj);
+			return $http.post(url,{"result": obj,"setMode": setMode});
+		}
+	}
+}])
 .service("retrieveServicePost",['$http', function($http){
 	return {
 		retrieve: function(url, viewType, keywords, pageSize, pageNo) {

@@ -1,0 +1,99 @@
+<div id="subwrap" ng-controller="newActAttrCtrl">
+	<div class="contents">
+		<span class="s_title">새 항목 등록</span>
+		<div class="sbp">
+			<h1>SBP</h1>
+			<div class=sbpProject">
+				<h4>sbp project</h4>
+				<input class="searchBox" name="sbpProject" type="text"
+					ng-model="result.sbpPrj.sbpPrjName" ng-blur="blurSbpPrjFocus()"
+					ng-model-options="{ debounce: 500 }" ng-change="searchSbpPrj()"
+					placeholder="search sbp project" />
+				<div class="search_result" ng-repeat="searchPrj in sbp_projects">
+					<a href="" ng-mousedown="clickSearchedSbpPrjItem(searchPrj)">{{searchPrj.sbpPrjName}}</a>
+				</div>
+			</div>
+			<div class="sbpActivity">
+				<h4>activity</h4>
+				<input class="searchBox" ng-focus="setActivityFocus(true)"
+					ng-blur="setActivityFocus(false)" name="activity" type="text"
+					ng-model="result.sbpActivity.sbpActName"
+					placeholder="search or add value" />
+				<div ng-show="isActivityFocus" class="search_result"
+					ng-repeat="activity in sbp_Activities | filter:result.sbpActivity.sbpActName">
+					<a href="" ng-mousedown="clickSearchedSbpActivityItem(activity)">{{activity.sbpName}}.{{activity.sbpActName}}</a>
+				</div>
+			</div>
+		</div>
+		<div class="pss">
+			<h1>PSS</h1>
+			<div class="project">
+				<h4>project</h4>
+				<input class="searchBox" name="project" type="text"
+					ng-model="result.pssPrj.pssPrjName" ng-blur="blurPssPrjFocus()"
+					ng-model-options="{ debounce: 500 }" ng-change="searchPssPrj()"
+					placeholder="search project" />
+				<div class="search_result" ng-repeat="searchPrj in pss_projects">
+					<a href="" ng-mousedown="clickSearchedPssPrjItem(searchPrj)">{{searchPrj.pssPrjName}}</a>
+				</div>
+			</div>
+			<div class="sbpValue">
+				<h4>pss value</h4>
+				<input class="searchBox_value" type="text"
+					ng-blur="setTempValueFocus(false)" ng-focus="setTempValueFocus(true)"
+					ng-model="tempValue.pssValueName"
+					placeholder="search or add value" />
+				<button type="button" class="btn_add_value" ng-mousedown="addValueName()">add</button>
+				<div ng-show="isTempValueFocus" class="search_result_value"
+					ng-repeat="value in pss_Values | filter:tempValue.pssValueName"
+					ng-mousedown="addValueItem(value)">
+					<a href="">{{value.pssValueName}}</a>
+					<button type="button" class="btn_add_value">add</button>
+				</div>
+			</div>
+		</div>
+		<div class="hvm">
+			<h1>HVM</h1>
+			<div class="hvmbox">
+				<h3 class="t1">{{result.sbpActivity.sbpName}}.{{result.sbpActivity.sbpActName}}</h3>
+				<div class="sbpActivity1" ng-repeat="value in result.pssValues">
+					<div class="btn">
+						<a href="" ng-click="openModal(value, $index)" class="btn-add">add+</a>
+					</div>
+					<div class="sbpActivity">
+						
+						<h3 class="t2">{{value.pssValueName}}<a href="" ng-click="removeValueItem($index)" style="float:right">x</a></h3>
+						<ul>
+							<li ng-repeat="attr in value.hvmAttrs" class="remove_attribute">
+								<img ng-if="attr.hvmAttrType == 'p'" src="./images/p-a.png" width="18" height="18" class="p-attribute" /> 
+								<img ng-if="attr.hvmAttrType == 'n'" src="./images/n-a.png" width="18" height="18" class="n-attribute" />
+								{{attr.hvmAttrName}}
+								&nbsp<a href="" ng-click="removeAttributeItem($parent.$index, $index)" style="float:right">x</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div id="myModal" class="modal" ng-style="modal_style">
+					<!-- Modal content -->
+					<div class="modal-content">
+						<span class="close" ng-click="closeModal()">X</span>
+						<p>Add Attribute To {{selectedValue.pssValueName}}</p>
+						<div class="modal_add_attribute">
+							<select ng-model="newAttribute.hvmAttrType">
+								<option value="p">긍정</option>
+								<option value="n">부정</option>
+							</select>
+							<input type="text" ng-model="newAttribute.hvmAttrName">
+						</div>
+						<div align="center">
+							<button type="button" class="btn_add_value" ng-click="addAttributeToValue()">add</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="save-attribute">
+			<a href="" ng-click="setActivityAttribute()" class="btn-save">Save</a>
+		</div>
+	</div>
+</div>

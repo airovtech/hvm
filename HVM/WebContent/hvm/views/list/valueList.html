@@ -19,7 +19,7 @@
 						<th>Activity</th>
 					</tr>
 					<tr ng-repeat="act in item.sbpActs" ng-class="{'tr_last':$last}">
-						<td class="td1" ng-if="$index == 0" scope="row" rowspan="{{item.sbpActs.length}}">{{item.pssValue.pssValueName}}</td>
+						<td class="td1" ng-dblclick="editValue($parent.item)" ng-if="$index == 0" scope="row" rowspan="{{item.sbpActs.length}}">{{item.pssValue.pssValueName}}</td>
 						<td><span ng-repeat="attr in act.hvmAttrs">
 								<img ng-if="attr.hvmAttrType == 'p'" src="./images/p-a.png" width="18" height="18" class="p-attribute" />
 								<img ng-if="attr.hvmAttrType == 'n'" src="./images/n-a.png" width="18" height="18" class="n-attribute" />
