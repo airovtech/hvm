@@ -42,9 +42,9 @@ angular.module("hvm")
 })
 .service("setServicePost",['$http', function($http){
 	return {
-		setObj: function(url, setMode, obj) {
+		setObj: function(url, setMode, obj , oldObj) {
 			console.log(url, obj);
-			return $http.post(url,{"result": obj,"setMode": setMode});
+			return $http.post(url,{"result": obj,"setMode": setMode, "oldObj":oldObj});
 		}
 	}
 }])

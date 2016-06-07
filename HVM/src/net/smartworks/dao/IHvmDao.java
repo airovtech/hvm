@@ -9,6 +9,8 @@ import net.smartworks.model.PssValue;
 
 public interface IHvmDao {
 	
+	public void removeAttribute(List<HvmAttribute> attrs) throws Exception;
+
 	public void setAttribute(List<HvmAttribute> attrs) throws Exception;
 	
 	public long getValueListSize(Condition cond) throws Exception;

@@ -31,10 +31,28 @@ public class HvmDaoImpl implements IHvmDao {
 		this.jdbcTemplateObject = new JdbcTemplate(dataSource);
 	}
 	
-	
+
+	@Override
+	public void removeAttribute(List<HvmAttribute> attrs) throws Exception {
+		
+		StringBuffer sql = new StringBuffer().append("delete from hvmattribute where id = ? ");
+
+		jdbcTemplateObject.batchUpdate(sql.toString(), new BatchPreparedStatementSetter() {
+
+			@Override
+			public void setValues(PreparedStatement ps, int i) throws SQLException {
+				HvmAttribute attribute = attrs.get(i);
+				ps.setString(1, attribute.getId());
+			}
+			@Override
+			public int getBatchSize() {
+				return attrs.size();
+			}
+		});
+		
+	}
 	@Override
 	public void setAttribute(List<HvmAttribute> attrs) throws Exception {
-		// TODO Auto-generated method stub
 		
 		StringBuffer sql = new StringBuffer().append("insert into hvmattribute ");
 		sql.append(" (id, prjid, prjname, sbpprjid, sbpprjname, valueid, valuename, sbpid, sbpname, sbpactivityid, sbpactivityname, attrtype, attrname, prjpicture, prjdesc) ");
@@ -331,4 +349,6 @@ public class HvmDaoImpl implements IHvmDao {
 	    return productList;
 		
 	}
+
+
 }

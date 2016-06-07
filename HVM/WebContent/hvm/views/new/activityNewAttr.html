@@ -55,7 +55,7 @@
 		<div class="hvm">
 			<h1>HVM</h1>
 			<div class="hvmbox">
-				<h3 class="t1">{{result.sbpActivity.sbpName}}.{{result.sbpActivity.sbpActName}}</h3>
+				<h3 class="t1">{{result.sbpActivity.sbpName}}<spen ng-show="result.sbpActivity.sbpName">.</spen>{{result.sbpActivity.sbpActName}}</h3>
 				<div class="sbpActivity1" ng-repeat="value in result.pssValues">
 					<div class="btn">
 						<a href="" ng-click="openModal(value, $index)" class="btn-add">add+</a>
@@ -93,7 +93,7 @@
 			</div>
 		</div>
 		<div class="save-attribute">
-			<a href="" ng-click="setActivityAttribute()" class="btn-save">Save</a>
+			<a href="" class="btn-save" ng-style="getValidStyle()" ng-click="setActivityAttribute()" >Save</a>
 		</div>
 	</div>
 </div>

@@ -3,7 +3,37 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
+	<title>List</title>
+	
 	<script src="./lib/angular.js"></script>
+	<script>
+	angular.module("hvm", ["ngRoute","ngCookies"])
+		.config(function($routeProvider){
+			var cfData = "hello";
+			
+			$routeProvider.when("/valueList",{
+				templateUrl: "/HVM/hvm/views/list/valueList.html"
+				,controller: "valueListCtrl"
+			});
+			$routeProvider.when("/activityList",{
+				templateUrl: "/HVM/hvm/views/list/activityList.html"
+				,controller: "activityListCtrl"
+			});
+			$routeProvider.when("/attributeList",{
+				templateUrl: "/HVM/hvm/views/list/attributeList.html"
+				,controller: "attributeListCtrl"
+			});
+			$routeProvider.when("/newAttr/:addType",{
+				templateUrl: "/HVM/hvm/views/new/newAttr.html"
+				,controller: "newAttrCtrl"
+				//,cfData:cfData
+			});
+			$routeProvider.otherwise({
+		        redirectTo: '/valueList'
+			});
+		});
+	
+	</script>
 	<script src="./controllers/hvm.js"></script>
 	<script src="./controllers/valueListCtrl.js"></script>
 	<script src="./controllers/activityListCtrl.js"></script>
@@ -18,16 +48,46 @@
 	<script src="./lib/ngDialog.js"></script>
 	<link href="./lib/ngDialog.css" rel="stylesheet" type="text/css" />
 
-	<script src="./lib/authController.js"></script>
-	<script src="./lib/authServices.js"></script>
-
 	<link href="./css/common.css" rel="stylesheet" type="text/css" />
 	<link href="./css/sub_list.css" rel="stylesheet" type="text/css" />
 	<link href="./css/value.css" rel="stylesheet" type="text/css" />
 	<link href="./css/attribute.css" rel="stylesheet" type="text/css" />
 	<link href="./css/add.css" rel="stylesheet" type="text/css" />
 	<link href="./css/custom.css" rel="stylesheet" type="text/css" />
+
+
 </head>
-<body>
+<body ng-controller="hvmCtl">
+	<div id="header">
+	     <div class="headerInner">
+	         <h1><a href="" ng-click="mainView()">cdi</a></h1>
+	     </div>
+	     <div class="title"><strong>H</strong>ierarchical <strong>V</strong>alue <strong>M</strong>ap</div>
+	</div>
+	<div class="box1">
+		<div style="float:right; margin-left:10px;" ng-hide="viewType == 'attribute'" >
+	    	<a href=""ng-click="createAttribute()" class="btn-new-attribute">+ 새항목 추가</a>
+		</div>
+		<!-- <div class="menubar">
+			<ul class="menuItem">
+				<li><a href="#">Select</a>
+					<ul>
+						<li><a href="#">Value</a></li>
+						<li><a href="#">Attribute</a></li>
+						<li><a href="#">Activity</a></li>
+					</ul>
+				</li>
+			</ul>
+		</div> -->
+		<div class="selectbox" style="float:right;"> 
+			<label>{{viewType}}</label>
+			<select ng-model="viewType" ng-change="changeViewType()">
+			    <option value="value">value</option>
+			    <option value="activity">activity</option>
+			    <option value="attribute">attribute</option>
+			</select>
+		</div>
+	</div>
+	<ng-view />
 </body>
 </html>

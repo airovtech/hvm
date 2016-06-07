@@ -4,7 +4,7 @@
 
 
 .box1 {width:1000px; margin:0 auto; }
-.bp {width:38px; height:20px; background-color:#222087; color:#fff; text-align:center; font-size:12px; line-height:20px; margin-right:10px; float:left;}
+.bp {padding: 0 5px;height:20px; background-color:#222087; color:#fff; text-align:center; font-size:12px; line-height:20px; margin-right:10px; float:left;}
 
 .select-hidden {
   display: none;

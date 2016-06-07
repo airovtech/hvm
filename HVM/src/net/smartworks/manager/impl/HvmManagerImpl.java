@@ -27,6 +27,79 @@ public class HvmManagerImpl implements IHvmManager {
 	}
 
 	@Override
+	public Map removeAttribute(String setMode, Map obj) throws Exception {
+		if (setMode == null || obj == null)
+			return null;
+
+		List resultAttrList = null;
+		if (setMode.equalsIgnoreCase("value")) {
+			
+			List sbpActs = (List)obj.get("sbpActs");
+			if (sbpActs == null || sbpActs.size() == 0) 
+				return null;
+			
+			for (int i= 0; i < sbpActs.size();i++) {
+				Map act = (Map)sbpActs.get(i);
+				if (act == null)
+					continue;
+				List attrs = (List)act.get("hvmAttrs");
+				if (attrs == null || attrs.size() == 0) 
+					continue;
+				
+				for (int j = 0; j<attrs.size(); j++) {
+					Map attr = (Map)attrs.get(j);
+					if (attr == null || attr.size() == 0) 
+						continue;
+					
+					String id = (String)attr.get("hvmAttrId");;
+					
+					HvmAttribute attribute = new HvmAttribute();
+					attribute.setId(id);
+					
+					if (resultAttrList == null)
+						resultAttrList = new ArrayList();
+					resultAttrList.add(attribute);
+				}
+			}
+		} else if (setMode.equalsIgnoreCase("activity")) {
+			
+			List pssValues = (List)obj.get("pssValues");
+			if (pssValues == null || pssValues.size() == 0) 
+				return null;
+
+			for (int i= 0; i < pssValues.size();i++) {
+				Map val = (Map)pssValues.get(i);
+				
+				List attrs = (List)val.get("hvmAttrs");
+				if (attrs == null || attrs.size() == 0) 
+					continue;
+				
+				for (int j = 0; j<attrs.size(); j++) {
+					Map attr = (Map)attrs.get(j);
+					if (attr == null || attr.size() == 0) 
+						continue;
+					
+					String id = (String)attr.get("hvmAttrId");
+					
+					HvmAttribute attribute = new HvmAttribute();
+					attribute.setId(id);
+					
+					if (resultAttrList == null)
+						resultAttrList = new ArrayList();
+					resultAttrList.add(attribute);
+				}
+			}
+		}
+		
+		if (resultAttrList == null || resultAttrList.size() == 0)
+			return null;
+		
+		//데이터베이스 저장 
+		getDao().removeAttribute(resultAttrList);
+		
+		return null;
+	}
+	@Override
 	public Map setAttribute(String setMode, Map obj) throws Exception {
 		/*{  
 			   pssPrj=   {  
@@ -599,5 +672,4 @@ public class HvmManagerImpl implements IHvmManager {
 		}
 		return resultList;
 	}
-
 }

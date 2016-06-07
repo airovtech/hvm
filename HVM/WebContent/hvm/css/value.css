@@ -12,9 +12,9 @@
 
 #subwrap .contents .value .value2 { margin-top:5px;}
 #subwrap .contents .value tr th{ background-color:#b3b3bc; color:#FFF; height:40px; line-height:40px; border-right:1px solid #fff}
-#subwrap .contents .value tr td {padding:20px; border-bottom:1px dashed #c2c2c2; background-color:#fff; border-right=:1px dashed #c2c2c2; width:320px;}
+#subwrap .contents .value tr td {padding:20px; border-bottom:1px dashed #c2c2c2; background-color:#fff; border-right=:1px dashed #c2c2c2; width:320px; font-size:14px;}
 #subwrap .contents .value tr .th3 { border:none;}
-#subwrap .contents .value tr .td1 { text-align:center; color:#535353; font-size:20px; border:none}
+#subwrap .contents .value tr .td1 { text-align:center; color:#535353; font-size:14px; border:none}
 #subwrap .contents .value tr .td3 { border-right:none}
 #subwrap .contents .value .tr_last td{border-bottom:none;}
 

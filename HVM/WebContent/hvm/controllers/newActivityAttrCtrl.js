@@ -1,16 +1,19 @@
 angular.module("hvm").controller(
 		"newActAttrCtrl",
-		function($scope, $routeParams,$rootScope, setServicePost, searchServicePost, searchServiceGet, getPssProjectUrl,
+		function($scope, $routeParams,$rootScope,$location, setServicePost, searchServicePost, searchServiceGet, getPssProjectUrl,
 				getPssValuesUrl, getSbpProjectUrl, getSbpActivityUrl, setActivityAttributeUrl) {
 			$scope.viewType = $routeParams.addType;
 			$scope.message = "this is new Attr";
 
 			// 최종데이터
 			$scope.result = {};
+			//수정중일때 어트리뷰트의 생성/삭제의 파악이 어려워, 수정중인 value 에 속한 모든 attr지우고 다시 생성한다.
+			$scope.oldResult = null;
 			
 			if ($rootScope.editObj != undefined && $rootScope.editObj != null) {
 				console.log("Edit!! in : " + JSON.stringify($rootScope.editObj));
 				$scope.result = $rootScope.editObj;
+				$scope.oldResult = angular.copy($rootScope.editObj);
 				$rootScope.editObj = null;
 			}
 			
@@ -51,12 +54,13 @@ angular.module("hvm").controller(
 			
 			$scope.setActivityAttribute = function() {
 				setServicePost.setObj(setActivityAttributeUrl,
-						$scope.viewType, $scope.result).then(
+						$scope.viewType, $scope.result, $scope.oldResult).then(
 						function(response) {
 							console.log('setAttr : ' + setActivityAttributeUrl
 									+ ", arg:"
 									+ " -> "
 									+ JSON.stringify($scope.result));
+							$location.path("/activityList");
 						})
 			}
 			
@@ -234,6 +238,41 @@ angular.module("hvm").controller(
 				console.log("pIndex : "+pIndex);
 				console.log("index : "+index);
 				$scope.result.pssValues[pIndex].hvmAttrs.splice(index, 1);
+			}
+			$scope.getValidStyle = function() {
+				if ($scope.result.pssPrj && $scope.result.pssPrj.pssPrjName 
+						&& $scope.result.sbpActivity && $scope.result.sbpActivity.sbpActName
+							&& $scope.result.pssValues) {
+					var isValid = false;
+					for (var i=0; i < $scope.result.pssValues.length; i++) {
+						var val = $scope.result.pssValues[i];
+						if (val.hvmAttrs && val.hvmAttrs.length != 0) {
+							console.log(i);
+							isValid = true;
+							//break;
+						} else {
+							isValid = false;
+						}
+					}
+					if (isValid) {
+						return {};
+					} else {
+						return {
+							"cursor": "not-allowed",
+						  	"pointer-events": "none",
+						  	"color": "grey",
+						  	"background-color": "#b9cb08"
+						};
+					}
+				} else {
+					console.log("inValid");
+					return {
+						"cursor": "not-allowed",
+					  	"pointer-events": "none",
+					  	"color": "grey",
+					  	"background-color": "#b9cb08"
+					};
+				}
 			}
 			function sleep(num) { //[1/1000초]
 				var now = new Date();

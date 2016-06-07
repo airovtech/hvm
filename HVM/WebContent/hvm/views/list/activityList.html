@@ -2,7 +2,7 @@
 	<div class="contents">
 		<div class="contents1" ng-repeat="item in result">
 			<div ng-if="result[$index-1].pssPrj.pssPrjName != item.pssPrj.pssPrjName">
-				<div class="title">{{item.pssPrj.pssPrjName}}</div>
+				<div style="margin-top:30px" class="title">{{item.pssPrj.pssPrjName}}</div>
 				<div class="explain">
 					<h3 bg-image="{{image_path}}{{item.pssPrj.pssPrjPicture}}">사진</h3>
 					<span class="text">{{item.pssPrj.pssPrjDesc}}</span>
@@ -13,12 +13,12 @@
 					class="value1">
 					<tr ng-if="result[$index-1].pssPrj.pssPrjName != item.pssPrj.pssPrjName">
 					<!--<tr> -->
-						<th>Activity</th>
-						<th>Attribute</th>
 						<th>Value</th>
+						<th>Attribute</th>
+						<th>Activity</th>
 					</tr>
 					<tr ng-repeat="value in item.pssValues" ng-class="{'tr_last':$last}">
-						<td class="td1" ng-dblclick="editActivity($parent.item)" ng-if="$index == 0" scope="row" rowspan="{{item.pssValues.length}}">{{item.sbpActivity.sbpName}}.{{item.sbpActivity.sbpActName}}</td>
+						<td class="td1" ng-dblclick="editActivity($parent.item)" ng-if="$first" scope="row" rowspan="{{item.pssValues.length}}">{{item.sbpActivity.sbpName}}<span ng-show="item.sbpActivity.sbpName">.</span>{{item.sbpActivity.sbpActName}}</td>
 						<td><span ng-repeat="attr in value.hvmAttrs">
 								<img ng-if="attr.hvmAttrType == 'p'" src="./images/p-a.png" width="18" height="18" class="p-attribute" />
 								<img ng-if="attr.hvmAttrType == 'n'" src="./images/n-a.png" width="18" height="18" class="n-attribute" />
@@ -34,9 +34,9 @@
 </div>
 <div align="center">
 	<ul class="pagination pagination-sm">
-	  <li><a href="">«</a></li> 
+	  <!-- <li><a href="">«</a></li> --> 
 	  <li><a href="" ng-repeat="n in [].constructor(totalPages) track by $index" ng-click="clickPageNo($index)">{{$index + 1}}</a></li>
-	  <li><a href="">»</a></li>
+	  <!-- <li><a href="">»</a></li> -->
 	</ul>
 </div>
 <div id="footer">

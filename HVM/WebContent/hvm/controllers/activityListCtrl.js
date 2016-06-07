@@ -5,7 +5,7 @@ angular.module("hvm")
 
 	$scope.image_path = imageServerUrl;
 	
-	$scope.pageSize = 5;
+	$scope.pageSize = 10;
 	$scope.pageNo = 0;
 	
 	$scope.result = [];

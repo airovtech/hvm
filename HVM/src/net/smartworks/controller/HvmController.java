@@ -30,16 +30,16 @@ import net.smartworks.model.TestModel;
 public class HvmController {
 	
 	
-	
-	
 ///////// save attribute_value
 	@RequestMapping(value="/setValueAttribute", method=RequestMethod.POST)
 	public @ResponseBody void setValueAttribute(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
 	
 		IHvmManager hvmMgr = HvmManagerFactory.getInstance().getHvmManager();
 		Map resultMap = (Map)requestBody.get("result");
+		Map oldObj = (Map)requestBody.get("oldObj");
 		String setMode = (String)requestBody.get("setMode");
-		
+		if (oldObj != null)
+			hvmMgr.removeAttribute(setMode, oldObj);
 		hvmMgr.setAttribute(setMode, resultMap);
 	}
 ///////// save attribute_activity
@@ -48,8 +48,11 @@ public class HvmController {
 	
 		IHvmManager hvmMgr = HvmManagerFactory.getInstance().getHvmManager();
 		Map resultMap = (Map)requestBody.get("result");
+		Map oldObj = (Map)requestBody.get("oldObj");
 		String setMode = (String)requestBody.get("setMode");
-		
+
+		if (oldObj != null)
+			hvmMgr.removeAttribute(setMode, oldObj);
 		hvmMgr.setAttribute(setMode, resultMap);
 	}	
 	

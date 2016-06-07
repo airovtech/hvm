@@ -2,7 +2,7 @@
 	<div class="contents">
 		<div class="contents1" ng-repeat="item in result">
 			<div ng-if="result[$index-1].pssPrj.pssPrjName != item.pssPrj.pssPrjName">
-				<div class="title">{{item.pssPrj.pssPrjName}}</div>
+				<div style="margin-top:30px" class="title">{{item.pssPrj.pssPrjName}}</div>
 				<div class="explain">
 					<!--<h3 ng-style="item.pssPrj.pssPrjPicture != '' && {'background-image':'url('+ image_path + item.pssPrj.pssPrjPicture + ')';'background-size':'auto'}">사진</h3>-->
 					<h3 bg-image="{{image_path}}{{item.pssPrj.pssPrjPicture}}">사진</h3>
@@ -11,7 +11,7 @@
 			</div>
 			<div class="value">
 				<table width="1000" border="0" cellpadding="0" cellspacing="0"
-					class="value1">
+					class="value">
 					<tr ng-if="result[$index-1].pssPrj.pssPrjName != item.pssPrj.pssPrjName"> 
 					<!-- <tr>-->
 						<th>Value</th>
@@ -19,14 +19,15 @@
 						<th>Activity</th>
 					</tr>
 					<tr ng-repeat="act in item.sbpActs" ng-class="{'tr_last':$last}">
-						<td class="td1" ng-dblclick="editValue($parent.item)" ng-if="$index == 0" scope="row" rowspan="{{item.sbpActs.length}}">{{item.pssValue.pssValueName}}</td>
-						<td><span ng-repeat="attr in act.hvmAttrs">
+						<td class="td1" ng-dblclick="editValue($parent.item)" ng-if="$first" scope="row" rowspan="{{item.sbpActs.length}}">{{item.pssValue.pssValueName}}</td>
+						<td>
+							<span ng-repeat="attr in act.hvmAttrs">
 								<img ng-if="attr.hvmAttrType == 'p'" src="./images/p-a.png" width="18" height="18" class="p-attribute" />
 								<img ng-if="attr.hvmAttrType == 'n'" src="./images/n-a.png" width="18" height="18" class="n-attribute" />
 								{{attr.hvmAttrName}}
 							</span>
 						</td>
-						<td class="td3">{{act.sbpName}}.{{act.sbpActName}}</td>
+						<td class="td3">{{act.sbpName}}<span ng-show="act.sbpName">.</span>{{act.sbpActName}}</td>
 					</tr>
 				</table>
 			</div>
@@ -35,9 +36,9 @@
 </div>
 <div align="center">
 	<ul class="pagination pagination-sm">
-	  <li><a href="">«</a></li> 
+	  <!-- <li><a href="">«</a></li> --> 
 	  <li><a href="" ng-repeat="n in [].constructor(totalPages) track by $index" ng-click="clickPageNo($index)">{{$index + 1}}</a></li>
-	  <li><a href="">»</a></li>
+	  <!-- <li><a href="">»</a></li> -->
 	</ul>
 </div>
 <div id="footer">

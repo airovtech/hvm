@@ -1,6 +1,6 @@
 angular.module("hvm").controller(
 		"newValAttrCtrl",
-		function($scope, $routeParams,$rootScope, setServicePost, searchServicePost, searchServiceGet, getPssProjectUrl,
+		function($scope, $routeParams,$rootScope,$location, setServicePost, searchServicePost, searchServiceGet, getPssProjectUrl,
 				getPssValuesUrl, getSbpProjectUrl, getSbpActivityUrl, setValueAttributeUrl) {
 			$scope.viewType = $routeParams.addType;
 			$scope.message = "this is new Attr";
@@ -8,9 +8,12 @@ angular.module("hvm").controller(
 			// 최종데이터
 			$scope.result = {};
 			
+			//수정중일때 어트리뷰트의 생성/삭제의 파악이 어려워, 수정중인 value 에 속한 모든 attr지우고 다시 생성한다.
+			$scope.oldResult = null;
+			
 			if ($rootScope.editObj != undefined && $rootScope.editObj != null) {
-				console.log("Edit!! in : " + JSON.stringify($rootScope.editObj));
 				$scope.result = $rootScope.editObj;
+				$scope.oldResult = angular.copy($rootScope.editObj);
 				$rootScope.editObj = null;
 			}
 			console.log("result : " + JSON.stringify($scope.result));
@@ -52,13 +55,19 @@ angular.module("hvm").controller(
 			$scope.newAttribute = {};
 			
 			$scope.setValueAttribute = function() {
+				
+				
+				
+				
+				
 				setServicePost.setObj(setValueAttributeUrl,
-						$scope.viewType, $scope.result).then(
+						$scope.viewType, $scope.result, $scope.oldResult).then(
 						function(response) {
 							console.log('setAttr : ' + setValueAttributeUrl
 									+ ", arg:"
 									+ " -> "
 									+ JSON.stringify($scope.result));
+							$location.path("/valueList");
 						})
 			}
 			
@@ -236,6 +245,41 @@ angular.module("hvm").controller(
 				console.log("pIndex : "+pIndex);
 				console.log("index : "+index);
 				$scope.result.sbpActs[pIndex].hvmAttrs.splice(index, 1);
+			}
+			$scope.getValidStyle = function() {
+				if ($scope.result.pssPrj && $scope.result.pssPrj.pssPrjName 
+						&& $scope.result.pssValue && $scope.result.pssValue.pssValueName
+							&& $scope.result.sbpActs) {
+					var isValid = false;
+					for (var i=0; i < $scope.result.sbpActs.length; i++) {
+						var act = $scope.result.sbpActs[i];
+						if (act.hvmAttrs && act.hvmAttrs.length != 0) {
+							console.log(i);
+							isValid = true;
+							//break;
+						} else {
+							isValid = false;
+						}
+					}
+					if (isValid) {
+						return {};
+					} else {
+						return {
+							"cursor": "not-allowed",
+						  	"pointer-events": "none",
+						  	"color": "grey",
+						  	"background-color": "#b9cb08"
+						};
+					}
+				} else {
+					console.log("inValid");
+					return {
+						"cursor": "not-allowed",
+					  	"pointer-events": "none",
+					  	"color": "grey",
+					  	"background-color": "#b9cb08"
+					};
+				}
 			}
 			function sleep(num) { //[1/1000초]
 				var now = new Date();

@@ -2,74 +2,9 @@
 <html ng-app="hvm">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-
 	<title>List</title>
-	
-	<script src="./lib/angular.js"></script>
-	<script>
-	angular.module('Authentication', []);
-	
-	angular.module("hvm", ["Authentication", "ngRoute","ngCookies"])
-		.config(function($routeProvider){
-			var cfData = "hello";
-			
-			$routeProvider.when('/login', {
-	            controller: 'LoginController',
-	            templateUrl: 'modules/authentication/views/login.html'
-	        })
-	  
-	        $routeProvider.when('/', {
-	            controller: 'HomeController',
-	            templateUrl: 'modules/home/views/home.html'
-	        })
-			
-			$routeProvider.when("/valueList",{
-				templateUrl: "/HVM/hvm/views/list/valueList.html"
-				,controller: "valueListCtrl"
-			});
-			$routeProvider.when("/activityList",{
-				templateUrl: "/HVM/hvm/views/list/activityList.html"
-				,controller: "activityListCtrl"
-			});
-			$routeProvider.when("/attributeList",{
-				templateUrl: "/HVM/hvm/views/list/attributeList.html"
-				,controller: "attributeListCtrl"
-			});
-			$routeProvider.when("/newAttr/:addType",{
-				templateUrl: "/HVM/hvm/views/new/newAttr.html"
-				,controller: "newAttrCtrl"
-				//,cfData:cfData
-			});
-			$routeProvider.otherwise({
-		        redirectTo: '/valueList'
-			});
-		});
-	
-	</script>
-	<script src="./controllers/hvm.js"></script>
-	<script src="./controllers/valueListCtrl.js"></script>
-	<script src="./controllers/activityListCtrl.js"></script>
-	<script src="./controllers/attributeListCtrl.js"></script>
-	<script src="./controllers/newAttributeCtrl.js"></script>
-	<script src="./controllers/newValueAttrCtrl.js"></script>
-	<script src="./controllers/newActivityAttrCtrl.js"></script>
-	<script src="./lib/angular-route.js"></script>
-	<script src="./lib/cookies.js"></script>
-	<script src="./lib/cookieStore.js"></script>
-	<script src="./lib/cookieWriter.js"></script>
-	<script src="./lib/ngDialog.js"></script>
-	<link href="./lib/ngDialog.css" rel="stylesheet" type="text/css" />
-
-	<link href="./css/common.css" rel="stylesheet" type="text/css" />
-	<link href="./css/sub_list.css" rel="stylesheet" type="text/css" />
-	<link href="./css/value.css" rel="stylesheet" type="text/css" />
-	<link href="./css/attribute.css" rel="stylesheet" type="text/css" />
-	<link href="./css/add.css" rel="stylesheet" type="text/css" />
-	<link href="./css/custom.css" rel="stylesheet" type="text/css" />
-
-
 </head>
-<body ng-controller="hvmCtl">
+<body>
 	<div id="header">
 	     <div class="headerInner">
 	         <h1><a href="" ng-click="mainView()">cdi</a></h1>

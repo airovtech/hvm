@@ -1,7 +1,6 @@
 'use strict';
   
 angular.module('Authentication')
-  
 .controller('LoginController',
     ['$scope', '$rootScope', '$location', 'AuthenticationService',
     function ($scope, $rootScope, $location, AuthenticationService) {
@@ -12,9 +11,11 @@ angular.module('Authentication')
             $scope.dataLoading = true;
             AuthenticationService.Login($scope.username, $scope.password, function(response) {
                 if(response.success) {
+                	console.log("response success!!");
                     AuthenticationService.SetCredentials($scope.username, $scope.password);
-                    $location.path('/');
+                    $location.path('/home');
                 } else {
+                	console.log("response success!!");
                     $scope.error = response.message;
                     $scope.dataLoading = false;
                 }

@@ -12,6 +12,8 @@ import net.smartworks.model.ResultByValue;
 
 public interface IHvmManager {
 
+	public Map removeAttribute(String setMode, Map obj) throws Exception;
+	
 	public Map setAttribute(String setMode, Map obj) throws Exception;
 	
 	public long getValueListSize(Condition cond) throws Exception;
