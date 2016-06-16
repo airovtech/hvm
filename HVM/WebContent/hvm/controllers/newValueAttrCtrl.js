@@ -5,6 +5,11 @@ angular.module("hvm").controller(
 			$scope.viewType = $routeParams.addType;
 			$scope.message = "this is new Attr";
 
+			
+			console.log("URLURL : " + $location.path());
+			
+			
+			
 			// 최종데이터
 			$scope.result = {};
 			
