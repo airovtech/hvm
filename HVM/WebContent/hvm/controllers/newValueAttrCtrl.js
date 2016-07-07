@@ -8,7 +8,9 @@ angular.module("hvm").controller(
 			
 			console.log("URLURL : " + $location.path());
 			
+			$scope.psId = "37ef256d54be74b40154cee711120037";
 			
+			$scope.valueTreeMapUrl = "http://localhost:8080/skkupss/valueSpacePopup.jsp?psId="+$scope.psId;
 			
 			// 최종데이터
 			$scope.result = {};
@@ -61,10 +63,6 @@ angular.module("hvm").controller(
 			
 			$scope.setValueAttribute = function() {
 				
-				
-				
-				
-				
 				setServicePost.setObj(setValueAttributeUrl,
 						$scope.viewType, $scope.result, $scope.oldResult).then(
 						function(response) {
@@ -94,6 +92,7 @@ angular.module("hvm").controller(
 			$scope.clickSearchedPssPrjItem = function(item) {
 				$scope.pss_projects.length = 0;
 				$scope.result.pssPrj = item;
+				$scope.psId = item.pssPrjId;
 				searchServicePost.search(getPssValuesUrl, item.pssPrjId).then(
 						function(response) {
 							console.log('searchPssValue : ' + getPssValuesUrl
@@ -139,6 +138,7 @@ angular.module("hvm").controller(
 			$scope.clickSearchedSbpPrjItem = function(item) {
 				$scope.sbp_projects.length = 0;
 				$scope.result.sbpPrj = item;
+				
 				var searchSbpActivityUrl = getSbpActivityUrl + "?sbpPrjId=" + item.sbpPrjId;
 				searchServiceGet.search(searchSbpActivityUrl).success(function(data){
 					console.log('searchSbp : '+ searchSbpActivityUrl + " -> " + JSON.stringify(data));
@@ -221,6 +221,16 @@ angular.module("hvm").controller(
 			      };
 				$scope.newAttribute = {};
 			}
+			$scope.openValueTreeModal = function() {
+				$scope.valueTree_modal_style = {
+			        'display' : 'block'
+			      };
+			}
+			$scope.closeValueTreeModal = function() {
+				$scope.valueTree_modal_style = {
+			        'display' : 'none'
+			      };
+			}
 			$scope.addAttributeToActivity = function() {
 				
 				var actIndex = $scope.selectedActivity.actIndex;
@@ -297,3 +307,18 @@ angular.module("hvm").controller(
 			}
 
 		})
+		.directive('iframeSetDimensionsOnload', [function(){
+			return {
+			    restrict: 'A',
+			    link: function(scope, element, attrs){
+			        element.on('load', function(){
+			            /* Set the dimensions here, 
+			               I think that you were trying to do something like this: */
+			               var iFrameHeight = element[0].contentWindow.document.body.scrollHeight + 'px';
+			               var iFrameWidth = '100%';
+			               element.css('width', iFrameWidth);
+			               element.css('height', iFrameHeight);
+			               element.css('padding', '10');
+			        })
+			    }
+			}}])

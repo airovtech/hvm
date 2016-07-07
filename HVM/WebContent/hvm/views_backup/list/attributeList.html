@@ -1,0 +1,42 @@
+<div id="subwrap">
+
+	<div class="contents">
+		<table width="1000" border="0" cellpadding="0" cellspacing="0"
+			class="attribute">
+			<tr>
+				<th>Attribute</th>
+				<th>P/N</th>
+				<th>Pss</th>
+				<th>Value</th>
+				<th class="th3">Activity</th>
+			</tr>
+			<tr ng-repeat="item in result" ng-class="{'tr_last':$last}">
+				<td>{{item.hvmAttribute.hvmAttrName}}</td>
+				<td class="td2"><img
+					ng-if="item.hvmAttribute.hvmAttrType == 'p'" src="./images/p-a.png"
+					width="18" height="18" class="p-attribute" /> <img
+					ng-if="item.hvmAttribute.hvmAttrType == 'n'" src="./images/n-a.png"
+					width="18" height="18" class="n-attribute" />
+				<td>{{item.pssPrj.pssPrjName}}</td>
+				<td>{{item.pssValue.pssValueName}}</td>
+				<td class="td5"><div class="bp" ng-show="item.sbpAct.sbpName">{{item.sbpAct.sbpName}}</div>{{item.sbpAct.sbpActName}}</td>
+			</tr>
+		</table>
+	</div>
+</div>
+<div align="center">
+	<ul class="pagination pagination-sm">
+		<!-- <li><a href="">«</a></li> -->
+		<li><a href=""ng-repeat="n in [].constructor(totalPages) track by $index"
+			ng-click="clickPageNo($index)">{{$index + 1}}</a></li>
+		<!-- <li><a href="">»</a></li> -->
+	</ul>
+</div>
+<!-- contents-->
+
+<div id="footer">
+	<div class="footerInner">
+		<div class="footer_logo"></div>
+		<div class="copyright"></div>
+	</div>
+</div>
