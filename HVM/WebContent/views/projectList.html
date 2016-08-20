@@ -1,0 +1,85 @@
+<div id="contents">
+	<div id="contents_top">
+		<div class="btn">
+			<a href="#" class="btn-add">+ 새항목 추가</a>
+		</div>
+		
+		<div class="viewType" ng-mouseleave="showViewTypeList = false" >
+			<div class="selectedItem" ng-click="showViewTypeList = !showViewTypeList" >{{selectedItem}}</div>
+			<div class="selectList" ng-show="showViewTypeList">
+				<div ng-repeat="item in selectItem" ng-click="selectViewType($index)">{{item}}</div>
+			</div>
+		</div>
+		
+		<div class="search">
+			<img src="images/icon_search.png" /> <input name="" type="text"
+				border="1" />
+		</div>
+	</div>
+	<div id="contents_bottom" ng-repeat="project in result">
+		<div class="box_header">
+			<span><a href=""><img src="images/btn_edit.png" /></a></span> <span><a
+				href=""><img src="images/btn_delete.png" /></a></span>
+
+			<div class="preparingPerson">
+				<img class="userProfileImgSmall" src="{{image_path}}{{project.createdUserObj.picture}}" />
+				<ul>
+					<li>{{project.createdUserObj.username}}</li>
+					<li>{{project.createdDate}}</li>
+				</ul>
+			</div>
+		</div>
+		<div class="box_body">
+			<div class="left">
+				<div class="pss">
+					<ul>
+						<li class="project">PSS project</li>
+						<li class="p_name">{{project.pssPrjName}}</li>
+					</ul>
+					<div class="explain">
+						<img src="{{image_path}}{{project.pssPrjPicture}}" />
+						<div class="text">
+							<p>{{project.pssPrjDescription}}</p>
+						</div>
+					</div>
+				</div>
+				<div class="sbp">
+					<table width="400" border="0" cellpadding="0" cellspacing="0">
+						<tr ng-repeat="sbpGroup in project.sbpGroupList">
+							<td>{{$index}}.{{sbpGroup}}</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<div class="right">
+				<div class="list">
+					<table width="700" border="1" cellpadding="0">
+						<tr>
+							<th scope="col">Value</th>
+							<th scope="col">Attribute</th>
+							<th scope="col">P/N</th>
+							<th scope="col">Activity</th>
+							<th scope="col">SBP</th>
+						</tr>
+						<tr ng-repeat="attr in project.attributes" ng-init="attr.sbpIndex=getSbpGroupIndex(project,project.sbpPrjName +'_'+ attr.sbpName)">
+							<td>{{attr.valueName}}</td>
+							<td>{{attr.attributeName}}</td>
+							<td class="pn">{{attr.attributeType}}</td>
+							<td>{{attr.activityName}}</td>
+							<td class="sbp">{{attr.sbpIndex}}</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div align="center">
+		<ul class="pagination pagination-sm">
+		  <!-- <li><a href="">«</a></li> --> 
+		  <li><a href="" ng-repeat="n in [].constructor(totalPages) track by $index" ng-click="clickPageNo($index)">{{$index + 1}}</a></li>
+		  <!-- <li><a href="">»</a></li> -->
+		</ul>
+	</div>
+	
+	
+</div>

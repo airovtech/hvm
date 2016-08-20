@@ -12,13 +12,11 @@ import org.springframework.jdbc.core.PreparedStatementSetter;
 
 import net.smartworks.dao.IHvmDao;
 import net.smartworks.dao.mapper.HvmAttributeMapper;
-import net.smartworks.dao.mapper.PssProjectMapper;
-import net.smartworks.dao.mapper.PssValueMapper;
-import net.smartworks.dao.mapper.TestMapper;
-import net.smartworks.model.Condition;
-import net.smartworks.model.HvmAttribute;
-import net.smartworks.model.PssProject;
-import net.smartworks.model.PssValue;
+import net.smartworks.dao.mapper.HvmProjectMapper;
+import net.smartworks.model.hvm.HvmAttribute;
+import net.smartworks.model.hvm.HvmAttributeCond;
+import net.smartworks.model.hvm.HvmProject;
+import net.smartworks.model.hvm.HvmProjectCond;
 
 public class HvmDaoImpl implements IHvmDao {
 
@@ -30,90 +28,51 @@ public class HvmDaoImpl implements IHvmDao {
 		this.dataSource = dataSource;
 		this.jdbcTemplateObject = new JdbcTemplate(dataSource);
 	}
-	
 
 	@Override
-	public void removeAttribute(List<HvmAttribute> attrs) throws Exception {
-		
-		StringBuffer sql = new StringBuffer().append("delete from hvmattribute where id = ? ");
-
-		jdbcTemplateObject.batchUpdate(sql.toString(), new BatchPreparedStatementSetter() {
-
-			@Override
-			public void setValues(PreparedStatement ps, int i) throws SQLException {
-				HvmAttribute attribute = attrs.get(i);
-				ps.setString(1, attribute.getId());
-			}
-			@Override
-			public int getBatchSize() {
-				return attrs.size();
-			}
-		});
-		
-	}
-	@Override
-	public void setAttribute(List<HvmAttribute> attrs) throws Exception {
-		
-		StringBuffer sql = new StringBuffer().append("insert into hvmattribute ");
-		sql.append(" (id, prjid, prjname, sbpprjid, sbpprjname, valueid, valuename, sbpid, sbpname, sbpactivityid, sbpactivityname, attrtype, attrname, prjpicture, prjdesc) ");
-		sql.append(" values (? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,?)");
-
-		jdbcTemplateObject.batchUpdate(sql.toString(), new BatchPreparedStatementSetter() {
-
-			@Override
-			public void setValues(PreparedStatement ps, int i) throws SQLException {
-				HvmAttribute attribute = attrs.get(i);
-				ps.setString(1, attribute.getId());
-				ps.setString(2, attribute.getPrjId());
-				ps.setString(3, attribute.getPrjName());
-				ps.setString(4, attribute.getSbpPrjId());
-				ps.setString(5, attribute.getSbpPrjName());
-				ps.setString(6, attribute.getValueId());
-				ps.setString(7, attribute.getValueName());
-				ps.setString(8, attribute.getSbpId());
-				ps.setString(9, attribute.getSbpName());
-				ps.setString(10, attribute.getActivityId());
-				ps.setString(11, attribute.getActivityName());
-				ps.setString(12, attribute.getAttrType());
-				ps.setString(13, attribute.getAttrName());
-				ps.setString(14, attribute.getPrjPicture());
-				ps.setString(15, attribute.getPrjDesc());
-			}
-			@Override
-			public int getBatchSize() {
-				return attrs.size();
-			}
-		});
-	}
-	
-	@Override
-	public long getValueListSize(Condition cond) throws Exception {
+	public Long getHvmProjectSize(String userId, HvmProjectCond cond) throws Exception {
 
 		String searchKey = cond.getSearchKey();
+
+		StringBuffer query = new StringBuffer();
+		query.append("select count(*) ");
 		
-		StringBuffer strBuff = new StringBuffer();
-		strBuff.append(" select count(*) ");
-		strBuff.append(" from ");
-		strBuff.append(" ( ");
-		strBuff.append(" 	select prjname, valuename  ");
-		strBuff.append(" 	from hvmattribute ");
-		if (searchKey != null && searchKey.length() != 0) {
-			strBuff.append(" 	where (prjname like ? or sbpprjname like ? or valuename like ? or sbpname like ? or sbpactivityname like ? or attrname like ?) ");
-		}
-		strBuff.append(" 	group by prjname, valuename ");
-		strBuff.append(" ) a ");
-		
+		setProjectQuery(query, cond);
+
 		Long totalSize = 0L;
 		if (searchKey != null && searchKey.length() != 0) {
 			String likeSearchKey = "%" + searchKey + "%";
-			totalSize = jdbcTemplateObject.queryForObject(strBuff.toString(), new Object[]{likeSearchKey,likeSearchKey,likeSearchKey,likeSearchKey,likeSearchKey,likeSearchKey}, Long.class);
+			totalSize = jdbcTemplateObject.queryForObject(query.toString(), new Object[]{likeSearchKey,likeSearchKey,likeSearchKey,likeSearchKey,likeSearchKey,likeSearchKey}, Long.class);
 		} else {
-			totalSize = jdbcTemplateObject.queryForObject(strBuff.toString(), Long.class);
+			totalSize = jdbcTemplateObject.queryForObject(query.toString(), Long.class);
 		}
-	    return totalSize;
+		return totalSize;
+	
 	}
+	
+	private void setProjectQuery(StringBuffer query, HvmProjectCond cond) throws Exception {
+
+		String searchKey = cond.getSearchKey();
+		
+		query.append(" from ");
+		query.append(" hvmproject ");
+		query.append(" where  ");
+		query.append(" 1=1 ");
+		if (searchKey != null) {
+			query.append(" and id in ");
+			query.append(" ( ");
+			query.append(" 	select prj.id ");
+			query.append(" 	from  ");
+			query.append(" 	hvmattribute attr, hvmproject prj ");
+			query.append(" 	where attr.prjid = prj.id ");
+			query.append(" 	and 1=1 ");
+			query.append(" 	group by prj.id ");
+			query.append(" ) ");
+		}
+	}
+	
 	@Override
-	public List<HvmAttribute> getValueList(Condition cond) throws Exception {
+	public List<HvmProject> getHvmProjects(String userId, HvmProjectCond cond) throws Exception {
 
 		int pageNo = cond.getPageNo();
 		int pageSize = cond.getPageSize();
@@ -121,38 +80,200 @@ public class HvmDaoImpl implements IHvmDao {
 		
 		String searchKey = cond.getSearchKey();
 		
-		StringBuffer strBuff = new StringBuffer();
-		strBuff.append(" select b.* ");
-		strBuff.append(" from ");
-		strBuff.append(" ( ");
-		strBuff.append(" 	select prjid, prjname, valuename  ");
-		strBuff.append(" 	from hvmattribute ");
-		if (searchKey != null && searchKey.length() != 0) {
-			strBuff.append(" 	where (prjname like ? or sbpprjname like ? or valuename like ? or sbpname like ? or sbpactivityname like ? or attrname like ?) ");
-		}
-		strBuff.append(" 	group by prjid,prjname, valuename ");
-		strBuff.append(" 	order by prjname, valuename ");
-		strBuff.append(" 	limit ? offset ? ");
-		strBuff.append(" ) a ");
-		strBuff.append(" left outer join  ");
-		strBuff.append(" ( ");
-		strBuff.append(" 	select * from hvmattribute ");
-		strBuff.append(" ) b ");
-		strBuff.append(" on a.prjid = b.prjid ");
-		strBuff.append(" and a.valuename = b.valuename ");
-		strBuff.append(" order by prjname,valuename ");
 		
-		List<HvmAttribute> attrList = jdbcTemplateObject.query(strBuff.toString(), 
+		StringBuffer query = new StringBuffer();
+		query.append(" select * ");
+		
+		setProjectQuery(query, cond);
+		
+		query.append(" limit ? ");
+		query.append(" offset ? ");
+		
+		List<HvmProject> projectList = jdbcTemplateObject.query(query.toString(), 
 				new PreparedStatementSetter(){
 					public void setValues(PreparedStatement preparedStatement) throws SQLException {
 						if (searchKey != null && searchKey.length() != 0) {
 							String likeSearchKey = "%" + searchKey + "%";
-							preparedStatement.setString(1, likeSearchKey);
+							/*preparedStatement.setString(1, likeSearchKey);
 							preparedStatement.setString(2, likeSearchKey);
 							preparedStatement.setString(3, likeSearchKey);
 							preparedStatement.setString(4, likeSearchKey);
 							preparedStatement.setString(5, likeSearchKey);
-							preparedStatement.setString(6, likeSearchKey);
+							preparedStatement.setString(6, likeSearchKey);*/
+							preparedStatement.setInt(7, pageSize);
+							preparedStatement.setInt(8, offSet);
+						} else {
+							preparedStatement.setInt(1, pageSize);
+							preparedStatement.setInt(2, offSet);
+						}
+		            }
+				}
+				, new HvmProjectMapper());
+		
+		if (projectList == null || projectList.size() == 0)
+			return null;
+		
+		StringBuffer attrQuery = new StringBuffer();
+		attrQuery.append(" select * from HvmAttribute where prjid=? order by valuename");
+		
+		//HvmProject[] projects = new HvmProject[projectList.size()];
+		
+		for (int i = 0; i < projectList.size(); i++) {
+			HvmProject project = projectList.get(i);
+			//attribute 조회
+			HvmAttribute[] attrs = null;
+			
+			String projectId = project.getId();
+			
+			List<HvmAttribute> attrList = jdbcTemplateObject.query(attrQuery.toString(), 
+					new PreparedStatementSetter(){
+						public void setValues(PreparedStatement preparedStatement) throws SQLException {
+							preparedStatement.setString(1, projectId);
+			            }
+					}
+					, new HvmAttributeMapper());
+			
+			//
+			
+			project.setAttributes(attrList);
+			//projects[i] = project;
+		}
+		//return projects;
+		return projectList;
+	}
+	
+	@Override
+	public boolean setHvmProject(String userId, HvmProject prj) throws Exception {
+		
+		if (prj == null)
+			return false;
+		
+		this.removeHvmProject(userId, prj.getId());
+		
+		String prjSql = "insert into hvmproject (id, pssPrjId, pssPrjName, pssPrjDescription, pssPrjPicture"
+				+ ", sbpPrjId, sbpPrjName, createdUser, lastModifiedUser, createdDate ,lastModifiedDate) "
+				+ " values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	      
+	    jdbcTemplateObject.update(prjSql
+	    		, prj.getId()
+	    		, prj.getPssPrjId()
+	    		, prj.getPssPrjName()
+	    		, prj.getPssPrjDescription()
+	    		, prj.getPssPrjPicture()
+	    		, prj.getSbpPrjId()
+	    		, prj.getSbpPrjName()
+	    		, prj.getCreatedUser()
+	    		, prj.getLastModifiedUser()
+	    		, prj.getCreatedDate()
+	    		, prj.getLastModifiedDate()
+	    		);
+		
+		List<HvmAttribute> attrs = prj.getAttributes();
+		if (attrs != null) {
+			StringBuffer attrSql = new StringBuffer().append("insert into hvmattribute ");
+			attrSql.append(" (id, prjid, valueid, valuename, sbpid, sbpname, activityid, activityname, attributetype, attributename) ");
+			attrSql.append(" values (? ,? ,? ,? ,? ,? ,? ,? ,? ,?)");
+
+			
+			jdbcTemplateObject.batchUpdate(attrSql.toString(), new BatchPreparedStatementSetter() {
+
+				@Override
+				public void setValues(PreparedStatement ps, int i) throws SQLException {
+					HvmAttribute attribute = attrs.get(i);
+					ps.setString(1, attribute.getId());
+					ps.setString(2, attribute.getPrjId());
+					ps.setString(3, attribute.getValueId());
+					ps.setString(4, attribute.getValueName());
+					ps.setString(5, attribute.getSbpId());
+					ps.setString(6, attribute.getSbpName());
+					ps.setString(7, attribute.getActivityId());
+					ps.setString(8, attribute.getActivityName());
+					ps.setString(9, attribute.getAttributeType());
+					ps.setString(10, attribute.getAttributeName());
+				}
+				@Override
+				public int getBatchSize() {
+					return attrs.size();
+				}
+			});
+		}
+		return true;
+	}
+
+	@Override
+	public boolean removeHvmProject(String userId, String prjId) throws Exception {
+		
+		StringBuffer attrQuery = new StringBuffer().append("delete from hvmattribute where prjid = ? ");
+		StringBuffer prjQuery = new StringBuffer().append("delete from hvmproject where id=?");
+
+		jdbcTemplateObject.update(attrQuery.toString(), prjId);
+		jdbcTemplateObject.update(prjQuery.toString(), prjId);
+		
+		return true;
+	}
+	
+
+	private void setAttributeQuery(StringBuffer query, HvmAttributeCond cond) throws Exception {
+		
+		String searchKey = cond.getSearchKey();
+		
+		query.append(" from ");
+		query.append(" hvmattribute ");
+		query.append(" where  ");
+		query.append(" 1=1 ");
+		if (searchKey != null) {
+			query.append(" and attributename like ?");
+		}
+	}
+	@Override
+	public Long getHvmAttributeSize(String userId, HvmAttributeCond cond) throws Exception {
+
+		String searchKey = cond.getSearchKey();
+
+		StringBuffer query = new StringBuffer();
+		query.append("select count(*) ");
+		
+		setAttributeQuery(query, cond);
+
+		Long totalSize = 0L;
+		if (searchKey != null && searchKey.length() != 0) {
+			String likeSearchKey = "%" + searchKey + "%";
+			totalSize = jdbcTemplateObject.queryForObject(query.toString(), new Object[]{likeSearchKey,likeSearchKey,likeSearchKey,likeSearchKey,likeSearchKey,likeSearchKey}, Long.class);
+		} else {
+			totalSize = jdbcTemplateObject.queryForObject(query.toString(), Long.class);
+		}
+		return totalSize;
+	
+	}
+	
+	@Override
+	public List<HvmAttribute> getHvmAttributes(String userId, HvmAttributeCond cond) throws Exception {
+		int pageNo = cond.getPageNo();
+		int pageSize = cond.getPageSize();
+		int offSet = pageNo == 0 ? 0 : pageNo * pageSize;
+		
+		String searchKey = cond.getSearchKey();
+		
+		
+		StringBuffer query = new StringBuffer();
+		query.append(" select * ");
+		
+		setAttributeQuery(query, cond);
+		
+		query.append(" limit ? ");
+		query.append(" offset ? ");
+		
+		List<HvmAttribute> attrList = jdbcTemplateObject.query(query.toString(), 
+				new PreparedStatementSetter(){
+					public void setValues(PreparedStatement preparedStatement) throws SQLException {
+						if (searchKey != null && searchKey.length() != 0) {
+							String likeSearchKey = "%" + searchKey + "%";
+							/*preparedStatement.setString(1, likeSearchKey);
+							preparedStatement.setString(2, likeSearchKey);
+							preparedStatement.setString(3, likeSearchKey);
+							preparedStatement.setString(4, likeSearchKey);
+							preparedStatement.setString(5, likeSearchKey);
+							preparedStatement.setString(6, likeSearchKey);*/
 							preparedStatement.setInt(7, pageSize);
 							preparedStatement.setInt(8, offSet);
 						} else {
@@ -162,193 +283,8 @@ public class HvmDaoImpl implements IHvmDao {
 		            }
 				}
 				, new HvmAttributeMapper());
-	    return attrList;
+		
+		return attrList;
 	}
 	
-	//////////// activity list
-	
-	@Override
-	public long getActivityListSize(Condition cond) throws Exception {
-
-		String searchKey = cond.getSearchKey();
-		
-		StringBuffer strBuff = new StringBuffer();
-		strBuff.append(" select count(*) ");
-		strBuff.append(" from ");
-		strBuff.append(" ( ");
-		strBuff.append(" 	select prjname, sbpActivityName  ");
-		strBuff.append(" 	from hvmattribute ");
-		if (searchKey != null && searchKey.length() != 0) {
-			strBuff.append(" 	where (prjname like ? or sbpprjname like ? or valuename like ? or sbpname like ? or sbpactivityname like ? or attrname like ?) ");
-		}
-		strBuff.append(" 	group by prjname, sbpActivityName ");
-		strBuff.append(" ) a ");
-		
-		Long totalSize = 0L;
-		if (searchKey != null && searchKey.length() != 0) {
-			String likeSearchKey = "%" + searchKey + "%";
-			totalSize = jdbcTemplateObject.queryForObject(strBuff.toString(), new Object[]{likeSearchKey,likeSearchKey,likeSearchKey,likeSearchKey,likeSearchKey,likeSearchKey}, Long.class);
-		} else {
-			totalSize = jdbcTemplateObject.queryForObject(strBuff.toString(), Long.class);
-		}
-	    return totalSize;
-	}
-	@Override
-	public List<HvmAttribute> getActivityList(Condition cond) throws Exception {
-
-		int pageNo = cond.getPageNo();
-		int pageSize = cond.getPageSize();
-		int offSet = pageNo == 0 ? 0 : pageNo * pageSize;
-		
-		String searchKey = cond.getSearchKey();
-		
-		StringBuffer strBuff = new StringBuffer();
-		strBuff.append(" select b.* ");
-		strBuff.append(" from ");
-		strBuff.append(" ( ");
-		strBuff.append(" 	select prjid, prjname, sbpActivityName  ");
-		strBuff.append(" 	from hvmattribute ");
-		if (searchKey != null && searchKey.length() != 0) {
-			strBuff.append(" 	where (prjname like ? or sbpprjname like ? or valuename like ? or sbpname like ? or sbpactivityname like ? or attrname like ?) ");
-		}
-		strBuff.append(" 	group by prjid, prjname, sbpActivityName ");
-		strBuff.append(" 	order by prjname, sbpActivityName ");
-		strBuff.append(" 	limit ? offset ? ");
-		strBuff.append(" ) a ");
-		strBuff.append(" left outer join  ");
-		strBuff.append(" ( ");
-		strBuff.append(" 	select * from hvmattribute ");
-		strBuff.append(" ) b ");
-		strBuff.append(" on a.prjid = b.prjid ");
-		strBuff.append(" and a.sbpActivityName = b.sbpActivityName ");
-		strBuff.append(" order by prjname,sbpActivityName ");
-		
-		List<HvmAttribute> attrList = jdbcTemplateObject.query(strBuff.toString(), 
-				new PreparedStatementSetter(){
-					public void setValues(PreparedStatement preparedStatement) throws SQLException {
-						if (searchKey != null && searchKey.length() != 0) {
-							String likeSearchKey = "%" + searchKey + "%";
-							preparedStatement.setString(1, likeSearchKey);
-							preparedStatement.setString(2, likeSearchKey);
-							preparedStatement.setString(3, likeSearchKey);
-							preparedStatement.setString(4, likeSearchKey);
-							preparedStatement.setString(5, likeSearchKey);
-							preparedStatement.setString(6, likeSearchKey);
-							preparedStatement.setInt(7, pageSize);
-							preparedStatement.setInt(8, offSet);
-						} else {
-							preparedStatement.setInt(1, pageSize);
-							preparedStatement.setInt(2, offSet);
-						}
-		            }
-				}
-				, new HvmAttributeMapper());
-	    return attrList;
-	}
-	
-	///////// attribute list
-	
-
-	@Override
-	public long getAttributeListSize(Condition cond) throws Exception {
-
-		String searchKey = cond.getSearchKey();
-		
-		StringBuffer strBuff = new StringBuffer();
-		strBuff.append(" select count(*) ");
-		strBuff.append(" from ");
-		strBuff.append(" hvmattribute ");
-		if (searchKey != null && searchKey.length() != 0) {
-			strBuff.append(" 	where (prjname like ? or sbpprjname like ? or valuename like ? or sbpname like ? or sbpactivityname like ? or attrname like ?) ");
-		}
-		
-		Long totalSize = 0L;
-		if (searchKey != null && searchKey.length() != 0) {
-			String likeSearchKey = "%" + searchKey + "%";
-			totalSize = jdbcTemplateObject.queryForObject(strBuff.toString(), new Object[]{likeSearchKey,likeSearchKey,likeSearchKey,likeSearchKey,likeSearchKey,likeSearchKey}, Long.class);
-		} else {
-			totalSize = jdbcTemplateObject.queryForObject(strBuff.toString(), Long.class);
-		}
-	    return totalSize;
-	}
-	@Override
-	public List<HvmAttribute> getAttributeList(Condition cond) throws Exception {
-
-		int pageNo = cond.getPageNo();
-		int pageSize = cond.getPageSize();
-		int offSet = pageNo == 0 ? 0 : pageNo * pageSize;
-		
-		String searchKey = cond.getSearchKey();
-		
-		StringBuffer strBuff = new StringBuffer();
-		strBuff.append(" select * ");
-		strBuff.append(" from ");
-		strBuff.append(" hvmattribute ");
-		if (searchKey != null && searchKey.length() != 0) {
-			strBuff.append(" 	where (prjname like ? or sbpprjname like ? or valuename like ? or sbpname like ? or sbpactivityname like ? or attrname like ?) ");
-		}
-		strBuff.append(" order by attrName ");
-		strBuff.append(" limit ? offset ? ");
-		
-		List<HvmAttribute> attrList = jdbcTemplateObject.query(strBuff.toString(), 
-				new PreparedStatementSetter(){
-					public void setValues(PreparedStatement preparedStatement) throws SQLException {
-						if (searchKey != null && searchKey.length() != 0) {
-							String likeSearchKey = "%" + searchKey + "%";
-							preparedStatement.setString(1, likeSearchKey);
-							preparedStatement.setString(2, likeSearchKey);
-							preparedStatement.setString(3, likeSearchKey);
-							preparedStatement.setString(4, likeSearchKey);
-							preparedStatement.setString(5, likeSearchKey);
-							preparedStatement.setString(6, likeSearchKey);
-							preparedStatement.setInt(7, pageSize);
-							preparedStatement.setInt(8, offSet);
-						} else {
-							preparedStatement.setInt(1, pageSize);
-							preparedStatement.setInt(2, offSet);
-						}
-		            }
-				}
-				, new HvmAttributeMapper());
-	    return attrList;
-	}
-	
-	
-	@Override
-	public List<PssProject> getPssProject(String nameLike) throws Exception {
-		String likeSearchKey = "%" + nameLike + "%";
-		String SQL = "select * from productService where name like ?";
-		List<PssProject> prjList = jdbcTemplateObject.query(SQL, 
-				new PreparedStatementSetter(){
-					public void setValues(PreparedStatement preparedStatement) throws SQLException {
-		                preparedStatement.setString(1, likeSearchKey);
-		            }
-				}
-				, new PssProjectMapper());
-	    return prjList;
-	}
-	
-	@Override
-	public List<PssValue> getPssValue(String pssPrjId) throws Exception {
-		String SQL = "select * from valuespace where psid=?";
-		List<PssValue> prjList = jdbcTemplateObject.query(SQL, 
-				new PreparedStatementSetter(){
-					public void setValues(PreparedStatement preparedStatement) throws SQLException {
-		                preparedStatement.setString(1, pssPrjId);
-		            }
-				}
-				, new PssValueMapper());
-	    return prjList;
-	}
-	
-	@Override
-	public List getTestDbData() throws Exception {
-
-		String SQL = "select id, name from testTable";
-		List productList = jdbcTemplateObject.query(SQL, new TestMapper());
-	    return productList;
-		
-	}
-
-
 }

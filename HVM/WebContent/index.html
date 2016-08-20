@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html ng-app="hvm" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>HVM</title>
+
+	<script src="./js/lib/angular.js"></script>
+	<script>
+	angular.module("hvm", ["ngRoute","ngCookies"])
+		.config(function($routeProvider){
+			var cfData = "hello";
+			
+			$routeProvider.when("/projectList",{
+				templateUrl: "/HVM/views/projectList.html"
+				,controller: "projectListCtrl"
+			});
+			/* $routeProvider.when("/activityList",{
+				templateUrl: "/HVM/views/activityList.html"
+				,controller: "activityListCtrl"
+			});
+			$routeProvider.when("/attributeList",{
+				templateUrl: "/HVM/views/attributeList.html"
+				,controller: "attributeListCtrl"
+			});
+			$routeProvider.when("/newAttr/:addType",{
+				templateUrl: "/HVM/views/newAttr.html"
+				,controller: "newAttrCtrl"
+				//,cfData:cfData
+			}); */
+			$routeProvider.otherwise({
+		        redirectTo: '/projectList'
+			});
+		});
+	
+	</script>
+	<script src="./js/controllers/hvm.js"></script>
+	<script src="./js/controllers/projectListCtrl.js"></script>
+	<!-- <script src="./js/controllers/activityListCtrl.js"></script>
+	<script src="./js/controllers/attributeListCtrl.js"></script>
+	<script src="./js/controllers/newAttributeCtrl.js"></script>
+	<script src="./js/controllers/newValueAttrCtrl.js"></script>
+	<script src="./js/controllers/newActivityAttrCtrl.js"></script> -->
+	<script src="./js/lib/angular-route.js"></script>
+	<script src="./js/lib/cookies.js"></script>
+	<script src="./js/lib/cookieStore.js"></script>
+	<script src="./js/lib/cookieWriter.js"></script>
+	<script src="./js/lib/ngDialog.js"></script>
+	<link href="./js/lib/ngDialog.css" rel="stylesheet" type="text/css" />
+
+
+	<link href="css/common.css" rel="stylesheet" type="text/css" />
+	<link href="css/custom.css" rel="stylesheet" type="text/css" />
+	<link href="css/list.css" rel="stylesheet" type="text/css" />
+
+</head>
+<body ng-controller="hvmCtl">
+	<div id="header">
+		<ul>
+			<li class="logo"><a href="" ng-click="mainView()"><img src="images/logo.png" /></a></li>
+			<li class="user"><img class="userProfileImg" src="{{currentUser.picture}}" alt="프로필사진" /> 
+				<span>{{currentUser.username}} &nbsp;
+					<a href="" ng-click="showLogout = !showLogout">
+						<img src="images/btn_down arrow.png" />
+					</a>
+					<span ng-show="showLogout" class="logout">
+						<a href="" ng-click='logout()'>로그아웃</a>
+					</span>
+				</span>
+			</li>
+			<li class="title"><strong>H</strong>ierarchical <strong>V</strong>alue
+				<strong>M</strong>ap</li>
+		</ul>
+	</div>
+	<ng-view />
+</body>
+</html>

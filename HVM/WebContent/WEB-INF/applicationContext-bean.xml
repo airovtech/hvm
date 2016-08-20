@@ -12,10 +12,14 @@
 	<bean id="hvmDao" class="net.smartworks.dao.impl.HvmDaoImpl">
       <property name="dataSource"  ref="dataSource" />  
     </bean>
+	<bean id="userDao" class="net.smartworks.dao.impl.UserDaoImpl">
+      <property name="dataSource"  ref="dataSource" />  
+    </bean>
     <bean id="hvmManager" class="net.smartworks.manager.impl.HvmManagerImpl"/>
     
 	<bean id="hvmDaoFactory" class="net.smartworks.factory.HvmDaoFactory" factory-method="createInstance">
 		<property name="hvmDao" ref="hvmDao"/>
+		<property name="userDao" ref="userDao"/>
    	</bean>
 	<bean id="hvmManagerFactory" class="net.smartworks.factory.HvmManagerFactory" factory-method="createInstance">
 		<property name="hvmManager" ref="hvmManager"/>

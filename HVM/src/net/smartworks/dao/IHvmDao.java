@@ -2,32 +2,22 @@ package net.smartworks.dao;
 
 import java.util.List;
 
-import net.smartworks.model.Condition;
-import net.smartworks.model.HvmAttribute;
-import net.smartworks.model.PssProject;
-import net.smartworks.model.PssValue;
+import net.smartworks.model.hvm.HvmAttribute;
+import net.smartworks.model.hvm.HvmAttributeCond;
+import net.smartworks.model.hvm.HvmProject;
+import net.smartworks.model.hvm.HvmProjectCond;
 
 public interface IHvmDao {
 	
-	public void removeAttribute(List<HvmAttribute> attrs) throws Exception;
+	public Long getHvmProjectSize(String userId, HvmProjectCond cond) throws Exception;
+	
+	public List<HvmProject> getHvmProjects(String userId, HvmProjectCond cond) throws Exception;
+	
+	public boolean removeHvmProject(String userId, String prjId) throws Exception;
+	
+	public boolean setHvmProject(String userId, HvmProject prj) throws Exception;
 
-	public void setAttribute(List<HvmAttribute> attrs) throws Exception;
+	public Long getHvmAttributeSize(String userId, HvmAttributeCond cond) throws Exception;
 	
-	public long getValueListSize(Condition cond) throws Exception;
-	
-	public List<HvmAttribute> getValueList(Condition cond) throws Exception;
-	
-	public long getActivityListSize(Condition cond) throws Exception;
-	
-	public List<HvmAttribute> getActivityList(Condition cond) throws Exception;
-	
-	public long getAttributeListSize(Condition cond) throws Exception;
-	
-	public List<HvmAttribute> getAttributeList(Condition cond) throws Exception;
-	
-	public List<PssProject> getPssProject(String nameLike) throws Exception;
-	
-	public List<PssValue> getPssValue(String pssPrjId) throws Exception;
-	
-	public List getTestDbData() throws Exception ;
+	public List<HvmAttribute> getHvmAttributes(String userId, HvmAttributeCond cond) throws Exception;
 }

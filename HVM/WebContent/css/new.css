@@ -1,0 +1,42 @@
+@charset "UTF-8";
+/* CSS Document */
+
+
+
+#contents_bottom {clear:both; width:100%;}
+#contents_bottom .box_header {height:49px; background-color:#cbe000; margin-top:40px; padding-right:10px;}
+
+#contents_bottom .box_body { background-color:#fff; float:left; width:100%; margin-bottom:20px; }
+
+#contents_bottom .box_left { float:left; margin:11px 30px 30px 0;}
+#contents_bottom .box_left .pss .title {width:350px; height:20px; background-color:#f0f0f2; font-size:17px; color:#333; margin:20px 0 0 30px; padding:7px 0 7px 15px;} 
+#contents_bottom .box_left .pss .pss_new { width:362px; height:110px; border:1px solid #d7d7d7;margin:20px 0 0 30px;}
+#contents_bottom .box_left .pss img, .sbp img {margin-top:42px;}
+
+
+#contents_bottom .box_left .sbp .title {width:350px; height:20px; background-color:#f0f0f2; font-size:17px; color:#333; margin:20px 0 0 30px; padding:7px 0 7px 15px;} 
+#contents_bottom .box_left .sbp .sbp_new { width:362px; height:110px; border:1px solid #d7d7d7;margin:20px 0 0 30px;}
+
+
+
+#contents_bottom .box_body .list table {border:1px #fff; border-collapse:collapse; margin:30px 0;}
+#contents_bottom .box_body .list table th {height:32px; background-color:#f0f0f2; font-size:18px; color:#333; font-weight:100;}
+
+#contents_bottom .box_body .list table input { height:28px; margin:20px 0 0 5px; font-size:15px; padding:1px; }
+#contents_bottom .box_body .list table input:focus{padding:2px; border:1px solid #d1e701; outline:none;}
+#contents_bottom .box_body .list img { margin-left:340px;}
+
+
+
+ .btn{float:right; margin-bottom:20px;}
+
+[class*='btn-'] {width:50px; text-align:center; border-radius: 4px; color: #fff; display: inline-block; font-family: Arial, Helvetica, sans-serif;	font-size:14px;padding: 10px 16px 10px 16px; text-decoration: none; text-shadow: 0 1px 1px rgba(0, 0, 0, 0.075);}
+	  
+[class*='btn-']:hover {	cursor: pointer; color:#fff;}
+
+.btn-save { background-color:#7676b2; color:#fff;}
+.btn-save:hover { background-color:#5a5a94; color:#fff;}
+
+
+.btn-cancel { background-color:#999; color:#fff; margin-right:10px;}
+.btn-cancel:hover { background-color:#666; color:#fff;}
