@@ -1,0 +1,12 @@
+@charset "UTF-8";
+/* CSS Document */
+
+#contents_bottom {clear:both; width:100%;}
+#contents_bottom .box_header {height:49px; background-color:#cbe000; margin-top:40px; padding-right:10px;}
+
+#contents_bottom .box_body { background-color:#fff; margin-bottom:50px; padding:40px;}
+#contents_bottom .box_body .list table {border:1px #d7d7d7; border-collapse:collapse; width:100%;}
+#contents_bottom .box_body .list table th {height:32px; background-color:#f0f0f2; font-size:18px; color:#333; font-weight:normal;}
+#contents_bottom .box_body .list table td {height:28px;color:#6e6e6e; font-size:15px; font-weight:100; padding:2px 7px;}
+
+#contents_bottom .box_body .list table td:nth-child(2) { text-align:center;}

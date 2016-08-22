@@ -1,16 +1,26 @@
 angular.module("hvm")
-.controller("projectListCtrl", function($scope, $routeParams, $location,$rootScope, getProjectListUrl, getProjectListSizeUrl, retrieveServicePost, imageServerUrl) {
-	
-	$scope.viewType = "value";
-	//$scope.view_type = $routeParams.viewType;
+.controller("projectListCtrl", function($scope, $routeParams, $cookies, $location,$rootScope, getProjectListUrl, getProjectListSizeUrl, retrieveServicePost, imageServerUrl) {
+
+	$scope.viewType = $cookies.get("nowViewType");
+	if ($scope.viewType == undefined)
+		$scope.viewType = "Value";
 	
 	$scope.selectViewType = function(index) {
 		//$scope.$apply(function(){
 		//})
 		$scope.selectedItem = $scope.selectItem[index];
+		$scope.viewType = $scope.selectItem[index];
+		$cookies.put("nowViewType",$scope.selectItem[index]);
 		$scope.showViewTypeList = false;
 	}
 	
+	$scope.showAttrList = function(listType) {
+		if ($scope.viewType == listType) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 	
 	$scope.getSbpGroupIndex = function (project, sbpGroupName) {
 		
@@ -24,10 +34,9 @@ angular.module("hvm")
 		return '';
 	}
 	
-	
 	$scope.image_path = imageServerUrl;
 	
-	$scope.pageSize = 1;
+	$scope.pageSize = 10;
 	$scope.pageNo = 0;
 	
 	$scope.result = [];

@@ -52,7 +52,7 @@
 				</div>
 			</div>
 			<div class="right">
-				<div class="list">
+				<div class="list" ng-show="showAttrList('Value')">
 					<table width="700" border="1" cellpadding="0">
 						<tr>
 							<th scope="col">Value</th>
@@ -61,12 +61,30 @@
 							<th scope="col">Activity</th>
 							<th scope="col">SBP</th>
 						</tr>
-						<tr ng-repeat="attr in project.attributes" ng-init="attr.sbpIndex=getSbpGroupIndex(project,project.sbpPrjName +'_'+ attr.sbpName)">
+						<tr ng-repeat="attr in project.attributes | orderBy:'valueName'"" ng-init="attr.sbpIndex=getSbpGroupIndex(project,project.sbpPrjName +'_'+ attr.sbpName)">
 							<td>{{attr.valueName}}</td>
 							<td>{{attr.attributeName}}</td>
 							<td class="pn">{{attr.attributeType}}</td>
 							<td>{{attr.activityName}}</td>
 							<td class="sbp">{{attr.sbpIndex}}</td>
+						</tr>
+					</table>
+				</div>
+				<div class="list" ng-show="showAttrList('Activity')">
+					<table width="700" border="1" cellpadding="0">
+						<tr>
+							<th scope="col">Activity</th>
+							<th scope="col">SBP</th>
+							<th scope="col">Attribute</th>
+							<th scope="col">P/N</th>
+							<th scope="col">Value</th>
+						</tr>
+						<tr ng-repeat="attr in project.attributes | orderBy:'activityName'"" ng-init="attr.sbpIndex=getSbpGroupIndex(project,project.sbpPrjName +'_'+ attr.sbpName)">
+							<td>{{attr.activityName}}</td>
+							<td class="sbp">{{attr.sbpIndex}}</td>
+							<td>{{attr.attributeName}}</td>
+							<td class="pn">{{attr.attributeType}}</td>
+							<td>{{attr.valueName}}</td>
 						</tr>
 					</table>
 				</div>

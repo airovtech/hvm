@@ -14,11 +14,14 @@ angular.module("hvm")
 //.constant("setActivityAttributeUrl","http://localhost:8080/HVM/setActivityAttribute.sw")
 .controller("hvmCtl", function($scope, $location, $cookies, retrieveCurrentUser, imageServerUrl, logoutSvc){
 
+	$scope.viewType = $cookies.get("nowViewType");
+	if ($scope.viewType == undefined)
+		$scope.viewType = "Value";
+	
 	//상단 뷰타입을 결정
 	$scope.selectItem = ["Value","Activity","Attribute"];
-	$scope.selectedItem = "Value";
+	$scope.selectedItem = $scope.viewType;
 
-	$scope.viewType = $cookies.get("nowViewType");
 	
 	//로그인사용자 
 	$scope.user_image_path = imageServerUrl;
