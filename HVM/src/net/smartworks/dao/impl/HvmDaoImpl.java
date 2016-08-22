@@ -42,7 +42,7 @@ public class HvmDaoImpl implements IHvmDao {
 		Long totalSize = 0L;
 		if (searchKey != null && searchKey.length() != 0) {
 			String likeSearchKey = "%" + searchKey + "%";
-			totalSize = jdbcTemplateObject.queryForObject(query.toString(), new Object[]{likeSearchKey,likeSearchKey,likeSearchKey,likeSearchKey,likeSearchKey,likeSearchKey}, Long.class);
+			totalSize = jdbcTemplateObject.queryForObject(query.toString(), new Object[]{likeSearchKey,likeSearchKey,likeSearchKey,likeSearchKey,likeSearchKey,likeSearchKey,likeSearchKey}, Long.class);
 		} else {
 			totalSize = jdbcTemplateObject.queryForObject(query.toString(), Long.class);
 		}
@@ -65,7 +65,8 @@ public class HvmDaoImpl implements IHvmDao {
 			query.append(" 	from  ");
 			query.append(" 	hvmattribute attr, hvmproject prj ");
 			query.append(" 	where attr.prjid = prj.id ");
-			query.append(" 	and 1=1 ");
+			query.append(" 	and ((prj.pssPrjName like ? or prj.sbpPrjName like ? or attr.valueName like ? or attr.sbpName like ? or attr.activityName like ? or attributeName like ? )");
+			query.append(" 		or ( prj.createdUser in (select id from orguser where name like ?) ))");
 			query.append(" 	group by prj.id ");
 			query.append(" ) ");
 		}
@@ -94,14 +95,15 @@ public class HvmDaoImpl implements IHvmDao {
 					public void setValues(PreparedStatement preparedStatement) throws SQLException {
 						if (searchKey != null && searchKey.length() != 0) {
 							String likeSearchKey = "%" + searchKey + "%";
-							/*preparedStatement.setString(1, likeSearchKey);
+							preparedStatement.setString(1, likeSearchKey);
 							preparedStatement.setString(2, likeSearchKey);
 							preparedStatement.setString(3, likeSearchKey);
 							preparedStatement.setString(4, likeSearchKey);
 							preparedStatement.setString(5, likeSearchKey);
-							preparedStatement.setString(6, likeSearchKey);*/
-							preparedStatement.setInt(7, pageSize);
-							preparedStatement.setInt(8, offSet);
+							preparedStatement.setString(6, likeSearchKey);
+							preparedStatement.setString(7, likeSearchKey);
+							preparedStatement.setInt(8, pageSize);
+							preparedStatement.setInt(9, offSet);
 						} else {
 							preparedStatement.setInt(1, pageSize);
 							preparedStatement.setInt(2, offSet);
@@ -217,13 +219,14 @@ public class HvmDaoImpl implements IHvmDao {
 		
 		String searchKey = cond.getSearchKey();
 		
-		query.append(" from ");
-		query.append(" hvmattribute ");
-		query.append(" where  ");
-		query.append(" 1=1 ");
+		query.append(" 	from  ");
+		query.append(" 	hvmattribute attr, hvmproject prj ");
+		query.append(" 	where attr.prjid = prj.id ");
 		if (searchKey != null) {
-			query.append(" and attributename like ?");
+			query.append(" 	and ((prj.pssPrjName like ? or prj.sbpPrjName like ? or attr.valueName like ? or attr.sbpName like ? or attr.activityName like ? or attributeName like ? )");
+			query.append(" 		or ( prj.createdUser in (select id from orguser where name like ?) ))");
 		}
+		
 	}
 	@Override
 	public Long getHvmAttributeSize(String userId, HvmAttributeCond cond) throws Exception {
@@ -238,7 +241,7 @@ public class HvmDaoImpl implements IHvmDao {
 		Long totalSize = 0L;
 		if (searchKey != null && searchKey.length() != 0) {
 			String likeSearchKey = "%" + searchKey + "%";
-			totalSize = jdbcTemplateObject.queryForObject(query.toString(), new Object[]{likeSearchKey,likeSearchKey,likeSearchKey,likeSearchKey,likeSearchKey,likeSearchKey}, Long.class);
+			totalSize = jdbcTemplateObject.queryForObject(query.toString(), new Object[]{likeSearchKey,likeSearchKey,likeSearchKey,likeSearchKey,likeSearchKey,likeSearchKey,likeSearchKey}, Long.class);
 		} else {
 			totalSize = jdbcTemplateObject.queryForObject(query.toString(), Long.class);
 		}
@@ -256,7 +259,7 @@ public class HvmDaoImpl implements IHvmDao {
 		
 		
 		StringBuffer query = new StringBuffer();
-		query.append(" select * ");
+		query.append(" select attr.*, prj.id as prjObjId, prj.pssPrjId, prj.pssPrjName, prj.sbpPrjId, prj.sbpPrjName ");
 		
 		setAttributeQuery(query, cond);
 		
@@ -268,14 +271,15 @@ public class HvmDaoImpl implements IHvmDao {
 					public void setValues(PreparedStatement preparedStatement) throws SQLException {
 						if (searchKey != null && searchKey.length() != 0) {
 							String likeSearchKey = "%" + searchKey + "%";
-							/*preparedStatement.setString(1, likeSearchKey);
+							preparedStatement.setString(1, likeSearchKey);
 							preparedStatement.setString(2, likeSearchKey);
 							preparedStatement.setString(3, likeSearchKey);
 							preparedStatement.setString(4, likeSearchKey);
 							preparedStatement.setString(5, likeSearchKey);
-							preparedStatement.setString(6, likeSearchKey);*/
-							preparedStatement.setInt(7, pageSize);
-							preparedStatement.setInt(8, offSet);
+							preparedStatement.setString(6, likeSearchKey);
+							preparedStatement.setString(7, likeSearchKey);
+							preparedStatement.setInt(8, pageSize);
+							preparedStatement.setInt(9, offSet);
 						} else {
 							preparedStatement.setInt(1, pageSize);
 							preparedStatement.setInt(2, offSet);

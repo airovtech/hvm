@@ -1,5 +1,7 @@
 package net.smartworks.model.hvm;
 
+import java.util.List;
+
 public class HvmAttribute {
 
 	public static final String viewType_value = "value";
@@ -17,6 +19,8 @@ public class HvmAttribute {
 	private String attributeType = null;
 	private String attributeName = null;
 	
+	private HvmProject project;
+
 	public String getId() {
 		return id;
 	}
@@ -76,6 +80,12 @@ public class HvmAttribute {
 	}
 	public void setAttributeName(String attributeName) {
 		this.attributeName = attributeName;
+	}
+	public HvmProject getProject() {
+		return project;
+	}
+	public void setProject(HvmProject project) {
+		this.project = project;
 	}
 	public static String getViewtypeValue() {
 		return viewType_value;

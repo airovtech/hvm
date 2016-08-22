@@ -14,9 +14,10 @@
 				templateUrl: "/HVM/views/projectList.html"
 				,controller: "projectListCtrl"
 			});
-			$routeProvider.when("/attributeList",{
-				templateUrl: "/HVM/views/attributeList.html"
-				,controller: "attributeListCtrl"
+			$routeProvider.when("/newProject",{
+				templateUrl: "/HVM/views/new.html"
+				,controller: "newProjectCtrl"
+				//,cfData:cfData
 			});
 			/* $routeProvider.when("/activityList",{
 				templateUrl: "/HVM/views/activityList.html"
@@ -35,11 +36,8 @@
 	</script>
 	<script src="./js/controllers/hvm.js"></script>
 	<script src="./js/controllers/projectListCtrl.js"></script>
-	<!-- <script src="./js/controllers/activityListCtrl.js"></script>
-	<script src="./js/controllers/attributeListCtrl.js"></script>
-	<script src="./js/controllers/newAttributeCtrl.js"></script>
-	<script src="./js/controllers/newValueAttrCtrl.js"></script>
-	<script src="./js/controllers/newActivityAttrCtrl.js"></script> -->
+	<script src="./js/controllers/newProjectCtrl.js"></script>
+	
 	<script src="./js/lib/angular-route.js"></script>
 	<script src="./js/lib/cookies.js"></script>
 	<script src="./js/lib/cookieStore.js"></script>
@@ -51,6 +49,7 @@
 	<link href="css/common.css" rel="stylesheet" type="text/css" />
 	<link href="css/custom.css" rel="stylesheet" type="text/css" />
 	<link href="css/list.css" rel="stylesheet" type="text/css" />
+	<link href="css/new.css" rel="stylesheet" type="text/css" />
 
 </head>
 <body ng-controller="hvmCtl">

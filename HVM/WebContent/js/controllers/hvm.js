@@ -1,17 +1,12 @@
 angular.module("hvm")
 .constant("imageServerUrl","http://www.smartworks.net/product-images/")
-.constant("getProjectListUrl","/HVM/getProjects.sw")
+.constant("getProjectListUrl","/HVM/getHvmProjects.sw")
 .constant("getProjectListSizeUrl","/HVM/getHvmProjectSize.sw")
-//.constant("getAttributeListUrl","http://localhost:8080/HVM/getAttributeList.sw")
-//.constant("getAttributeListSizeUrl","http://localhost:8080/HVM/getAttributeListSize.sw")
-//.constant("getActivityListUrl","http://localhost:8080/HVM/getActivityList.sw")
-//.constant("getActivityListSizeUrl","http://localhost:8080/HVM/getActivityListSize.sw")
-//.constant("getPssProjectUrl","http://localhost:8080/HVM/getPssProjectByName.sw")
-//.constant("getPssValuesUrl","http://localhost:8080/HVM/getPssValuesByPssPrjId.sw")
-//.constant("getSbpProjectUrl","http://localhost:8080/HVM/getSbpProject.sw")
-//.constant("getSbpActivityUrl","http://localhost:8080/HVM/getSbpActivity.sw")
-//.constant("setValueAttributeUrl","http://localhost:8080/HVM/setValueAttribute.sw")
-//.constant("setActivityAttributeUrl","http://localhost:8080/HVM/setActivityAttribute.sw")
+.constant("getAttributeListUrl","/HVM/getHvmAttributes.sw")
+.constant("getAttributeListSizeUrl","/HVM/getHvmAttributeSize.sw")
+.constant("removeProjectUrl","/HVM/removeHvmProject.sw")
+.constant("getEmptyProject","/HVM/getHvmEmptyProject.sw")
+.constant("getEmptyAttribute","/HVM/getHvmEmptyAttribute.sw")
 .controller("hvmCtl", function($scope, $location, $cookies, retrieveCurrentUser, imageServerUrl, logoutSvc){
 
 	$scope.viewType = $cookies.get("nowViewType");
@@ -40,19 +35,7 @@ angular.module("hvm")
 		$scope.viewType ="Value";
 		$location.path("/valueList");
 	};
-//	$scope.changeViewType = function() {
-//		console.log("viewType : " + $scope.viewType);
-//		if ($scope.viewType === "value") {
-//			$cookies.put("nowViewType","value");
-//			$location.path("/valueList");
-//		} else if ($scope.viewType === "activity"){
-//			$cookies.put("nowViewType","activity");
-//			$location.path("/activityList");
-//		} else {
-//			$cookies.put("nowViewType","attribute");
-//			$location.path("/attributeList");
-//		}
-//	}
+
 	
 	$scope.createAttribute = function() {
 		console.log($scope.viewType);
@@ -60,6 +43,7 @@ angular.module("hvm")
 	};
 
 	$scope.logout = function() {
+		$cookies.remove("nowViewType");
 		logoutSvc.logout();
 		window.location.reload();
 	};
@@ -75,6 +59,14 @@ angular.module("hvm")
 	return {
 		retrieveCurrentUser: function() {
 			return $http.get('getCurrentUser.sw');
+		}
+	}
+}])
+.service("removeProjectPost",['$http', function($http){
+	return {
+		removeProject: function(url, projectId) {
+			console.log(url, projectId);
+			return $http.post(url,{"projectId": projectId});
 		}
 	}
 }])

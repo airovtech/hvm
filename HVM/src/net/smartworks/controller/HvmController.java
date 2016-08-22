@@ -1,5 +1,6 @@
 package net.smartworks.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +27,7 @@ import net.smartworks.model.hvm.HvmProject;
 import net.smartworks.model.hvm.HvmProjectCond;
 import net.smartworks.security.Login;
 import net.smartworks.util.HvmUtil;
+import net.smartworks.util.id.IDCreator;
 
 @Controller
 public class HvmController {
@@ -45,9 +47,38 @@ public class HvmController {
 		Map result = hvmMgr.getHvmProjectSize(currentUser.getId(), cond);
 		return result;
 	}
+
+	@RequestMapping(value="/getHvmEmptyAttribute", method=RequestMethod.POST)
+	public @ResponseBody List getHvmEmptyAttribute(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
 	
-	@RequestMapping(value="/getProjects", method=RequestMethod.POST)
-	public @ResponseBody List getProjects(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		List<HvmAttribute> attributeList = new ArrayList<HvmAttribute>();
+		HvmAttribute attribute = new HvmAttribute();
+		attribute.setId(IDCreator.createId("attr"));
+		attributeList.add(attribute);
+	
+		return attributeList;
+	}
+	@RequestMapping(value="/getHvmEmptyProject", method=RequestMethod.POST)
+	public @ResponseBody List getHvmEmptyProject(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		List<HvmProject> projectList = new ArrayList<HvmProject>();
+		HvmProject project = new HvmProject();
+		project.setId(IDCreator.createId("prj"));
+		
+		List<HvmAttribute> attributeList = new ArrayList<HvmAttribute>();
+		HvmAttribute attribute = new HvmAttribute();
+		attribute.setId(IDCreator.createId("attr"));
+		attribute.setPrjId(project.getId());
+		attributeList.add(attribute);
+
+		project.setAttributes(attributeList);
+		projectList.add(project);
+		
+		return projectList;
+	}
+	
+	@RequestMapping(value="/getHvmProjects", method=RequestMethod.POST)
+	public @ResponseBody List getHvmProjects(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		Login currentUser = HvmUtil.getCurrentUserInfo();
 		
@@ -113,8 +144,8 @@ public class HvmController {
 		return result;
 	}
 	
-	@RequestMapping(value="/getAttributes", method=RequestMethod.POST)
-	public @ResponseBody List getAttributes(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	@RequestMapping(value="/getHvmAttributes", method=RequestMethod.POST)
+	public @ResponseBody List getHvmAttributes(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		Login currentUser = HvmUtil.getCurrentUserInfo();
 		

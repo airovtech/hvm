@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import org.springframework.jdbc.core.RowMapper;
 
 import net.smartworks.model.hvm.HvmAttribute;
+import net.smartworks.model.hvm.HvmProject;
 
 public class HvmAttributeMapper implements RowMapper<HvmAttribute> {
 
@@ -25,6 +26,21 @@ public class HvmAttributeMapper implements RowMapper<HvmAttribute> {
 		attr.setAttributeType(rs.getString("attributeType"));
 		attr.setAttributeName(rs.getString("attributeName"));
 
+		try {
+			if (rs.getString("prjObjId") != null) {
+				HvmProject project = new HvmProject();
+				
+				project.setId(rs.getString("prjObjId"));
+				project.setSbpPrjId(rs.getString("pssPrjId"));
+				project.setPssPrjName(rs.getString("pssPrjName"));
+				project.setSbpPrjId(rs.getString("sbpPrjId"));
+				project.setSbpPrjName(rs.getString("sbpPrjName"));
+				
+				attr.setProject(project);
+			}
+		} catch (Exception e) {
+		}
+		
 		return attr;
 	}
 	

@@ -38,26 +38,28 @@ public class HvmManagerImpl implements IHvmManager {
 
 		List<HvmProject> result = this.getHvmDao().getHvmProjects(userId, cond);
 		
-		for (int i = 0; i < result.size(); i++) {
-			HvmProject project = result.get(i);
-			String createdUserId = project.getCreatedUser();
-			if (createdUserId != null)
-				project.setCreatedUserObj(this.getUserDao().getUser(project.getCreatedUser()));
-			
-			List<HvmAttribute> attrs = project.getAttributes();
-			if (attrs != null && attrs.size() != 0) {
-				List sbpGroupList = new ArrayList();
-				for (int j = 0; j < attrs.size(); j++) {
-					HvmAttribute attr = attrs.get(j);
+		if (result != null) {
+			for (int i = 0; i < result.size(); i++) {
+				HvmProject project = result.get(i);
+				String createdUserId = project.getCreatedUser();
+				if (createdUserId != null)
+					project.setCreatedUserObj(this.getUserDao().getUser(project.getCreatedUser()));
+				
+				List<HvmAttribute> attrs = project.getAttributes();
+				if (attrs != null && attrs.size() != 0) {
+					List sbpGroupList = new ArrayList();
+					for (int j = 0; j < attrs.size(); j++) {
+						HvmAttribute attr = attrs.get(j);
 
-					String sbpPrjName = project.getSbpPrjName();
-					String sbpName = attr.getSbpName();
-					
-					if (sbpName != null && !sbpGroupList.contains(sbpPrjName+"_"+sbpName)) {
-						sbpGroupList.add(sbpPrjName+"_"+sbpName);
+						String sbpPrjName = project.getSbpPrjName();
+						String sbpName = attr.getSbpName();
+						
+						if (sbpName != null && !sbpGroupList.contains(sbpPrjName+"_"+sbpName)) {
+							sbpGroupList.add(sbpPrjName+"_"+sbpName);
+						}
 					}
+					project.setSbpGroupList(sbpGroupList);
 				}
-				project.setSbpGroupList(sbpGroupList);
 			}
 		}
 		

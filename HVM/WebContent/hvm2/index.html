@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html ng-app="hvm2">
+<head>
+	<title>hvm</title>
+	<script src="/HVM/hvm2/js/angular.js"></script>
+	<script src="/HVM/hvm2/js/angular-route.js"></script>
+	<script src="/HVM/hvm2/js/jquery-1.6.2.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-sanitize.min.js""></script>
+	<!-- <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap-theme.css"> -->
+<style type="text/css">
+body {
+	margin: 30px;
+}
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 50px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+/* Modal Content */
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 70%;
+}
+/* Modal Content2 */
+.modal-content2 {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 45%;
+}
+/* The Close Button */
+.close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+.subTitle {
+	border-bottom : 1px solid #EBE9ED;
+	margin :20px 0 20px 0;
+    font-weight: bold;
+    font-size: 20pt;
+}
+.subTitle2 {
+	margin-top:5px;
+}
+._panel {
+	border : 1px solid #EBE9ED;
+	padding : 10px;
+	border-radius: 5px;
+}
+.myInput {
+	border : 1px solid #A9A9A9;
+	width : 50%;
+	height : 20px;
+	/*border-radius: 5px;*/
+	margin : 5px 0 5px 0;
+}
+.myButton {
+	border : 1px solid #A9A9A9;
+	height : 25px;
+	/*border-radius: 6px;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;*/
+	/*color :  #fff;*/
+	background: #fff;
+	cursor: pointer;
+	position: relative;
+}
+.selectValueButton {
+	border : 1px solid #A9A9A9;
+	width :100%;
+	height : 25px;
+	/*border-radius: 6px;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;*/
+	/*color :  #fff;*/
+	background-color: #fff;
+	cursor: pointer;
+	position: relative;
+}
+.showPssTreeButton {
+	float:right;
+	cursor: pointer;
+}
+.search_result {
+	border-bottom : 1px dashed #A9A9A9;
+	width: 50%;
+}
+</style>
+<script>
+	angular.module("hvm2", ['ngSanitize'])
+	.constant("getPssProjectUrl","http://localhost:8080/HVM/getPssProjectByName.sw")
+	.controller("hvmCtrl", function($scope, $sce, getPssProjectUrl, searchServicePost, searchServiceGet) {
+		//37ef256d54be74b40154cee711120037
+		$scope.psId = "";
+		$scope.valueDetailFrame = "http://localhost:8080/skkupss/valueSpacePopup.jsp?psId=";
+		$scope.pssDetailFrame = "http://localhost:8080/skkupss/psInstanceListPopup.jsp?psId=";
+
+		
+		$scope.trustSrc = function(type) {
+			if (type === "value") {
+			    return $sce.trustAsResourceUrl($scope.valueDetailFrame + $scope.psId);
+			} else if (type === "pss") {
+			    return $sce.trustAsResourceUrl($scope.pssDetailFrame + $scope.psId);
+			} else if (type === "sbp") {
+			    return $sce.trustAsResourceUrl("http://sbp.pssd.or.kr/sbp/listForHvm.jsp?hvm=true&memberId=sbpAdmin&sPUID="+$scope.selectPuid+"&sProjectName="+$scope.selectSbpName);
+			} else if (type === "sbpView") {
+			    return $sce.trustAsResourceUrl("http://am.pssd.or.kr:9095/AMT_SYSTEM/otherActivityUpdate.runa?user_seq=1&sysType=SBP&operType=SR02&activity_name="+$scope.selectedActivityId+"&united_user_seq=tester&user_id=tester&user_name=tester&project_name=test&project_puid=test");
+			}
+		}
+		
+		$scope.openValueTreeModal = function() {
+			$scope.valueTree_modal_style = {
+		        'display' : 'block'
+		    };
+		}
+		$scope.closeValueTreeModal = function() {
+			$scope.valueTree_modal_style = {
+		        'display' : 'none'
+		    };
+		}
+		$scope.selectValueTreeModal = function() {
+			$scope.valueTree_modal_style = {
+		        'display' : 'none'
+		    };
+			console.log($('#valueTree').contents().find('#selectedValue')[0].value);
+			$scope.selectedValue = $('#valueTree').contents().find('#selectedValue')[0].value;
+		}
+		$scope.openPssTreeModal = function(psId) {
+			$scope.psId = psId;
+			$scope.pssTree_modal_style = {
+		        'display' : 'block'
+		    };
+		}
+		$scope.closePssTreeModal = function() {
+			$scope.pssTree_modal_style = {
+		        'display' : 'none'
+		    };
+		}
+		
+		
+		
+		
+		
+		
+		$scope.openSbpTreeModal = function() {
+			$scope.sbpTree_modal_style = {
+		        'display' : 'block'
+		    };
+		}
+		$scope.closeSbpTreeModal = function() {
+			$scope.sbpTree_modal_style = {
+		        'display' : 'none'
+		    };
+		}
+		$scope.selectSbpTreeModal = function() {
+			$scope.sbpTree_modal_style = {
+		        'display' : 'none'
+		    };
+			console.log('select sbp!!!');
+		}
+		
+		
+		
+		
+		$scope.openSbpViewTreeModal = function() {
+			$scope.sbpViewTree_modal_style = {
+		        'display' : 'block'
+		    };
+		}
+		$scope.closeSbpViewTreeModal = function() {
+			$scope.sbpViewTree_modal_style = {
+		        'display' : 'none'
+		    };
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		$scope.searchPssPrj = function() {
+			searchServicePost.search(getPssProjectUrl,
+					$scope.result.pssPrj.pssPrjName).then(
+					function(response) {
+						console.log('searchPssPrj : ' + getPssProjectUrl
+								+ ", arg:"
+								+ $scope.result.pssPrj.pssPrjName + " -> "
+								+ JSON.stringify(response.data));
+						// 선택된 내용을 수정하였을 경우 기존 정보를 지운다
+						if ($scope.result.pssPrj.pssPrjId) {
+							$scope.result.pssPrj.pssPrjId = null;
+						}
+						$scope.pss_projects = response.data;
+					})
+		};
+		$scope.clickSearchedPssPrjItem = function(item) {
+			$scope.pss_projects.length = 0;
+			$scope.result.pssPrj = item;
+			$scope.psId = item.pssPrjId;
+			/* searchServicePost.search(getPssValuesUrl, item.pssPrjId).then(
+					function(response) {
+						console.log('searchPssValue : ' + getPssValuesUrl
+								+ " , arg : " + item.pssPrjId + " -> "
+								+ JSON.stringify(response.data));
+						$scope.pss_Values = response.data;
+					}) */
+		}
+		
+		
+		
+		
+		//SBP
+		
+		$scope.sbpProjectListApi = "http://localhost:8080/HVM/crossDomainCaller.jsp";
+
+		$scope.searchSbpPrj = function() {
+			searchServiceGet.search($scope.sbpProjectListApi).then(
+					function(response) {
+						console.log('searchPssPrj : ' + $scope.sbpProjectListApi
+								+ ", arg:");
+						// 선택된 내용을 수정하였을 경우 기존 정보를 지운다
+						console.log(response.data);
+						$scope.sbp_projects = response.data.list;
+					}
+			)
+		}
+		
+		$scope.clickSearchedSbpPrjItem = function(item) {
+			$scope.sbp_projects.length = 0;
+			console.log('item:',item);
+			$scope.selectSbpName = item.project_name;
+			$scope.selectPuid = item.project_puid;
+			console.log('click sbp item : ',$scope.selectSbpName)
+			/* searchServicePost.search(getPssValuesUrl, item.pssPrjId).then(
+					function(response) {
+						console.log('searchPssValue : ' + getPssValuesUrl
+								+ " , arg : " + item.pssPrjId + " -> "
+								+ JSON.stringify(response.data));
+						$scope.pss_Values = response.data;
+					}) */
+		}
+		
+		$scope.applySbpActivity = function(value) {
+			console.log(value)
+			$scope.selectedActivity = value;
+			$scope.selectedActivityId = value.split("||")[1];
+			console.log('selectedActivityId : ', $scope.selectedActivityId);
+		}
+		
+		
+		
+	})
+	.service("searchServicePost",['$http', function($http){
+		return {
+			search: function(url, keywords) {
+				console.log(url, keywords);
+				return $http.post(url,{"searchKey": keywords});
+			}
+		}
+	}])
+	.service("searchServiceGet",['$http', function($http){
+		return {
+			search: function(url) {
+				console.log(url);
+				return $http.get(url);
+			}
+		}
+	}])
+</script>
+<script type="text/javascript">
+
+	//Create IE + others compatible event handler
+	var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
+	var eventer = window[eventMethod];
+	var messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
+	
+	// Listen to message from child window
+	eventer(messageEvent,function(e) {
+		console.log('parent received message!:  ',e.data);
+		//document.getElementById("messageFromSub").innerHTML += e.data;
+		$('#selectedActivity').val(e.data)
+		
+		/* $scope.$apply(function(){
+	        $scope.selectedActivity = "Hi jQuery";  //변경 내용이 화면에 나타남
+	    }); */
+		angular.element(document.getElementById("hvmCtrlBody")).scope().applySbpActivity(e.data);
+		angular.element(document.getElementById("hvmCtrlBody")).scope().$apply();
+		
+		
+	},false)
+
+</script>
+</head>
+<body id='hvmCtrlBody' ng-controller="hvmCtrl">
+	<div class="subTitle">PSS</div>
+	<div class="_panel">
+		<div class="subTitle2">pss:</div>
+		<input class="myInput" name="project" type="text"
+						ng-model="result.pssPrj.pssPrjName" ng-blur="blurPssPrjFocus()"
+						ng-change="searchPssPrj()"
+						placeholder="search project"/>
+		<div class="search_result" ng-repeat="searchPrj in pss_projects">
+			<a href="" ng-mousedown="clickSearchedPssPrjItem(searchPrj)">{{searchPrj.pssPrjName}}</a>
+			<button class="showPssTreeButton" type="button" ng-click="openPssTreeModal(searchPrj.pssPrjId)">Pss</button>
+		</div>
+		<!-- show Pss Tree Popup -->
+		<div id="showPssTreeModal" class="modal" ng-style="pssTree_modal_style">
+			<div class="modal-content">
+				<span class="close" ng-click="closePssTreeModal()">X</span>
+				<p>PssTree</p>
+				<div>
+					<iframe id="pssTree" width="100%" height="400" ng-src="{{trustSrc('pss')}}" frameborder="0" ></iframe>
+				</div>
+			</div>
+		</div>
+		<div class="subTitle2">value:</div>
+		<input class="myInput" type="text" ng-model="selectedValue" ng-focus="openValueTreeModal()">
+		<!-- <button class="myButton" type="button" ng-click="openValueTreeModal()">ValueTreeMap</button> -->
+		<div id="showTreeModal" class="modal" ng-style="valueTree_modal_style">
+			<div class="modal-content">
+				<span class="close" ng-click="closeValueTreeModal()">X</span>
+				<p>ValueTree</p>
+				<div>
+					<iframe id="valueTree" width="100%" height="400" ng-src="{{trustSrc('value')}}" frameborder="0" ></iframe>
+				</div>
+				<button class="selectValueButton" type="button" ng-click="selectValueTreeModal()">select</button>
+			</div>
+		</div>
+	</div>
+	
+	
+	
+	
+    <div class="subTitle">SBP</div>
+	<div class="_panel">
+		<div class="subTitle2">sbp project:</div>
+		<input class="myInput" type="text" ng-model="selectSbpName">
+		<button class="myButton" type="button" ng-click="searchSbpPrj()">getSbp</button>
+	
+		<div class="search_result" ng-repeat="item in sbp_projects">
+			<a href="" ng-mousedown="clickSearchedSbpPrjItem(item)">{{item.project_name}}</a>
+		</div>
+		<div class="subTitle2">activity:</div>
+		<input id="selectedActivity" class="myInput" type="text" ng-model="selectedActivity" ng-focus="openSbpTreeModal()">
+		<div id="showSbpTreeModal" class="modal" ng-style="sbpTree_modal_style">
+			<div class="modal-content">
+				<span class="close" ng-click="closeSbpTreeModal()">X</span>
+				<p></p>
+				<div>
+					<iframe id="sbpTree" width="100%" height="600" ng-src="{{trustSrc('sbp')}}" frameborder="0" ></iframe>
+				</div>
+				<button class="selectValueButton" type="button" ng-click="closeSbpTreeModal()">select n close</button>
+			</div>
+		</div>
+    </div>
+	<!-- <div ng-show="selectSbpName"> -->
+	<div ng-show="false">
+		<iframe id="valueTree" width="100%" height="700" src="http://sbp.pssd.or.kr/sbp/listForHvm.jsp?hvm=true&memberId=sbpAdmin&sPUID=20151103140142-F60AC0B302A44FF5BF2935416F724E80&sProjectName=kmyuProject" frameborder="0" ></iframe>
+		<button class="selectValueButton" type="button" ng-click="closeSbpTreeModal()">select n close</button>
+	</div>
+	
+	
+	
+	
+	<div class="subTitle">VIEW</div>
+	<div class="_panel">
+		<div class="subTitle2">activity:</div>
+		<div><a ng-click="openSbpViewTreeModal()">{{selectedActivity}}</a></div>
+		<div id="showSbpViewTreeModal" class="modal" ng-style="sbpViewTree_modal_style">
+			<div class="modal-content2">
+				<span class="close" ng-click="closeSbpViewTreeModal()">X</span>
+				<p></p>
+				<div>
+					<iframe id="sbpViewTree" width="100%" height="400" ng-src="{{trustSrc('sbpView')}}" frameborder="0" ></iframe>
+				</div>
+			</div>
+		</div>
+    </div>
+	
+	
+</body>
+</html>

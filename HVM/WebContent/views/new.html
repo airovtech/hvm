@@ -1,116 +1,85 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>HVM</title>
-
-<link href="css/common.css" rel="stylesheet" type="text/css" />
-<link href="css/new.css" rel="stylesheet" type="text/css" />
-
-</head>
-
-<body>
-
-
-<div id="header">
-
- <ul>
-     
-    <li class="logo"><img src="images/logo.png" /></li>     
-    
-     <li class="user">
-       <a href=""><img src="images/no_user.png" alt="프로필사진" /></a>
-       <span>사원 홍길동 &nbsp;<a href=""><img src="images/btn_down arrow.png" /></a></span>
-       
-     </li>
-     
-     <li class="title"><strong>H</strong>ierarchical <strong>V</strong>alue <strong>M</strong>ap</li>
- </ul>
-</div>
-
 <div id="contents">
-
-    
-    
-	<div id="contents_top">
-
-		<!--
-        
-            <div class="btn">
-  			  <a href="#" class="btn-add">+ 새항목 추가</a>
-		    </div> 
-        
-        
-		<div class="select-list">
-    		<select>
-                            
-               <option value="Value">Value</option>
-               <option value="Attribute">Attribute</option>
-               <option value="Activity">Activity</option>
-                    
-  		  </select> 
-	  </div>
-      
-  	   <div class="search"> 
-          <img src="images/icon_search.png" />
-          <input name="" type="text" border="1" />
- 		
- 	   </div>
-       !-->
-  </div>
-  
-  
-   <div id="contents_bottom">
-
-   	     <div class="box_header">    
-         </div>
-         
-        <div class="box_body">
-         <div class="box_left">
-           <div class="pss">
-             <div class="title">PSS project</div>
-             <div class="pss_new"><center><a href=""><img src="images/btn_add.png" onmouseover="this.src='images/btn_add_hover.png'" onmouseout="this.src='images/btn_add.png'"/></div>
-           
-           </div>
-           <div class="sbp">
-             <div class="title">SBP project</div>
-             <div class="sbp_new"><center><a href=""><img src="images/btn_add.png" onmouseover="this.src='images/btn_add_hover.png'" onmouseout="this.src='images/btn_add.png'"/></a></center></div>
-           </div>
-         </div>
-         <div class="box_right">
-            <div class="list"> 
-              <table width="700" border="1" cellpadding="0">
-              <tr>
-                <th scope="col">Value</th>
-                <th scope="col">Attribute</th>
-                <th scope="col">P/N</th>
-                <th scope="col">Activity</th>
-                <th scope="col">SBP</th>
-              </tr>
-              <tr>
-                <td><input name="" type="text" size="15"  /></td>
-                <td><input name="" type="text" /></td>
-                <td><input name="" type="text" size="7"/></td>
-                <td><input name="" type="text" size="35" /></td>
-                <td><input name="" type="text"size="7" /></td>
-              </tr>
-              </table>
-              <a href=""><img src="images/btn_add.png" onmouseover="this.src='images/btn_add_hover.png'" onmouseout="this.src='images/btn_add.png'"/></a>
-            </div>
-           </div>
-           
-          </div> 
-            <div class="btn">
-  			  <a href="#" class="btn-save">저장</a>
-		    </div> 
-            
-            <div class="btn">
-  			  <a href="#" class="btn-cancel">취소</a>
-		    </div>
-           
-             
-         </div>
-        
-       </div>
-</body>
-</html>
+	<div id="contents_top"></div>
+	<div id="contents_bottom">
+		<div class="box_header"></div>
+		<div class="box_body_new" ng-repeat="project in result">
+			<div class="box_left">
+				<div class="pss">
+					<div class="title">PSS project</div>
+					<div class="pss_new">
+						<a href="">
+							<img src="images/btn_add.png" onmouseover="this.src='images/btn_add_hover.png'"onmouseout="this.src='images/btn_add.png'" />
+						</a>
+					</div>
+				</div>
+				<div class="sbp">
+					<div class="title">SBP project</div>
+					<div class="sbp_new">
+						<a href="" ng-click="openSbpProjectListModal()"><img src="images/btn_add.png"
+							onmouseover="this.src='images/btn_add_hover.png'"
+							onmouseout="this.src='images/btn_add.png'" /></a>
+					</div>
+					<div id="showSbpProjectListModal" class="modal" ng-style="sbpProjectList_modal_style">
+						<div class="modal-content">
+							<div class="modalHeader">
+								<span class="modalTitle">SBP</span>
+								<span class="closeBtn" ng-click="closeSbpProjectListModal()">x</span>
+							</div>
+							<div class="list">
+								<table width="100%" border="1" cellpadding="0">
+									<tr>
+										<th scope="col">SbpPrjName</th>
+										<th scope="col">CreatedDate</th>
+										<th scope="col">CreatedUser</th>
+									</tr>
+									<tr>
+										<td>테스트</td>
+										<td>2016.08.01</td>
+										<td>사원 테스터</td>
+									</tr>
+								</table>
+							</div>
+							<div class="modalFooter">
+								<img src="images/btn_add.png"
+								onmouseover="this.src='images/btn_add_hover.png'"
+								onmouseout="this.src='images/btn_add.png'" />
+							</div>
+							<!-- <button class="selectValueButton" type="button" ng-click="closeSbpProjectListModal()">select n close</button> -->
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="box_right">
+				<div class="list">
+					<table width="100%" border="1" cellpadding="0">
+						<tr>
+							<th scope="col">Value</th>
+							<th scope="col">Attribute</th>
+							<th scope="col">P/N</th>
+							<th scope="col">Activity</th>
+							<th scope="col">SBP</th>
+							<th scope="col"></th>
+						</tr>
+						<tr ng-repeat="attribute in project.attributes">
+							<td><input name="" type="text" /></td>
+							<td><input name="" type="text" /></td>
+							<td><input name="" type="text"/></td>
+							<td><input name="" type="text"/></td>
+							<td><input name="" type="text"/></td>
+							<td><a href='' ng-click='removeAttribute(attribute, $index)'>-</a></td>
+						</tr>
+					</table>
+					<a href="" ng-click="addAttribute()"><img src="images/btn_add.png"
+						onmouseover="this.src='images/btn_add_hover.png'"
+						onmouseout="this.src='images/btn_add.png'" /></a>
+				</div>
+			</div>
+		</div>
+		<div class="btn">
+			<a href="#" class="btn-save">저장</a>
+		</div>
+		<div class="btn">
+			<a href="#" class="btn-cancel">취소</a>
+		</div>
+	</div>
+</div>
