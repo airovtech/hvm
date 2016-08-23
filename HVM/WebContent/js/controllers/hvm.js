@@ -7,6 +7,7 @@ angular.module("hvm")
 .constant("removeProjectUrl","/HVM/removeHvmProject.sw")
 .constant("getEmptyProject","/HVM/getHvmEmptyProject.sw")
 .constant("getEmptyAttribute","/HVM/getHvmEmptyAttribute.sw")
+.constant("sbpProjectListApi","/HVM/util/crossDomainCaller.jsp")
 .controller("hvmCtl", function($scope, $location, $cookies, retrieveCurrentUser, imageServerUrl, logoutSvc){
 
 	$scope.viewType = $cookies.get("nowViewType");

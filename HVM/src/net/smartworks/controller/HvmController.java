@@ -66,11 +66,11 @@ public class HvmController {
 		project.setId(IDCreator.createId("prj"));
 		
 		List<HvmAttribute> attributeList = new ArrayList<HvmAttribute>();
-		HvmAttribute attribute = new HvmAttribute();
-		attribute.setId(IDCreator.createId("attr"));
-		attribute.setPrjId(project.getId());
-		attributeList.add(attribute);
-
+//		HvmAttribute attribute = new HvmAttribute();
+//		attribute.setId(IDCreator.createId("attr"));
+//		attribute.setPrjId(project.getId());
+//		attributeList.add(attribute);
+//
 		project.setAttributes(attributeList);
 		projectList.add(project);
 		

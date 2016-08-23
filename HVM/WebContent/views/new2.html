@@ -1,0 +1,150 @@
+<div id="contents">
+	<div id="contents_top"></div>
+	<div id="contents_bottom">
+		<div class="box_header"></div>
+		<div class="box_body_new" ng-repeat="project in result">
+			<div class="box_left">
+				<div class="pss">
+					<div class="title">PSS project</div>
+					<div class="pss_new">
+						<a href="">
+							<img src="images/btn_add.png" onmouseover="this.src='images/btn_add_hover.png'"onmouseout="this.src='images/btn_add.png'" />
+						</a>
+					</div>
+				</div>
+				<div class="sbp">
+					<div class="title">SBP project</div>
+					<div class="sbp_new">
+						<a href="" ng-click="openSbpProjectListModal()"><img src="images/btn_add.png"
+							onmouseover="this.src='images/btn_add_hover.png'"
+							onmouseout="this.src='images/btn_add.png'" /></a>
+					</div>
+					<div id="showSbpProjectListModal" class="modal" ng-style="sbpProjectList_modal_style">
+						<div class="modal-content">
+							<div class="modalHeader">
+								<span class="modalTitle">SBP</span>
+								<span class="closeBtn" ng-click="closeSbpProjectListModal()">x</span>
+							</div>
+							<div class="list">
+								<table width="100%" border="1" cellpadding="0">
+									<tr>
+										<th scope="col">SbpPrjName</th>
+										<th scope="col">CreatedDate</th>
+										<th scope="col">CreatedUser</th>
+									</tr>
+									<tr>
+										<td>테스트</td>
+										<td class="pn">2016.08.01</td>
+										<td>사원 테스터</td>
+									</tr>
+									<tr>
+										<td>테스트</td>
+										<td class="pn">2016.08.01</td>
+										<td>사원 테스터</td>
+									</tr>
+									<tr>
+										<td>테스트</td>
+										<td class="pn">2016.08.01</td>
+										<td>사원 테스터</td>
+									</tr>
+									<tr>
+										<td>테스트</td>
+										<td class="pn">2016.08.01</td>
+										<td>사원 테스터</td>
+									</tr>
+									<tr>
+										<td>테스트</td>
+										<td class="pn">2016.08.01</td>
+										<td>사원 테스터</td>
+									</tr>
+									<tr>
+										<td>테스트</td>
+										<td class="pn">2016.08.01</td>
+										<td>사원 테스터</td>
+									</tr>
+									<tr>
+										<td>테스트</td>
+										<td class="pn">2016.08.01</td>
+										<td>사원 테스터</td>
+									</tr>
+									<tr>
+										<td>테스트</td>
+										<td class="pn">2016.08.01</td>
+										<td>사원 테스터</td>
+									</tr>
+									<tr>
+										<td>테스트</td>
+										<td class="pn">2016.08.01</td>
+										<td>사원 테스터</td>
+									</tr>
+									<tr>
+										<td>테스트</td>
+										<td class="pn">2016.08.01</td>
+										<td>사원 테스터</td>
+									</tr>
+									<tr>
+										<td>테스트</td>
+										<td class="pn">2016.08.01</td>
+										<td>사원 테스터</td>
+									</tr>
+									<tr>
+										<td>테스트</td>
+										<td class="pn">2016.08.01</td>
+										<td>사원 테스터</td>
+									</tr>
+									<tr>
+										<td>테스트</td>
+										<td class="pn">2016.08.01</td>
+										<td>사원 테스터</td>
+									</tr>
+									<tr>
+										<td>테스트</td>
+										<td class="pn">2016.08.01</td>
+										<td>사원 테스터</td>
+									</tr>
+								</table>
+							</div>
+							<div class="modalFooter">
+								<img src="images/btn_add.png"
+								onmouseover="this.src='images/btn_add_hover.png'"
+								onmouseout="this.src='images/btn_add.png'" />
+							</div>
+							<!-- <button class="selectValueButton" type="button" ng-click="closeSbpProjectListModal()">select n close</button> -->
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="box_right">
+				<div class="list">
+					<table width="100%" border="1" cellpadding="0">
+						<tr>
+							<th scope="col">Value</th>
+							<th scope="col">Attribute</th>
+							<th scope="col">P/N</th>
+							<th scope="col">Activity</th>
+							<th scope="col">SBP</th>
+							<th scope="col"></th>
+						</tr>
+						<tr ng-repeat="attribute in project.attributes">
+							<td><input name="" type="text" /></td>
+							<td><input name="" type="text" /></td>
+							<td><input name="" type="text"/></td>
+							<td><input name="" type="text"/></td>
+							<td><input name="" type="text"/></td>
+							<td><a href='' ng-click='removeAttribute(attribute, $index)'>-</a></td>
+						</tr>
+					</table>
+					<a href="" ng-click="addAttribute()"><img src="images/btn_add.png"
+						onmouseover="this.src='images/btn_add_hover.png'"
+						onmouseout="this.src='images/btn_add.png'" /></a>
+				</div>
+			</div>
+		</div>
+		<div class="btn">
+			<a href="#" class="btn-save">저장</a>
+		</div>
+		<div class="btn">
+			<a href="#" class="btn-cancel">취소</a>
+		</div>
+	</div>
+</div>

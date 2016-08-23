@@ -5,44 +5,64 @@
 		<div class="box_body_new" ng-repeat="project in result">
 			<div class="box_left">
 				<div class="pss">
-					<div class="title">PSS project</div>
+					<div class="title">
+						PSS project
+						<img ng-show="result[0].pssPrjId" ng-click="deletePssProject()" class="delImg" src="images/btn_box_delete.png"
+								onmouseover="this.src='images/btn_box_delete_hover.png'"
+							onmouseout="this.src='images/btn_box_delete.png'" />
+					</div>
 					<div class="pss_new">
-						<a href="">
-							<img src="images/btn_add.png" onmouseover="this.src='images/btn_add_hover.png'"onmouseout="this.src='images/btn_add.png'" />
-						</a>
+						<div ng-show="result[0].pssPrjId">
+							{{result[0].pssPrjName}}
+						</div>
+						<div ng-show="!result[0].pssPrjId">
+							<a href="" ng-click="openPssProjectListModal()">
+								<img class='addImg' src="images/btn_add.png" onmouseover="this.src='images/btn_add_hover.png'"onmouseout="this.src='images/btn_add.png'" />
+							</a>
+						</div>
 					</div>
 				</div>
 				<div class="sbp">
-					<div class="title">SBP project</div>
+					<div class="title">
+						SBP project
+						<img ng-show="result[0].sbpPrjId" ng-click="deleteSbpProject()" class="delImg" src="images/btn_box_delete.png"
+								onmouseover="this.src='images/btn_box_delete_hover.png'"
+							onmouseout="this.src='images/btn_box_delete.png'" />
+					</div>
 					<div class="sbp_new">
-						<a href="" ng-click="openSbpProjectListModal()"><img src="images/btn_add.png"
-							onmouseover="this.src='images/btn_add_hover.png'"
-							onmouseout="this.src='images/btn_add.png'" /></a>
+						<div ng-show="result[0].sbpPrjId">
+							{{result[0].sbpPrjName}}
+						</div>
+						<div ng-show="!result[0].sbpPrjId">
+							<a href="" ng-click="openSbpProjectListModal()"><img class='addImg' src="images/btn_add.png"
+								onmouseover="this.src='images/btn_add_hover.png'"
+								onmouseout="this.src='images/btn_add.png'" /></a>
+						</div>
 					</div>
 					<div id="showSbpProjectListModal" class="modal" ng-style="sbpProjectList_modal_style">
 						<div class="modal-content">
 							<div class="modalHeader">
 								<span class="modalTitle">SBP</span>
+								<div class="search">
+									<img src="images/icon_search.png" ng-click="searchSbpPrj()"/> <input name="" type="text"
+										border="1" ng-model="sbpKeyword"/>
+								</div>
 								<span class="closeBtn" ng-click="closeSbpProjectListModal()">x</span>
 							</div>
 							<div class="list">
-								<table width="100%" border="1" cellpadding="0">
+								<table width="99%" border="1" cellpadding="0">
 									<tr>
-										<th scope="col">SbpPrjName</th>
-										<th scope="col">CreatedDate</th>
-										<th scope="col">CreatedUser</th>
+										<th scope="col">sbp project</th>
 									</tr>
-									<tr>
-										<td>테스트</td>
-										<td>2016.08.01</td>
-										<td>사원 테스터</td>
+									<tr ng-repeat="sbpProject in sbp_projects | filter:{ project_name: sbpKeyword } | orderBy:'project_name'"
+										ng-click="selectedSbpProject(sbpProject, $index)"
+										ng-class="{selected : sbpProject.project_puid === sbpPrjId}">
+										<td>{{sbpProject.project_name}}</td>
 									</tr>
 								</table>
 							</div>
 							<div class="modalFooter">
-								<img src="images/btn_add.png"
-								onmouseover="this.src='images/btn_add_hover.png'"
-								onmouseout="this.src='images/btn_add.png'" />
+								<img class='addImg' ng-click="selectSbpProjectComplete()" src="images/btn_save.png"/>
 							</div>
 							<!-- <button class="selectValueButton" type="button" ng-click="closeSbpProjectListModal()">select n close</button> -->
 						</div>
@@ -66,10 +86,14 @@
 							<td><input name="" type="text"/></td>
 							<td><input name="" type="text"/></td>
 							<td><input name="" type="text"/></td>
-							<td><a href='' ng-click='removeAttribute(attribute, $index)'>-</a></td>
+							<td><a href='' ng-click='removeAttribute(attribute, $index)'>
+								<img src="images/btn_box_delete.png"
+									onmouseover="this.src='images/btn_box_delete_hover.png'"
+									onmouseout="this.src='images/btn_box_delete.png'" /></a>
+							</td>
 						</tr>
 					</table>
-					<a href="" ng-click="addAttribute()"><img src="images/btn_add.png"
+					<a href="" ng-show="result[0].pssPrjId && result[0].sbpPrjId" ng-click="addAttribute()"><img src="images/btn_add.png"
 						onmouseover="this.src='images/btn_add_hover.png'"
 						onmouseout="this.src='images/btn_add.png'" /></a>
 				</div>
