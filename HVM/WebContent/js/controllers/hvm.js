@@ -8,6 +8,8 @@ angular.module("hvm")
 .constant("getEmptyProject","/HVM/getHvmEmptyProject.sw")
 .constant("getEmptyAttribute","/HVM/getHvmEmptyAttribute.sw")
 .constant("sbpProjectListApi","/HVM/util/crossDomainCaller.jsp")
+.constant("valueDetailFrameUrl","/skkupss/valueSpacePopup.jsp?psId=")
+.constant("pssDetailFrameUrl","/skkupss/psInstanceListPopup.jsp?psId=")
 .controller("hvmCtl", function($scope, $location, $cookies, retrieveCurrentUser, imageServerUrl, logoutSvc){
 
 	$scope.viewType = $cookies.get("nowViewType");

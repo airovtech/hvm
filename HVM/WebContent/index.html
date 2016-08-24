@@ -6,7 +6,7 @@
 
 	<script src="./js/lib/angular.js"></script>
 	<script>
-	angular.module("hvm", ["ngRoute","ngCookies"])
+	angular.module("hvm", ["ngRoute","ngCookies","ngSanitize"])
 		.config(function($routeProvider){
 			var cfData = "hello";
 			
@@ -43,6 +43,10 @@
 	<script src="./js/lib/cookieStore.js"></script>
 	<script src="./js/lib/cookieWriter.js"></script>
 	<script src="./js/lib/ngDialog.js"></script>
+	<script src="./js/lib/angular-sanitize.js"></script>
+	<script src="./js/lib/jquery-1.6.2.min.js"></script>
+	
+	
 	<link href="./js/lib/ngDialog.css" rel="stylesheet" type="text/css" />
 
 

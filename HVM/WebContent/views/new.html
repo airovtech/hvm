@@ -39,34 +39,6 @@
 								onmouseout="this.src='images/btn_add.png'" /></a>
 						</div>
 					</div>
-					<div id="showSbpProjectListModal" class="modal" ng-style="sbpProjectList_modal_style">
-						<div class="modal-content">
-							<div class="modalHeader">
-								<span class="modalTitle">SBP</span>
-								<div class="search">
-									<img src="images/icon_search.png" ng-click="searchSbpPrj()"/> <input name="" type="text"
-										border="1" ng-model="sbpKeyword"/>
-								</div>
-								<span class="closeBtn" ng-click="closeSbpProjectListModal()">x</span>
-							</div>
-							<div class="list">
-								<table width="99%" border="1" cellpadding="0">
-									<tr>
-										<th scope="col">sbp project</th>
-									</tr>
-									<tr ng-repeat="sbpProject in sbp_projects | filter:{ project_name: sbpKeyword } | orderBy:'project_name'"
-										ng-click="selectedSbpProject(sbpProject, $index)"
-										ng-class="{selected : sbpProject.project_puid === sbpPrjId}">
-										<td>{{sbpProject.project_name}}</td>
-									</tr>
-								</table>
-							</div>
-							<div class="modalFooter">
-								<img class='addImg' ng-click="selectSbpProjectComplete()" src="images/btn_save.png"/>
-							</div>
-							<!-- <button class="selectValueButton" type="button" ng-click="closeSbpProjectListModal()">select n close</button> -->
-						</div>
-					</div>
 				</div>
 			</div>
 			<div class="box_right">
@@ -81,7 +53,7 @@
 							<th scope="col"></th>
 						</tr>
 						<tr ng-repeat="attribute in project.attributes">
-							<td><input name="" type="text" /></td>
+							<td><input ng-focus="openValueTreeModal(attribute)" name="" type="text" value="{{attribute.valueName}}"/></td>
 							<td><input name="" type="text" /></td>
 							<td><input name="" type="text"/></td>
 							<td><input name="" type="text"/></td>
@@ -104,6 +76,47 @@
 		</div>
 		<div class="btn">
 			<a href="#" class="btn-cancel">취소</a>
+		</div>
+	</div>
+</div>
+<div id="showSbpProjectListModal" class="modal" ng-style="sbpProjectList_modal_style">
+	<div class="modal-content">
+		<div class="modalHeader">
+			<span class="modalTitle">SBP</span>
+			<div class="search">
+				<img src="images/icon_search.png" ng-click="searchSbpPrj()"/> <input name="" type="text"
+					border="1" ng-model="sbpKeyword"/>
+			</div>
+			<span class="closeBtn" ng-click="closeSbpProjectListModal()">x</span>
+		</div>
+		<div class="list">
+			<table width="99%" border="1" cellpadding="0">
+				<tr>
+					<th scope="col">sbp project</th>
+				</tr>
+				<tr ng-repeat="sbpProject in sbp_projects | filter:{ project_name: sbpKeyword } | orderBy:'project_name'"
+					ng-click="selectedSbpProject(sbpProject, $index)"
+					ng-class="{selected : sbpProject.project_puid === sbpPrjId}">
+					<td>{{sbpProject.project_name}}</td>
+				</tr>
+			</table>
+		</div>
+		<div class="modalFooter">
+			<img class='addImg' ng-click="selectSbpProjectComplete()" src="images/btn_save.png"/>
+		</div>
+	</div>
+</div>
+<div id="showValueTreeModal" class="modal" ng-style="valueTree_modal_style">
+	<div class="modal-content">
+		<div class="modalHeader">
+			<span class="modalTitle">Value</span>
+			<span class="closeBtn" ng-click="closeValueTreeModal()">x</span>
+		</div>
+		<div>
+			<iframe id="valueTree" width="100%" height="400" ng-src="{{trustSrc('value')}}" frameborder="0" ></iframe>
+		</div>
+		<div class="modalFooter">
+			<img class='addImg' ng-click="selectValueTreeModal()" src="images/btn_save.png"/>
 		</div>
 	</div>
 </div>

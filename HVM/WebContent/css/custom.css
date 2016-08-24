@@ -75,7 +75,7 @@
 }
 
 
-.modal-content .list table {border:1px #d7d7d7; border-collapse:collapse; margin:0px;}
+.modal-content .list table {border:1px #d7d7d7; border-collapse:collapse; margin-top:10px;}
 .modal-content .list table th {height:32px; background-color:#f0f0f2; font-size:18px; color:#333; font-weight:normal;;border:1px solid #d7d7d7}
 .modal-content .list table td {height:28px;color:#6e6e6e; font-size:15px; font-weight:100; padding:2px 7px;border-bottom:1px solid #d7d7d7;border:1px solid #d7d7d7}
 .modal-content .list table tr:hover { background-color:#ebf481;cursor:pointer;}
@@ -84,11 +84,16 @@
 .modal-content .search { float:left }
 .modal-content .search input{width:300px; height:30px; border-radius:7px; background:#a2a2c4; margin-left:20px; padding-left:30px; border:1px solid #e7eaee; font-size:15px; color:#666}  
 .modal-content .search input:focus{border:1px solid #d1e701; outline:none;}
-.modal-content .search img { margin:27px 0 0 100px; position:absolute;}
+.modal-content .search img { margin:7px 0 0 30px; position:absolute;}
 
-
-
-
+.modal-content .addImg {
+	position: absolute;
+	top:0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: auto;
+}
 
 .viewType {
 	position: relative;
