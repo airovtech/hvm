@@ -21,6 +21,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import net.smartworks.factory.HvmManagerFactory;
 import net.smartworks.manager.IHvmManager;
+import net.smartworks.model.PagingInfo;
+import net.smartworks.model.SkkupssPssProject;
 import net.smartworks.model.hvm.HvmAttribute;
 import net.smartworks.model.hvm.HvmAttributeCond;
 import net.smartworks.model.hvm.HvmProject;
@@ -31,6 +33,40 @@ import net.smartworks.util.id.IDCreator;
 
 @Controller
 public class HvmController {
+	
+	@RequestMapping(value="/getPagingInfo", method=RequestMethod.POST)
+	public @ResponseBody List getPagingInfo(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		int totalSize = (Integer)requestBody.get("totalSize");
+		int currentPage = (Integer)requestBody.get("currentPage");
+		int pageSize = (Integer)requestBody.get("pageSize");
+		
+		PagingInfo pi = new PagingInfo();
+		
+		pi.setBlockSize(10);
+		pi.setPageSize(pageSize);
+		pi.setPageNo(currentPage);
+		pi.setTotalCount(totalSize);
+		
+		List<PagingInfo> list = new ArrayList<PagingInfo>();
+		list.add(pi);
+		
+		return list;
+	}
+	
+	@RequestMapping(value="/getSkupssProjects", method=RequestMethod.POST)
+	public @ResponseBody List getSkupssProjects(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		Login currentUser = HvmUtil.getCurrentUserInfo();
+		
+		IHvmManager hvmMgr = HvmManagerFactory.getInstance().getHvmManager();
+		HvmProjectCond cond = new HvmProjectCond();
+		
+		String psId = (String)requestBody.get("psId");
+		
+		List<SkkupssPssProject> list = hvmMgr.getSkkupssPssProject(currentUser.getId(), psId);
+		return list;
+	}
 	
 	@RequestMapping(value="/getHvmProjectSize", method=RequestMethod.POST)
 	public @ResponseBody Map getHvmProjectSize(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -88,8 +124,12 @@ public class HvmController {
 		String searchKey = (String)requestBody.get("searchKey");
 		int pageSize = (Integer)requestBody.get("pageSize");
 		int pageNo = (Integer)requestBody.get("pageNo");
+		String psId = (String)requestBody.get("psId");
 		if (searchKey != null && searchKey.length() != 0) {
 			cond.setSearchKey(searchKey);
+		}
+		if (psId != null && psId.length() != 0) {
+			cond.setPssPrjId(psId);
 		}
 		cond.setPageSize(pageSize);
 		cond.setPageNo(pageNo);

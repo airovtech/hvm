@@ -18,10 +18,11 @@ public class HvmUtil {
 //		return testUser;
 		
 		
-		Login user = new Login("tester","1","테스터","pic.jpg");
-		return user;
+//		Login user = new Login("tester","1","테스터","pic.jpg");
+//		return user;
 
-//        Login userDetails = (Login)SecurityContextHolder.getContext().getAuthentication().getDetails();
+        Login userDetails = (Login)SecurityContextHolder.getContext().getAuthentication().getDetails();
+        return userDetails;
 //		
 //		return userDetails;
 			

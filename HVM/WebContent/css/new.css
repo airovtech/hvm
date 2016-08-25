@@ -27,6 +27,11 @@
 	margin: auto;
 } */
 
+#contents_bottom .box_left .pss .title {position:relative; width:350px; height:20px; background-color:#f0f0f2; font-size:17px; color:#333; margin:20px 0 0 30px; padding:7px 0 7px 15px;} 
+
+#contents_bottom .box_left .pss .title img {position: absolute; right:10px;bottom:5px;} 
+
+#contents_bottom .box_left .pss .pss_new {position:relative; width:362px; height:50px; border:1px solid #d7d7d7;margin:20px 0 0 30px;text-align:center;line-height:50px;}
 
 #contents_bottom .box_left .sbp .title {position:relative; width:350px; height:20px; background-color:#f0f0f2; font-size:17px; color:#333; margin:20px 0 0 30px; padding:7px 0 7px 15px;} 
 
@@ -64,6 +69,11 @@
 .selected {
   background-color: #ebf481;
 }
+
+
+
+
+
 
 
 

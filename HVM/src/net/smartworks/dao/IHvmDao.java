@@ -2,12 +2,15 @@ package net.smartworks.dao;
 
 import java.util.List;
 
+import net.smartworks.model.SkkupssPssProject;
 import net.smartworks.model.hvm.HvmAttribute;
 import net.smartworks.model.hvm.HvmAttributeCond;
 import net.smartworks.model.hvm.HvmProject;
 import net.smartworks.model.hvm.HvmProjectCond;
 
 public interface IHvmDao {
+
+	public List<SkkupssPssProject> getSkkupssPssProject(String userId, String psId) throws Exception;
 	
 	public Long getHvmProjectSize(String userId, HvmProjectCond cond) throws Exception;
 	

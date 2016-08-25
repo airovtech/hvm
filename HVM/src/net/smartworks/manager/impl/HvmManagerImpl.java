@@ -1,6 +1,7 @@
 package net.smartworks.manager.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +10,7 @@ import net.smartworks.dao.IHvmDao;
 import net.smartworks.dao.IUserDao;
 import net.smartworks.factory.HvmDaoFactory;
 import net.smartworks.manager.IHvmManager;
+import net.smartworks.model.SkkupssPssProject;
 import net.smartworks.model.hvm.HvmAttribute;
 import net.smartworks.model.hvm.HvmAttributeCond;
 import net.smartworks.model.hvm.HvmProject;
@@ -69,7 +71,20 @@ public class HvmManagerImpl implements IHvmManager {
 	@Override
 	public boolean setHvmProject(String userId, HvmProject project) throws Exception {
 		
+		if (project.getCreatedUser() == null || project.getCreatedUser().length() == 0) {
+			project.setCreatedUser(userId);
+		}
+		if (project.getCreatedDate() == null) {
+			project.setCreatedDate(new Date());
+		}
+		if (project.getLastModifiedUser() == null || project.getLastModifiedUser().length() == 0) {
+			project.setLastModifiedUser(userId);
+		}
+		if (project.getLastModifiedDate() == null) {
+			project.setLastModifiedDate(new Date());
+		}
 		this.getHvmDao().setHvmProject(userId, project);
+		
 		return true;
 		
 	}
@@ -94,6 +109,12 @@ public class HvmManagerImpl implements IHvmManager {
 	public List<HvmAttribute> getHvmAttributes(String userId, HvmAttributeCond cond) throws Exception {
 		
 		List<HvmAttribute> result = this.getHvmDao().getHvmAttributes(userId, cond);
+		return result;
+	}
+	@Override
+	public List<SkkupssPssProject> getSkkupssPssProject(String userId, String psId) throws Exception {
+
+		List<SkkupssPssProject> result = this.getHvmDao().getSkkupssPssProject(userId, psId);
 		return result;
 	}
 

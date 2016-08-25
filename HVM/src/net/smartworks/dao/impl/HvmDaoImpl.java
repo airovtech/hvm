@@ -13,6 +13,8 @@ import org.springframework.jdbc.core.PreparedStatementSetter;
 import net.smartworks.dao.IHvmDao;
 import net.smartworks.dao.mapper.HvmAttributeMapper;
 import net.smartworks.dao.mapper.HvmProjectMapper;
+import net.smartworks.dao.mapper.SkkupssPssProjectMapper;
+import net.smartworks.model.SkkupssPssProject;
 import net.smartworks.model.hvm.HvmAttribute;
 import net.smartworks.model.hvm.HvmAttributeCond;
 import net.smartworks.model.hvm.HvmProject;
@@ -53,6 +55,7 @@ public class HvmDaoImpl implements IHvmDao {
 	private void setProjectQuery(StringBuffer query, HvmProjectCond cond) throws Exception {
 
 		String searchKey = cond.getSearchKey();
+		String pssPrjId = cond.getPssPrjId();
 		
 		query.append(" from ");
 		query.append(" hvmproject ");
@@ -70,6 +73,9 @@ public class HvmDaoImpl implements IHvmDao {
 			query.append(" 	group by prj.id ");
 			query.append(" ) ");
 		}
+		if (pssPrjId != null) {
+			query.append(" and pssPrjId=? ");
+		}
 	}
 	
 	@Override
@@ -80,13 +86,15 @@ public class HvmDaoImpl implements IHvmDao {
 		int offSet = pageNo == 0 ? 0 : pageNo * pageSize;
 		
 		String searchKey = cond.getSearchKey();
+		String pssPrjId = cond.getPssPrjId();
 		
 		
 		StringBuffer query = new StringBuffer();
 		query.append(" select * ");
 		
 		setProjectQuery(query, cond);
-		
+
+		query.append(" order by lastmodifieddate desc ");
 		query.append(" limit ? ");
 		query.append(" offset ? ");
 		
@@ -102,11 +110,25 @@ public class HvmDaoImpl implements IHvmDao {
 							preparedStatement.setString(5, likeSearchKey);
 							preparedStatement.setString(6, likeSearchKey);
 							preparedStatement.setString(7, likeSearchKey);
-							preparedStatement.setInt(8, pageSize);
-							preparedStatement.setInt(9, offSet);
+							if (pssPrjId != null) {
+								preparedStatement.setString(8, pssPrjId);
+								preparedStatement.setInt(9, pageSize);
+								preparedStatement.setInt(10, offSet);
+							} else {
+								preparedStatement.setInt(8, pageSize);
+								preparedStatement.setInt(9, offSet);
+							}
 						} else {
-							preparedStatement.setInt(1, pageSize);
-							preparedStatement.setInt(2, offSet);
+							
+							if (pssPrjId != null) {
+								preparedStatement.setString(1, pssPrjId);
+								preparedStatement.setInt(2, pageSize);
+								preparedStatement.setInt(3, offSet);
+							} else {
+								preparedStatement.setInt(1, pageSize);
+								preparedStatement.setInt(2, offSet);
+							}
+							
 						}
 		            }
 				}
@@ -289,6 +311,22 @@ public class HvmDaoImpl implements IHvmDao {
 				, new HvmAttributeMapper());
 		
 		return attrList;
+	}
+
+	@Override
+	public List<SkkupssPssProject> getSkkupssPssProject(String userId, String psId) throws Exception {
+		
+		StringBuffer query = new StringBuffer();
+		query.append(" select id, name, picture, description from productservice where id=? ");
+		
+		List<SkkupssPssProject> pssPrj = jdbcTemplateObject.query(query.toString(), 
+				new PreparedStatementSetter(){
+					public void setValues(PreparedStatement preparedStatement) throws SQLException {
+						preparedStatement.setString(1, psId);
+		            }
+				}
+				, new SkkupssPssProjectMapper());
+		return pssPrj;
 	}
 	
 }

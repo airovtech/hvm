@@ -8,10 +8,19 @@ angular.module("hvm")
 .constant("getEmptyProject","/HVM/getHvmEmptyProject.sw")
 .constant("getEmptyAttribute","/HVM/getHvmEmptyAttribute.sw")
 .constant("sbpProjectListApi","/HVM/util/crossDomainCaller.jsp")
+.constant("pssProjectListApi","/skkupss/layoutsForHvm.jsp")
 .constant("valueDetailFrameUrl","/skkupss/valueSpacePopup.jsp?psId=")
 .constant("pssDetailFrameUrl","/skkupss/psInstanceListPopup.jsp?psId=")
-.controller("hvmCtl", function($scope, $location, $cookies, retrieveCurrentUser, imageServerUrl, logoutSvc){
+.constant("getSkkupssPssProjectListUrl","/HVM/getSkupssProjects.sw")
+.constant("setHvmProjectUrl","/HVM/setHvmProject.sw")
+.constant("getPagingInfoUrl","/HVM/getPagingInfo.sw")
+.controller("hvmCtl", function($scope,$rootScope, $location, $cookies, retrieveCurrentUser, imageServerUrl, logoutSvc){
 
+	
+	$scope.receipPostMessage = function(value) {
+		$rootScope.$broadcast('selectSbpPostMessage', { sbpData: value });
+	}
+	
 	$scope.viewType = $cookies.get("nowViewType");
 	if ($scope.viewType == undefined)
 		$scope.viewType = "Value";
@@ -73,6 +82,14 @@ angular.module("hvm")
 		}
 	}
 }])
+.service("getPagingInfoPost",['$http', function($http){
+	return {
+		getPagingInfo: function(url, totalSize, currentPage, pageSize) {
+			console.log('getPAGINGINFO #### ', url, totalSize, currentPage, pageSize);
+			return $http.post(url,{"totalSize": totalSize,"currentPage":currentPage,"pageSize":pageSize});
+		}
+	}
+}])
 .service("setServicePost",['$http', function($http){
 	return {
 		setObj: function(url, setMode, obj , oldObj) {
@@ -83,9 +100,9 @@ angular.module("hvm")
 }])
 .service("retrieveServicePost",['$http', function($http){
 	return {
-		retrieve: function(url, viewType, keywords, pageSize, pageNo) {
-			console.log(url, viewType, keywords, pageSize, pageNo);
-			return $http.post(url,{"viewType":viewType, "searchKey": keywords,"pageSize":pageSize,"pageNo":pageNo});
+		retrieve: function(url, viewType, keywords, pageSize, pageNo, psId) {
+			console.log(url, viewType, keywords, pageSize, pageNo, psId);
+			return $http.post(url,{"viewType":viewType, "searchKey": keywords,"pageSize":pageSize,"pageNo":pageNo,"psId":psId});
 		}
 	}
 }])
@@ -113,3 +130,23 @@ angular.module("hvm")
         });
     };
 })
+.directive('refreshable', [function () {
+    return {
+        restrict: 'A',
+        scope: {
+            refresh: "=refreshable"
+        },
+        link: function (scope, element, attr) {
+            var refreshMe = function () {
+                element.attr('src', element.attr('src'));
+            };
+
+            scope.$watch('refresh', function (newVal, oldVal) {
+                if (scope.refresh) {
+                    scope.refresh = false;
+                    refreshMe();
+                }
+            });
+        }
+    };
+}])

@@ -14,7 +14,7 @@
 				templateUrl: "/HVM/views/projectList.html"
 				,controller: "projectListCtrl"
 			});
-			$routeProvider.when("/newProject",{
+			$routeProvider.when("/newProject/:psId",{
 				templateUrl: "/HVM/views/new.html"
 				,controller: "newProjectCtrl"
 				//,cfData:cfData
@@ -31,7 +31,20 @@
 			$routeProvider.otherwise({
 		        redirectTo: '/projectList'
 			});
-		});
+		})
+		.run(['$route', '$rootScope', '$location', function ($route, $rootScope, $location) {
+		    var original = $location.path;
+		    $location.path = function (path, reload) {
+		        if (reload === false) {
+		            var lastRoute = $route.current;
+		            var un = $rootScope.$on('$locationChangeSuccess', function () {
+		                $route.current = lastRoute;
+		                un();
+		            });
+		        }
+		        return original.apply($location, [path]);
+		    };
+		}])
 	
 	</script>
 	<script src="./js/controllers/hvm.js"></script>
@@ -56,7 +69,30 @@
 	<link href="css/new.css" rel="stylesheet" type="text/css" />
 
 </head>
-<body ng-controller="hvmCtl">
+<script type="text/javascript">
+
+	//Create IE + others compatible event handler
+	var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
+	var eventer = window[eventMethod];
+	var messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
+	
+	// Listen to message from child window
+	eventer(messageEvent,function(e) {
+		console.log('parent received message!:  ',e.data);
+		//document.getElementById("messageFromSub").innerHTML += e.data;
+		$('#selectedActivity').val(e.data)
+		
+		/* $scope.$apply(function(){
+	        $scope.selectedActivity = "Hi jQuery";  //변경 내용이 화면에 나타남
+	    }); */
+		angular.element(document.getElementById("hvmCtrlBody")).scope().receipPostMessage(e.data);
+		angular.element(document.getElementById("hvmCtrlBody")).scope().$apply();
+		
+		
+	},false)
+
+</script>
+<body id='hvmCtrlBody' ng-controller="hvmCtl">
 	<div id="header">
 		<ul>
 			<li class="logo"><a href="" ng-click="mainView()"><img src="images/logo.png" /></a></li>

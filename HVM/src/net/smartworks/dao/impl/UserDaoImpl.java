@@ -22,7 +22,12 @@ public class UserDaoImpl implements IUserDao {
 	@Override
 	public UserInfo getUser(String userId) throws Exception {
 		String SQL = "select * from orguser where id=?";
-		UserInfo userInfo = jdbcTemplateObject.queryForObject(SQL, new Object[] { userId }, new UserMapper());
+		UserInfo userInfo = null;
+		try {
+			userInfo = jdbcTemplateObject.queryForObject(SQL, new Object[] { userId }, new UserMapper());
+		} catch (Exception e) {
+			System.out.println("getUser : Not Exist User :" + userId);
+		}
 	    return userInfo;
 	}
 	

@@ -1,7 +1,7 @@
 <div id="contents">
 	<div id="contents_top">
 		<div class="btn">
-			<a href="#/newProject" class="btn-add">+ 새항목 추가</a>
+			<a href="#/newProject/new" class="btn-add">+ 새항목 추가</a>
 		</div>
 
 		<div class="viewType" ng-mouseleave="showViewTypeList = false">
@@ -28,7 +28,7 @@
 		</div>	
 		<div id="contents_bottom" ng-repeat="project in result">
 			<div class="box_header">
-				<span><a href=""><img src="images/btn_edit.png" /></a></span> <span><a
+				<span><a href="#/newProject/{{project.pssPrjId}}"><img src="images/btn_edit.png" /></a></span> <span><a
 					href=""><img src="images/btn_delete.png" ng-click="removeProject(project)"/></a></span>
 
 				<div class="preparingPerson">
@@ -74,11 +74,11 @@
 							</tr>
 							<tr ng-repeat="attr in project.attributes | orderBy:'valueName'"
 								" ng-init="attr.sbpIndex=getSbpGroupIndex(project,project.sbpPrjName +'_'+ attr.sbpName)">
-								<td>{{attr.valueName}}</td>
+								<td ng-click="openValueViewModal(project.pssPrjId, attr.valueName)">{{attr.valueName}}</td>
 								<td>{{attr.attributeName}}</td>
 								<td class="pn">{{attr.attributeType}}</td>
-								<td>{{attr.activityName}}</td>
-								<td class="sbp">{{attr.sbpIndex}}</td>
+								<td ng-click="openActivityViewModal(attr)">{{attr.activityName}}</td>
+								<td class="sbp" ng-click="openSbpViewModal(attr.sbpId, attr.sbpName)">{{attr.sbpIndex}}</td>
 							</tr>
 						</table>
 					</div>
@@ -93,7 +93,7 @@
 							</tr>
 							<tr
 								ng-repeat="attr in project.attributes | orderBy:'activityName'"
-								" ng-init="attr.sbpIndex=getSbpGroupIndex(project,project.sbpPrjName +'_'+ attr.sbpName)">
+								ng-init="attr.sbpIndex=getSbpGroupIndex(project,project.sbpPrjName +'_'+ attr.sbpName)">
 								<td>{{attr.activityName}}</td>
 								<td class="sbp">{{attr.sbpIndex}}</td>
 								<td>{{attr.attributeName}}</td>
@@ -105,15 +105,28 @@
 				</div>
 			</div>
 		</div>
-		<div align="center" ng-show="result.length">
+<!-- 		<div align="center" ng-show="result.length">
 			<ul class="pagination pagination-sm">
-				<!-- <li><a href="">«</a></li> -->
+				<li><a href="">«</a></li>
 				<li><a href=""
 					ng-repeat="n in [].constructor(totalPages) track by $index"
 					ng-click="clickPrjPageNo($index)">{{$index + 1}}</a></li>
-				<!-- <li><a href="">»</a></li> -->
+				<li><a href="">»</a></li>
+			</ul>
+		</div> -->
+		<div align="center" ng-show="result.length">
+			<ul class="pagination pagination-sm">
+				<li><a  href="" ng-click="clickPrjPrevPage()">«</a></li>
+				<li><a href=""
+					ng-class="getPrjPagingCountStyle(n)"
+					ng-repeat="n in projectPagingCounts track by $index"
+					ng-click="clickPrjPageNo(n-1)">{{n}}</a></li>
+				<li><a href="" ng-click="clickPrjNextPage()">»</a></li>
 			</ul>
 		</div>
+
+
+
 
 	</div>
 	<div ng-show="showAttributeList">
@@ -152,12 +165,46 @@
 		</div>
 		<div align="center" ng-show="attrResult.length">
 			<ul class="pagination pagination-sm">
-				<!-- <li><a href="">«</a></li> -->
+				<li><a ng-click="clickAttrPrevPage()">«</a></li>
 				<li><a href=""
-					ng-repeat="n in [].constructor(totalAttrPages) track by $index"
-					ng-click="clickAttrPageNo($index)">{{$index + 1}}</a></li>
-				<!-- <li><a href="">»</a></li> -->
+					ng-class="getAttrPagingCountStyle(n)"
+					ng-repeat="n in attrPagingCounts track by $index"
+					ng-click="clickAttrPageNo(n-1)">{{n}}</a></li>
+				<li><a href="" ng-click="clickAttrNextPage()">»</a></li>
 			</ul>
+		</div>
+	</div>
+</div>
+<div id="showActivityViewModal" class="modal" ng-style="activityView_modal_style">
+	<div class="modal-content">
+		<div class="modalHeader">
+			<span class="modalTitle">ACTIVITY</span>
+			<span class="closeBtn" ng-click="closeActivityViewModal()">x</span>
+		</div>
+		<div class="iframe">
+			<iframe refreshable="refreshActView" id="activityView" width="100%" height="600" ng-src="{{trustSrc('activityView')}}" frameborder="0" ></iframe>
+		</div>
+	</div>
+</div>
+<div id="showSbpViewModal" class="modal" ng-style="sbpView_modal_style">
+	<div class="modal-content" style="width:90%;height:90%">
+		<div class="modalHeader">
+			<span class="modalTitle">SBP</span>
+			<span class="closeBtn" ng-click="closeSbpViewModal()">x</span>
+		</div>
+		<div class="iframe">
+			<iframe refreshable="refreshSbpView" id="sbpView" width="100%" height="600" ng-src="{{trustSrc('sbpView')}}" frameborder="0" ></iframe>
+		</div>
+	</div>
+</div>
+<div id="showValueViewModal" class="modal" ng-style="valueView_modal_style">
+	<div class="modal-content">
+		<div class="modalHeader">
+			<span class="modalTitle">Value</span>
+			<span class="closeBtn" ng-click="closeValueViewModal()">x</span>
+		</div>
+		<div>
+			<iframe id="valueView" width="100%" height="400" ng-src="{{trustSrc('valueView')}}" frameborder="0" ></iframe>
 		</div>
 	</div>
 </div>
