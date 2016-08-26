@@ -1,3 +1,4 @@
+<%@page import="java.util.List"%>
 <%@page import="net.smartworks.model.hvm.HvmProjectCond"%>
 <%@page import="net.smartworks.model.hvm.HvmAttribute"%>
 <%@page import="java.util.Date"%>
@@ -26,16 +27,21 @@
 	cond.setPageNo(0);
 	cond.setPageSize(10);
 	
-	HvmProject[] prjs = HvmDaoFactory.getInstance().getHvmDao().getHvmProjects(user.getId(), cond);
 	
-	out.println(prjs.length);
+	cond.setPssPrjName("bag");
 	
-
-	Long size = HvmDaoFactory.getInstance().getHvmDao().getHvmProjectSize(user.getId(), cond);
+	List<HvmProject> prjs = HvmDaoFactory.getInstance().getHvmDao().test(user.getId(), cond);
 	
-	
-	out.println("size:"+size);
-	
+	for (int i = 0; i < prjs.size(); i++) {
+		HvmProject p = prjs.get(i);
+		
+		out.println("PrjId : " + p.getId());
+		out.println("PrjName : " + p.getPssPrjName());
+		out.println("sbpPrjName : " + p.getSbpPrjName());
+		
+		
+		
+	}
 	
 	
 %>

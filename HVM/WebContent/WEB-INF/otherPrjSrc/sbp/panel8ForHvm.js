@@ -1259,7 +1259,9 @@ function callParentForHvm(itemBox, d, set, event) {
         console.log('item : ', message)
         console.log('$$$$$$$$$$$$$$$$$$POST MESSAGE TO PARENT$$$$$$$$$$$$$$$$$$$$$$$');
         //parent.postMessage(message,"http://localhost:3000/parent");
-        parent.postMessage(message,"http://localhost:8080/HVM/hvm2/index.html");
+        parent.postMessage(message,"http://localhost:8080/HVM/index.html");
+        parent.postMessage(message,"http://www.smartworks.net/HVM/index.html");
+        parent.postMessage(message,"http://great.smartworks.net/HVM/index.html");
 	} catch(err) {
 		console.log('ERROR!!');
 		//console.log(err);
