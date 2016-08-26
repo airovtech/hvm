@@ -24,7 +24,7 @@
 				</div>
 				<div class="sbp">
 					<div class="title">
-						SBP project
+						SBP
 						<img ng-show="result[0].sbpPrjId" ng-click="deleteSbpProject()" class="delImg" src="images/btn_box_delete.png"
 								onmouseover="this.src='images/btn_box_delete_hover.png'"
 							onmouseout="this.src='images/btn_box_delete.png'" />
@@ -53,10 +53,11 @@
 							<th scope="col"></th>
 						</tr>
 						<tr ng-repeat="attribute in project.attributes">
-							<td><input ng-focus="openValueTreeModal(attribute)" name="" type="text" ng-model="attribute.valueName"/></td>
-							<td><input name="" type="text" ng-model="attribute.attributeName"/></td>
-							<td><input name="" type="text" ng-model="attribute.attributeType"/></td>
-							<td><input ng-focus="openSbpTreeModal(attribute)" name="" type="text" ng-model="attribute.activityName"/></td>
+							<td><input class="valueTd" ng-focus="openValueTreeModal(attribute)" name="" type="text" ng-model="attribute.valueName"/></td>
+							<td><input name="" type="text" ng-model="attribute.attributeName" ng-disabled="!attribute.valueName"/></td>
+							<!-- <td><input name="" type="text" ng-model="attribute.attributeType"/></td> -->
+							<td><span>P</span><input type="radio" name="chk_pn" value="P" style="width:auto;" ng-disabled="!attribute.valueName"> N<input type="radio" name="chk_pn" value="N" style="width:auto;" ng-disabled="!attribute.valueName"></td>
+							<td><input class="activityTd" ng-focus="openSbpTreeModal(attribute)" name="" type="text" ng-model="attribute.activityName" ng-disabled="!attribute.valueName"/></td>
 							<td><input name="" type="text" ng-model="attribute.sbpName" disabled/></td>
 							<td><a href='' ng-click='removeAttribute(attribute, $index)'>
 								<img src="images/btn_box_delete.png"
@@ -106,7 +107,7 @@
 		<div class="list">
 			<table width="99%" border="1" cellpadding="0">
 				<tr>
-					<th scope="col">sbp project</th>
+					<th scope="col">SBP</th>
 				</tr>
 				<tr ng-repeat="sbpProject in sbp_projects | filter:{ project_name: sbpKeyword } | orderBy:'project_name'"
 					ng-click="selectedSbpProject(sbpProject, $index)"

@@ -30,6 +30,11 @@
 #contents_bottom .box_body .sbp table tr {}
 #contents_bottom .box_body .sbp table tr td {color:#333; border:1px solid #d7d7d7; font-size:15px; padding:6px; }
 
+#contents_bottom .box_body .sbp ul { margin:25px; }
+#contents_bottom .box_body .sbp ul li{ float:left; margin-bottom:15px; }
+#contents_bottom .box_body .sbp ul .project{ font-size:15px; color:#8b8a8a; margin-right:15px;}
+#contents_bottom .box_body .sbp ul .p_name { font-size:17px; color:#333}
+
 #contents_bottom .box_body .list table {border:1px #d7d7d7; border-collapse:collapse; margin:30px 0;}
 #contents_bottom .box_body .list table th {height:32px; background-color:#f0f0f2; font-size:18px; color:#333; font-weight:normal;}
 #contents_bottom .box_body .list table td {height:28px;color:#6e6e6e; font-size:15px; font-weight:100; padding:2px 7px; }
