@@ -60,13 +60,13 @@
 						</ul>
 						<table width="400" border="0" cellpadding="0" cellspacing="0">
 							<tr ng-repeat="sbpGroup in project.sbpGroupList">
-								<td>No.{{$index + 1}}.{{sbpGroup}}</td>
+								<td>No.{{$index + 1}}</td><td>{{sbpGroup}}</td>
 							</tr>
 						</table>
 					</div>
 				</div>
 				<div class="right">
-					<div class="list" ng-show="showAttrList('Value')">
+					<div class="list">
 						<table width="100%" border="1" cellpadding="0">
 							<tr>
 								<th scope="col">Value</th>
@@ -77,31 +77,11 @@
 							</tr>
 							<tr ng-repeat="attr in project.attributes | orderBy:'valueName'"
 								" ng-init="attr.sbpIndex=getSbpGroupIndex(project,project.sbpPrjName +'_'+ attr.sbpName)">
-								<td width="25%" class='valueTd' ng-click="openValueViewModal(project.pssPrjId, attr.valueName)">{{attr.valueName}}</td>
+								<td width="20%" class='valueTd' ng-click="openValueViewModal(project.pssPrjId, attr.valueName)">{{attr.valueName}}</td>
 								<td width="30%"> {{attr.attributeName}}</td>
 								<td width="5%" class="pn">{{attr.attributeType}}</td>
-								<td width="25%" class="activityTd" ng-click="openActivityViewModal(attr)">{{attr.activityName}}</td>
+								<td width="30%" class="activityTd" ng-click="openActivityViewModal(attr)">{{attr.activityName}}</td>
 								<td width="10%" class="sbp sbpTd" ng-click="openSbpViewModal(attr.sbpId, attr.sbpName)">No.{{attr.sbpIndex + 1}}</td>
-							</tr>
-						</table>
-					</div>
-					<div class="list" ng-show="showAttrList('Activity')">
-						<table width="100%" border="1" cellpadding="0">
-							<tr>
-								<th scope="col">Activity</th>
-								<th scope="col">SBP</th>
-								<th scope="col">Attribute</th>
-								<th scope="col">P/N</th>
-								<th scope="col">Value</th>
-							</tr>
-							<tr
-								ng-repeat="attr in project.attributes | orderBy:'activityName'"
-								ng-init="attr.sbpIndex=getSbpGroupIndex(project,project.sbpPrjName +'_'+ attr.sbpName)">
-								<td class="activityTd">{{attr.activityName}}</td>
-								<td class="sbp sbpTd">No.{{attr.sbpIndex + 1}}</td>
-								<td>{{attr.attributeName}}</td>
-								<td class="pn">{{attr.attributeType}}</td>
-								<td class='valueTd'>{{attr.valueName}}</td>
 							</tr>
 						</table>
 					</div>
@@ -145,24 +125,64 @@
 			</div>
 			<div class="box_body_attr">
 				<div class="list">
-					<table width="700" border="1" cellpadding="0">
+					
+					<table ng-show="viewType == 'Value'" width="700" border="1" cellpadding="0">
 						<tr>
+							<th class="keyColumn" scope="col">Value</th>
 							<th scope="col">Attribute</th>
 							<th scope="col">P/N</th>
-							<th scope="col">PSS Project</th>
-							<th scope="col">Value</th>
-							<th scope="col">SBP</th>
 							<th scope="col">Activity</th>
+							<th scope="col">SBP</th>
+							<th scope="col">PSS Project</th>
 						</tr>
-						<tr ng-repeat="attribute in attrResult | orderBy:'attributeName'">
-							<td>{{attribute.attributeName}}</td>
-							<td>{{attribute.attributeType}}</td>
-							<td>{{attribute.project.pssPrjName}}</td>
-							<td>{{attribute.valueName}}</td>
-							<td>{{attribute.project.sbpPrjName}}_{{attribute.sbpName}}</td>
-							<td>{{attribute.activityName}}</td>
+						<tr ng-repeat="attribute in attrResult">
+							<td class="keyColumn" width="10%">{{attribute.valueName}}</td>
+							<td width="20%">{{attribute.attributeName}}</td>
+							<td align="center" width="5%">{{attribute.attributeType}}</td>
+							<td width="15%">{{attribute.activityName}}</td>
+							<td width="25%">{{attribute.project.sbpPrjName}}_{{attribute.sbpName}}</td>
+							<td width="25%">{{attribute.project.pssPrjName}}</td>
 						</tr>
 					</table>
+					
+					<table ng-show="viewType == 'Activity'" width="700" border="1" cellpadding="0">
+						<tr>
+							<th class="keyColumn"  scope="col">Activity</th>
+							<th scope="col">Attribute</th>
+							<th scope="col">P/N</th>
+							<th scope="col">Value</th>
+							<th scope="col">SBP</th>
+							<th scope="col">PSS Project</th>
+						</tr>
+						<tr ng-repeat="attribute in attrResult">
+							<td class="keyColumn"  width="15%">{{attribute.activityName}}</td>
+							<td width="20%">{{attribute.attributeName}}</td>
+							<td align="center" width="5%">{{attribute.attributeType}}</td>
+							<td width="10%">{{attribute.valueName}}</td>
+							<td width="25%">{{attribute.project.sbpPrjName}}_{{attribute.sbpName}}</td>
+							<td width="25%">{{attribute.project.pssPrjName}}</td>
+						</tr>
+					</table>
+					
+					<table ng-show="viewType == 'Attribute'" width="700" border="1" cellpadding="0">
+						<tr>
+							<th class="keyColumn"  scope="col">Attribute</th>
+							<th scope="col">P/N</th>
+							<th scope="col">Value</th>
+							<th scope="col">Activity</th>
+							<th scope="col">SBP</th>
+							<th scope="col">PSS Project</th>
+						</tr>
+						<tr ng-repeat="attribute in attrResult">
+							<td class="keyColumn"  width="20%">{{attribute.attributeName}}</td>
+							<td align="center" width="5%">{{attribute.attributeType}}</td>
+							<td width="10%">{{attribute.valueName}}</td>
+							<td width="15%">{{attribute.activityName}}</td>
+							<td width="25%">{{attribute.project.sbpPrjName}}_{{attribute.sbpName}}</td>
+							<td width="25%">{{attribute.project.pssPrjName}}</td>
+						</tr>
+					</table>
+					
 				</div>
 			</div>
 		</div>
@@ -178,6 +198,28 @@
 		</div>
 	</div>
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- madal area -->
+
 <div id="showActivityViewModal" class="modal" ng-style="activityView_modal_style">
 	<div class="modal-content">
 		<div class="modalHeader">

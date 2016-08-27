@@ -285,6 +285,13 @@ public class HvmDaoImpl implements IHvmDao {
 		
 		setAttributeQuery(query, cond);
 		
+		String orderColumn = cond.getOrderColumn();
+		if (orderColumn != null) {
+			query.append(" order by ").append(orderColumn);
+			if (cond.isDescending())
+				query.append(" desc ");
+		}
+		
 		query.append(" limit ? ");
 		query.append(" offset ? ");
 		

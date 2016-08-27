@@ -1,12 +1,12 @@
 @CHARSET "UTF-8";
 
-
+/* .keyColumn {
+	background-color:red;
+} */
 
 .valueTd, .activityTd, .sbpTd {
 	cursor:pointer;
 }
-
-
 
 .modal {
     display: none; /* Hidden by default */

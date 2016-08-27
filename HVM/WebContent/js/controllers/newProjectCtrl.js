@@ -3,6 +3,45 @@ angular.module("hvm")
 		, retrieveServicePost,searchServicePost, pssProjectListApi, sbpProjectListApi, valueDetailFrameUrl, pssDetailFrameUrl
 		,getProjectListUrl, getSkkupssPssProjectListUrl, setHvmProjectUrl, setServicePost) {
 
+	
+	
+	$scope.$watch('result[0].sbpPrjName', function(newVal, oldVal){
+		$scope.getSbpPrjSbpName()
+    }, true);
+	$scope.$watch('result[0].attributes', function(newVal, oldVal){
+		$scope.getSbpPrjSbpName()
+    }, true);
+	
+	$scope.getSbpPrjSbpName = function() {
+		
+		var project = $scope.result[0];
+		
+		var attrs = project.attributes;
+		var sbpGroupList = null;
+		if (attrs != null && attrs.length != 0) {
+			var sbpPrjName = project.sbpPrjName;
+		
+			for (var j = 0; j < attrs.length; j++) {
+//				var sbpName = attrs[j].sbpName == null ? '' : attrs[j].sbpName;
+				var sbpName = attrs[j].sbpName;
+				if (sbpName != null) {
+					if (sbpGroupList == null)
+						sbpGroupList = [];
+					if (sbpName != null && sbpGroupList.indexOf(sbpPrjName+"_"+sbpName) == -1) {
+						sbpGroupList.push(sbpPrjName+"_"+sbpName);
+					}
+				}
+			}
+		}
+		$scope.sbpGroupList = sbpGroupList;
+	}
+	$scope.getSbpPrjSbpNameNo = function(sbpName) {
+		
+		var project = $scope.result[0];
+		return $scope.sbpGroupList.indexOf(project.sbpPrjName+"_"+sbpName) == -1 ? null : 'No.'+($scope.sbpGroupList.indexOf(project.sbpPrjName+"_"+sbpName) + 1); 
+	
+	}
+	
 	$scope.editProject = function(psId) {
 		retrieveServicePost.retrieve(getProjectListUrl, '', null, 1, 0, psId).then(function(response){
 			if (response.data) {

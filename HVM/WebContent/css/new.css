@@ -11,14 +11,14 @@
 #contents_bottom .box_left .pss .pss_new {position:relative; width:362px; height:110px; border:1px solid #d7d7d7;margin:20px 0 0 30px;}
 
 /* center trick */
-#contents_bottom .box_left .pss .addImg, .sbp .addImg {
+/* #contents_bottom .box_left .pss .addImg, .sbp .addImg {
 	position: absolute;
 	top:0;
 	bottom: 0;
 	left: 0;
 	right: 0;
 	margin: auto;
-}
+} */
 /* #contents_bottom .box_left .delImg {
 	position: absolute;
 	top:0;
@@ -31,13 +31,17 @@
 
 #contents_bottom .box_left .pss .title img {position: absolute; right:10px;bottom:5px;} 
 
-#contents_bottom .box_left .pss .pss_new {position:relative; width:362px; height:50px; border:1px solid #d7d7d7;margin:20px 0 0 30px;text-align:center;line-height:50px;}
+#contents_bottom .box_left .pss .pss_new {padding: 10px 5px 10px 5px; position:relative; width:362px; height:auto; border:1px solid #d7d7d7;margin:20px 0 0 30px;text-align:center;line-height:50px;}
 
 #contents_bottom .box_left .sbp .title {position:relative; width:350px; height:20px; background-color:#f0f0f2; font-size:17px; color:#333; margin:20px 0 0 30px; padding:7px 0 7px 15px;} 
 
 #contents_bottom .box_left .sbp .title img {position: absolute; right:10px;bottom:5px;} 
 
-#contents_bottom .box_left .sbp .sbp_new {position:relative; width:362px; height:50px; border:1px solid #d7d7d7;margin:20px 0 0 30px;text-align:center;line-height:50px;}
+#contents_bottom .box_left .sbp .sbp_new {padding:0 5px 0 5px; position:relative; width:362px; height:auto; margin:20px 0 0 30px;text-align:center;}
+#contents_bottom .box_left .sbp .sbp_new .addSbpBtnDiv {padding: 10px 5px 10px 5px; width:362px; border:1px solid #d7d7d7;}
+#contents_bottom .box_left .sbp .sbp_new table {text-align:left; font-size:15px;border:1px solid #d7d7d7; border-collapse:collapse;}
+#contents_bottom .box_left .sbp .sbp_new table td {color:#333; border:1px solid #d7d7d7; font-size:15px; padding:6px; }
+/* #contents_bottom .box_left .sbp .sbp_new {position:relative; width:362px; height:50px; border:1px solid #d7d7d7;margin:20px 0 0 30px;text-align:center;line-height:50px;} */
 
 #contents_bottom .box_right {overflow: hidden; margin-right:25px}
 

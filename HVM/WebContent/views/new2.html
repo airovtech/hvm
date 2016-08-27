@@ -5,111 +5,47 @@
 		<div class="box_body_new" ng-repeat="project in result">
 			<div class="box_left">
 				<div class="pss">
-					<div class="title">PSS project</div>
+					<div class="title">
+						PSS project
+						<img ng-show="result[0].pssPrjId" ng-click="deletePssProject()" class="delImg" src="images/btn_box_delete.png"
+								onmouseover="this.src='images/btn_box_delete_hover.png'"
+							onmouseout="this.src='images/btn_box_delete.png'" />
+					</div>
 					<div class="pss_new">
-						<a href="">
-							<img src="images/btn_add.png" onmouseover="this.src='images/btn_add_hover.png'"onmouseout="this.src='images/btn_add.png'" />
-						</a>
+						<div ng-show="result[0].pssPrjId">
+							{{project.pssPrjName}}
+						</div>
+						<div ng-show="!result[0].pssPrjId">
+							<a href="" ng-click="openPssProjectListModal()">
+								<img class='addImg' src="images/btn_add.png" onmouseover="this.src='images/btn_add_hover.png'"onmouseout="this.src='images/btn_add.png'" />
+							</a>
+						</div>
 					</div>
 				</div>
 				<div class="sbp">
-					<div class="title">SBP project</div>
-					<div class="sbp_new">
-						<a href="" ng-click="openSbpProjectListModal()"><img src="images/btn_add.png"
-							onmouseover="this.src='images/btn_add_hover.png'"
-							onmouseout="this.src='images/btn_add.png'" /></a>
+					<div class="title">
+						SBP
+						<img ng-show="result[0].sbpPrjId" ng-click="deleteSbpProject()" class="delImg" src="images/btn_box_delete.png"
+								onmouseover="this.src='images/btn_box_delete_hover.png'"
+							onmouseout="this.src='images/btn_box_delete.png'" />
 					</div>
-					<div id="showSbpProjectListModal" class="modal" ng-style="sbpProjectList_modal_style">
-						<div class="modal-content">
-							<div class="modalHeader">
-								<span class="modalTitle">SBP</span>
-								<span class="closeBtn" ng-click="closeSbpProjectListModal()">x</span>
-							</div>
-							<div class="list">
-								<table width="100%" border="1" cellpadding="0">
-									<tr>
-										<th scope="col">SbpPrjName</th>
-										<th scope="col">CreatedDate</th>
-										<th scope="col">CreatedUser</th>
-									</tr>
-									<tr>
-										<td>테스트</td>
-										<td class="pn">2016.08.01</td>
-										<td>사원 테스터</td>
-									</tr>
-									<tr>
-										<td>테스트</td>
-										<td class="pn">2016.08.01</td>
-										<td>사원 테스터</td>
-									</tr>
-									<tr>
-										<td>테스트</td>
-										<td class="pn">2016.08.01</td>
-										<td>사원 테스터</td>
-									</tr>
-									<tr>
-										<td>테스트</td>
-										<td class="pn">2016.08.01</td>
-										<td>사원 테스터</td>
-									</tr>
-									<tr>
-										<td>테스트</td>
-										<td class="pn">2016.08.01</td>
-										<td>사원 테스터</td>
-									</tr>
-									<tr>
-										<td>테스트</td>
-										<td class="pn">2016.08.01</td>
-										<td>사원 테스터</td>
-									</tr>
-									<tr>
-										<td>테스트</td>
-										<td class="pn">2016.08.01</td>
-										<td>사원 테스터</td>
-									</tr>
-									<tr>
-										<td>테스트</td>
-										<td class="pn">2016.08.01</td>
-										<td>사원 테스터</td>
-									</tr>
-									<tr>
-										<td>테스트</td>
-										<td class="pn">2016.08.01</td>
-										<td>사원 테스터</td>
-									</tr>
-									<tr>
-										<td>테스트</td>
-										<td class="pn">2016.08.01</td>
-										<td>사원 테스터</td>
-									</tr>
-									<tr>
-										<td>테스트</td>
-										<td class="pn">2016.08.01</td>
-										<td>사원 테스터</td>
-									</tr>
-									<tr>
-										<td>테스트</td>
-										<td class="pn">2016.08.01</td>
-										<td>사원 테스터</td>
-									</tr>
-									<tr>
-										<td>테스트</td>
-										<td class="pn">2016.08.01</td>
-										<td>사원 테스터</td>
-									</tr>
-									<tr>
-										<td>테스트</td>
-										<td class="pn">2016.08.01</td>
-										<td>사원 테스터</td>
-									</tr>
-								</table>
-							</div>
-							<div class="modalFooter">
-								<img src="images/btn_add.png"
+					<div class="sbp_new">
+						<div ng-show="result[0].sbpPrjId">
+							<table ng-show="sbpGroupList" width="400" border="0" cellpadding="0" cellspacing="0">
+								<tr ng-repeat="sbpGroupName in sbpGroupList">
+									<td>No.{{$index+1}} {{sbpGroupName}}</td>
+								</tr>
+							</table>
+							<div ng-show="!sbpGroupList">{{result[0].sbpPrjName}}</div>
+						</div>
+						<!-- <div ng-show="result[0].sbpPrjId">
+							<div ng-show="sbpGroupList" ng-repeat="sbpGroupName in sbpGroupList">No.{{$index+1}} {{sbpGroupName}}</div>
+							<div ng-show="!sbpGroupList">{{result[0].sbpPrjName}}</div>
+						</div> -->
+						<div ng-show="!result[0].sbpPrjId">
+							<a href="" ng-click="openSbpProjectListModal()"><img class='addImg' src="images/btn_add.png"
 								onmouseover="this.src='images/btn_add_hover.png'"
-								onmouseout="this.src='images/btn_add.png'" />
-							</div>
-							<!-- <button class="selectValueButton" type="button" ng-click="closeSbpProjectListModal()">select n close</button> -->
+								onmouseout="this.src='images/btn_add.png'" /></a>
 						</div>
 					</div>
 				</div>
@@ -126,25 +62,107 @@
 							<th scope="col"></th>
 						</tr>
 						<tr ng-repeat="attribute in project.attributes">
-							<td><input name="" type="text" /></td>
-							<td><input name="" type="text" /></td>
-							<td><input name="" type="text"/></td>
-							<td><input name="" type="text"/></td>
-							<td><input name="" type="text"/></td>
-							<td><a href='' ng-click='removeAttribute(attribute, $index)'>-</a></td>
+							<td><input class="valueTd" ng-focus="openValueTreeModal(attribute)" name="" type="text" ng-model="attribute.valueName"/></td>
+							<td><input name="" type="text" ng-model="attribute.attributeName" ng-disabled="!attribute.valueName"/></td>
+							<!-- <td><input name="" type="text" ng-model="attribute.attributeType"/></td> -->
+							<td><span>P</span><input type="radio" name="chk_pn" value="P" style="width:auto;" ng-disabled="!attribute.valueName"> N<input type="radio" name="chk_pn" value="N" style="width:auto;" ng-disabled="!attribute.valueName"></td>
+							<td><input class="activityTd" ng-focus="openSbpTreeModal(attribute)" name="" type="text" ng-model="attribute.activityName" ng-disabled="!attribute.valueName"/></td>
+							<!-- <td><input name="" type="text" ng-model="attribute.sbpName" disabled/></td> -->
+							<td><input name="" type="text" disabled ng-value="getSbpPrjSbpNameNo(attribute.sbpName)"/></td>
+							<td><a href='' ng-click='removeAttribute(attribute, $index)'>
+								<img src="images/btn_box_delete.png"
+									onmouseover="this.src='images/btn_box_delete_hover.png'"
+									onmouseout="this.src='images/btn_box_delete.png'" /></a>
+							</td>
 						</tr>
 					</table>
-					<a href="" ng-click="addAttribute()"><img src="images/btn_add.png"
+					<a href="" ng-show="result[0].pssPrjId && result[0].sbpPrjId" ng-click="addAttribute()"><img src="images/btn_add.png"
 						onmouseover="this.src='images/btn_add_hover.png'"
 						onmouseout="this.src='images/btn_add.png'" /></a>
 				</div>
 			</div>
 		</div>
 		<div class="btn">
-			<a href="#" class="btn-save">저장</a>
+			<a ng-click="saveNewProject()" class="btn-save">저장</a>
 		</div>
 		<div class="btn">
-			<a href="#" class="btn-cancel">취소</a>
+			<a ng-click="cancel()"  class="btn-cancel">취소</a>
+		</div>
+	</div>
+</div>
+
+
+
+
+
+<!-- modal area -->
+
+<div id="showPssProjectListModal" class="modal" ng-style="pssProjectList_modal_style">
+	<div class="modal-content" style="width:90%;height:90%">
+		<div class="modalHeader">
+			<span class="modalTitle">PSS</span>
+			<span class="closeBtn" ng-click="closePssProjectListModal()">x</span>
+		</div>
+		<div class="iframe">
+			<iframe refreshable="refreshPss" id="pssProjectList" width="100%" height="600" ng-src="{{pssProjectListUrl}}" frameborder="0" ></iframe>
+		</div>
+		<div class="modalFooter">
+			<img class='addImg' ng-click="selectPssProjectListModal()" src="images/btn_save.png"/>
+		</div>
+	</div>
+</div>
+<div id="showSbpProjectListModal" class="modal" ng-style="sbpProjectList_modal_style">
+	<div class="modal-content" style="width:40%;">
+		<div class="modalHeader">
+			<span class="modalTitle">SBP</span>
+			<div class="search">
+				<img src="images/icon_search.png" ng-click="searchSbpPrj()"/> <input name="" type="text"
+					border="1" ng-model="sbpKeyword"/>
+			</div>
+			<span class="closeBtn" ng-click="closeSbpProjectListModal()">x</span>
+		</div>
+		<div class="list">
+			<table width="99%" border="1" cellpadding="0">
+				<tr>
+					<th scope="col">SBP</th>
+				</tr>
+				<tr ng-repeat="sbpProject in sbp_projects | filter:{ project_name: sbpKeyword } | orderBy:'project_name'"
+					ng-click="selectedSbpProject(sbpProject, $index)"
+					ng-class="{selected : sbpProject.project_puid === sbpPrjId && sbpProject.project_name === sbpPrjName}">
+					<td>{{sbpProject.project_name}}</td>
+				</tr>
+			</table>
+		</div>
+		<div class="modalFooter">
+			<img class='addImg' ng-click="selectSbpProjectComplete()" src="images/btn_save.png"/>
+		</div>
+	</div>
+</div>
+<div id="showValueTreeModal" class="modal" ng-style="valueTree_modal_style">
+	<div class="modal-content">
+		<div class="modalHeader">
+			<span class="modalTitle">Value</span>
+			<span class="closeBtn" ng-click="closeValueTreeModal()">x</span>
+		</div>
+		<div>
+			<iframe id="valueTree" width="100%" height="400" ng-src="{{trustSrc('value')}}" frameborder="0" ></iframe>
+		</div>
+		<div class="modalFooter">
+			<img class='addImg' ng-click="selectValueTreeModal()" src="images/btn_save.png"/>
+		</div>
+	</div>
+</div>
+<div id="showSbpTreeModal" class="modal" ng-style="sbpTree_modal_style">
+	<div class="modal-content" style="width:90%;height:90%">
+		<div class="modalHeader">
+			<span class="modalTitle">SBP</span>
+			<span class="closeBtn" ng-click="closeSbpTreeModal()">x</span>
+		</div>
+		<div class="iframe">
+			<iframe refreshable="refresh" id="sbpTree" width="100%" height="600" ng-src="{{trustSrc('sbp')}}" frameborder="0" ></iframe>
+		</div>
+		<div class="modalFooter" ng-show="tempSbpId">
+			<img class='addImg' ng-click="selectSbpTreeModal()" src="images/btn_save.png"/>
 		</div>
 	</div>
 </div>

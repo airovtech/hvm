@@ -195,11 +195,22 @@ public class HvmController {
 		String searchKey = (String)requestBody.get("searchKey");
 		int pageSize = (Integer)requestBody.get("pageSize");
 		int pageNo = (Integer)requestBody.get("pageNo");
+		
+		String orderColumn = (String)requestBody.get("orderColumn");
+		boolean isDescending = false;
+		if (requestBody.get("isDescending") != null) {
+			isDescending = (Boolean)requestBody.get("isDescending");
+		}
+		
 		if (searchKey != null && searchKey.length() != 0) {
 			cond.setSearchKey(searchKey);
 		}
 		cond.setPageSize(pageSize);
 		cond.setPageNo(pageNo);
+		
+		cond.setOrderColumn(orderColumn);
+		cond.setDescending(isDescending);
+		
 		
 		List<HvmAttribute> list = hvmMgr.getHvmAttributes(currentUser.getId(), cond);
 		

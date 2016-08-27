@@ -72,15 +72,15 @@ angular.module("hvm")
 		};
 	}
 	
-	
 	$scope.viewType = $cookies.get("nowViewType");
-	if ($scope.viewType == undefined)
-		$scope.viewType = "Value";
+	if ($scope.viewType == undefined) {
+		$scope.viewType = "PSS";
+		$scope.showProjectList = true;
+		$scope.showAttributeList = false;
+	}
+	
 	
 	$scope.selectedItem = $scope.viewType;
-	
-	$scope.showProjectList = $scope.viewType == 'Value' || $scope.viewType== 'Activity' ? true : false;
-	$scope.showAttributeList = $scope.viewType == 'Value' || $scope.viewType== 'Activity' ? false : true;
 	
 	$scope.selectViewType = function(index) {
 		//$scope.$apply(function(){
@@ -91,10 +91,23 @@ angular.module("hvm")
 		$cookies.put("nowViewType",$scope.selectItem[index]);
 		$scope.showViewTypeList = false;
 		
-		if ($scope.viewType == 'Value' || $scope.viewType == 'Activity') {
+		if ($scope.viewType == 'PSS') {
 			$scope.showProjectList = true;
 			$scope.showAttributeList = false;
 		} else {
+			
+			var orderColumn = null;
+			
+			if ($scope.viewType == 'Value') {
+				orderColumn = 'valueName';
+			} else if ($scope.viewType == 'Activity') {
+				orderColumn = 'activityName';
+			} else if ($scope.viewType == 'Attribute') {
+				orderColumn = 'attributeName';
+			}
+			
+			$scope.clickAttrPageNo(0, orderColumn)
+			
 			$scope.showProjectList = false;
 			$scope.showAttributeList = true;
 		}
@@ -190,8 +203,6 @@ angular.module("hvm")
 				}
 				$scope.prjPrevPage = pagingInfo.prevPageNo-1;
 				$scope.prjNextPage = pagingInfo.nextPageNo-1;
-//				$scope.prjPrevPage = pNo === 0 ? 0 : pNo-1;
-//				$scope.prjNextPage = pNo === pagingInfo.finalPageNo-1 ? pagingInfo.finalPageNo-1 : pNo+1;
 			})
 			
 			
@@ -204,11 +215,7 @@ angular.module("hvm")
 	}
 	$scope.clickPrjPageNo(0);
 	
-//	$scope.editValue = function(value) {
-//		$rootScope.editObj = value;
-//		$location.path("/newAttr/"+$scope.viewType);
-//	}
-	
+
 	
 	//attribute page pagenation
 	$scope.attrPageSize = 20;
@@ -232,7 +239,8 @@ angular.module("hvm")
 		$scope.clickAttrPageNo($scope.attrNextPage);
 	}
 	
-	$scope.clickAttrPageNo = function(pNo) {
+	$scope.clickAttrPageNo = function(pNo, orderColumn) {
+		
 		$scope.attrPageNo = pNo;
 		
 		retrieveServicePost.retrieve(getAttributeListSizeUrl, $scope.viewType, $scope.keywords).then(function(response){
@@ -247,17 +255,33 @@ angular.module("hvm")
 				}
 				$scope.attrPrevPage = pagingInfo.prevPageNo-1;
 				$scope.attrNextPage = pagingInfo.nextPageNo-1;
-//				$scope.attrPrevPage = pNo === 0 ? 0 : pNo-1;
-//				$scope.attrNextPage = pNo === pagingInfo.finalPageNo-1 ? pagingInfo.finalPageNo-1 : pNo+1;
 			})
 			
 		})
-		retrieveServicePost.retrieve(getAttributeListUrl, $scope.viewType, $scope.keywords, $scope.attrPageSize, $scope.attrPageNo).then(function(response){
+		retrieveServicePost.retrieve(getAttributeListUrl, $scope.viewType, $scope.keywords, $scope.attrPageSize, $scope.attrPageNo, null, orderColumn, false).then(function(response){
 			$scope.attrResult = response.data;
 			//console.log('projectListCtrl : resultAttribute : ',JSON.stringify($scope.attrResult))
 		})
 	}
-	$scope.clickAttrPageNo(0);
+	//$scope.clickAttrPageNo(0);
 	
-	
+	if ($scope.viewType == 'PSS') {
+		$scope.showProjectList = true;
+		$scope.showAttributeList = false;
+	} else {
+		
+		if ($scope.viewType == 'Value') {
+			orderColumn = 'valueName';
+		} else if ($scope.viewType == 'Activity') {
+			orderColumn = 'activityName';
+		} else if ($scope.viewType == 'Attribute') {
+			orderColumn = 'attributeName';
+		}
+		
+		$scope.clickAttrPageNo(0, orderColumn)
+		
+		
+		$scope.showProjectList = false;
+		$scope.showAttributeList = true;
+	}
 })

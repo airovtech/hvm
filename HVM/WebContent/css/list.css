@@ -26,7 +26,7 @@
 /*#contents_bottom .box_body .pss .explain .text{font-size:17px; color:#8f8f8f; line-height:22px; display:table-cell; vertical-align:middle;​}  */
 #contents_bottom .box_body .pss .explain .text{font-size:17px; color:#8f8f8f; line-height:22px; vertical-align:middle;​}
 
-#contents_bottom .box_body .sbp table {margin:25px; border:1px #d7d7d7; border-collapse:collapse;}
+#contents_bottom .box_body .sbp table {clear:both;margin:25px; border:1px #d7d7d7; border-collapse:collapse;}
 #contents_bottom .box_body .sbp table tr {}
 #contents_bottom .box_body .sbp table tr td {color:#333; border:1px solid #d7d7d7; font-size:15px; padding:6px; }
 
@@ -44,6 +44,9 @@
 #contents_bottom .box_body_attr { background-color:#fff; margin-bottom:50px; padding:40px;}
 #contents_bottom .box_body_attr .list table {border:1px #d7d7d7; border-collapse:collapse; width:100%;}
 #contents_bottom .box_body_attr .list table th {height:32px; background-color:#f0f0f2; font-size:18px; color:#333; font-weight:normal;}
+
+#contents_bottom .box_body_attr .list table .keyColumn {background-color:#f0f0f2;}
+
 #contents_bottom .box_body_attr .list table td {height:28px;color:#6e6e6e; font-size:15px; font-weight:100; padding:2px 7px;}
 
-#contents_bottom .box_body_attr .list table td:nth-child(2) { text-align:center;}
+/* #contents_bottom .box_body_attr .list table td:nth-child(2) { text-align:center;} */

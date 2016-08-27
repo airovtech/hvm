@@ -23,10 +23,10 @@ angular.module("hvm")
 	
 	$scope.viewType = $cookies.get("nowViewType");
 	if ($scope.viewType == undefined)
-		$scope.viewType = "Value";
+		$scope.viewType = "PSS";
 	
 	//상단 뷰타입을 결정
-	$scope.selectItem = ["Value","Activity","Attribute"];
+	$scope.selectItem = ["PSS", "Value","Activity","Attribute"];
 	$scope.selectedItem = $scope.viewType;
 
 	
@@ -44,7 +44,7 @@ angular.module("hvm")
 	
 	$scope.mainView = function(){
 		$cookies.put("nowViewType","Value");
-		$scope.viewType ="Value";
+		$scope.viewType ="PSS";
 		$location.path("/valueList");
 	};
 
@@ -100,9 +100,9 @@ angular.module("hvm")
 }])
 .service("retrieveServicePost",['$http', function($http){
 	return {
-		retrieve: function(url, viewType, keywords, pageSize, pageNo, psId) {
-			console.log(url, viewType, keywords, pageSize, pageNo, psId);
-			return $http.post(url,{"viewType":viewType, "searchKey": keywords,"pageSize":pageSize,"pageNo":pageNo,"psId":psId});
+		retrieve: function(url, viewType, keywords, pageSize, pageNo, psId, orderColumn, isDescending) {
+			console.log(url, viewType, keywords, pageSize, pageNo, psId, orderColumn, isDescending);
+			return $http.post(url,{"viewType":viewType, "searchKey": keywords,"pageSize":pageSize,"pageNo":pageNo,"psId":psId,"orderColumn":orderColumn,"isDescending":isDescending});
 		}
 	}
 }])

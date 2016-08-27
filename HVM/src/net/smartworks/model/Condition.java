@@ -7,6 +7,9 @@ public class Condition {
 	private int pageSize = -1;
 	private int pageNo = -1;
 	
+	private String orderColumn;
+	private boolean isDescending;
+	
 	public String getViewType() {
 		return viewType;
 	}
@@ -31,4 +34,18 @@ public class Condition {
 	public void setPageNo(int pageNo) {
 		this.pageNo = pageNo;
 	}
+	public String getOrderColumn() {
+		return orderColumn;
+	}
+	public void setOrderColumn(String orderColumn) {
+		this.orderColumn = orderColumn;
+	}
+	public boolean isDescending() {
+		return isDescending;
+	}
+	public void setDescending(boolean isDescending) {
+		this.isDescending = isDescending;
+	}
+	
+	
 }

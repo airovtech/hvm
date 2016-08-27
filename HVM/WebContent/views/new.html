@@ -31,9 +31,18 @@
 					</div>
 					<div class="sbp_new">
 						<div ng-show="result[0].sbpPrjId">
-							{{result[0].sbpPrjName}}
+							<table ng-show="sbpGroupList" width="100%">
+								<tr ng-repeat="sbpGroupName in sbpGroupList">
+									<td>No.{{$index+1}}</td><td>{{sbpGroupName}}</td>
+								</tr>
+							</table>
+							<div class='addSbpBtnDiv' ng-show="!sbpGroupList">{{result[0].sbpPrjName}}</div>
 						</div>
-						<div ng-show="!result[0].sbpPrjId">
+						<!-- <div ng-show="result[0].sbpPrjId">
+							<div ng-show="sbpGroupList" ng-repeat="sbpGroupName in sbpGroupList">No.{{$index+1}} {{sbpGroupName}}</div>
+							<div ng-show="!sbpGroupList">{{result[0].sbpPrjName}}</div>
+						</div> -->
+						<div class="addSbpBtnDiv" ng-show="!result[0].sbpPrjId">
 							<a href="" ng-click="openSbpProjectListModal()"><img class='addImg' src="images/btn_add.png"
 								onmouseover="this.src='images/btn_add_hover.png'"
 								onmouseout="this.src='images/btn_add.png'" /></a>
@@ -53,13 +62,14 @@
 							<th scope="col"></th>
 						</tr>
 						<tr ng-repeat="attribute in project.attributes">
-							<td><input class="valueTd" ng-focus="openValueTreeModal(attribute)" name="" type="text" ng-model="attribute.valueName"/></td>
-							<td><input name="" type="text" ng-model="attribute.attributeName" ng-disabled="!attribute.valueName"/></td>
+							<td width="20%"><input class="valueTd" ng-focus="openValueTreeModal(attribute)" name="" type="text" ng-model="attribute.valueName"/></td>
+							<td width="30%"><input style="width:95%;" name="" type="text" ng-model="attribute.attributeName" ng-disabled="!attribute.valueName"/></td>
 							<!-- <td><input name="" type="text" ng-model="attribute.attributeType"/></td> -->
-							<td><span>P</span><input type="radio" name="chk_pn" value="P" style="width:auto;" ng-disabled="!attribute.valueName"> N<input type="radio" name="chk_pn" value="N" style="width:auto;" ng-disabled="!attribute.valueName"></td>
-							<td><input class="activityTd" ng-focus="openSbpTreeModal(attribute)" name="" type="text" ng-model="attribute.activityName" ng-disabled="!attribute.valueName"/></td>
-							<td><input name="" type="text" ng-model="attribute.sbpName" disabled/></td>
-							<td><a href='' ng-click='removeAttribute(attribute, $index)'>
+							<td width="10%" align="center"><span>P</span><input type="radio" name="chk_pn" value="P" style="width:auto;" ng-disabled="!attribute.valueName"> N<input type="radio" name="chk_pn" value="N" style="width:auto;" ng-disabled="!attribute.valueName"></td>
+							<td width="20%"><input class="activityTd" ng-focus="openSbpTreeModal(attribute)" name="" type="text" ng-model="attribute.activityName" ng-disabled="!attribute.valueName"/></td>
+							<!-- <td><input name="" type="text" ng-model="attribute.sbpName" disabled/></td> -->
+							<td width="5%"><input name="" type="text" disabled ng-value="getSbpPrjSbpNameNo(attribute.sbpName)"/></td>
+							<td width="5%" align="center"><a href='' ng-click='removeAttribute(attribute, $index)'>
 								<img src="images/btn_box_delete.png"
 									onmouseover="this.src='images/btn_box_delete_hover.png'"
 									onmouseout="this.src='images/btn_box_delete.png'" /></a>
@@ -80,6 +90,13 @@
 		</div>
 	</div>
 </div>
+
+
+
+
+
+<!-- modal area -->
+
 <div id="showPssProjectListModal" class="modal" ng-style="pssProjectList_modal_style">
 	<div class="modal-content" style="width:90%;height:90%">
 		<div class="modalHeader">
@@ -111,7 +128,7 @@
 				</tr>
 				<tr ng-repeat="sbpProject in sbp_projects | filter:{ project_name: sbpKeyword } | orderBy:'project_name'"
 					ng-click="selectedSbpProject(sbpProject, $index)"
-					ng-class="{selected : sbpProject.project_puid === sbpPrjId}">
+					ng-class="{selected : sbpProject.project_puid === sbpPrjId && sbpProject.project_name === sbpPrjName}">
 					<td>{{sbpProject.project_name}}</td>
 				</tr>
 			</table>
