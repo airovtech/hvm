@@ -10,7 +10,10 @@ angular.module("hvm")
 		} else if (type === "sbpView") {
 		    //return $sce.trustAsResourceUrl("http://sbp.pssd.or.kr/sbp/listForHvm.jsp?hvm=true&memberId=sbpAdmin&sPUID="+$scope.result[0].sbpPrjId+"&sProjectName="+$scope.result[0].sbpPrjName);
 		    //return $sce.trustAsResourceUrl("http://sbp.pssd.or.kr/sbp/panel8ForHvm.jsp?hvm=true&memberId=&sPUID="+$scope.selectedSbpId+"&sProjectName="+$scope.selectedSbpName);
-		    return $sce.trustAsResourceUrl("http://sbp.pssd.or.kr/sbp/panel8ForHvm.jsp?seq="+$scope.selectedSbpId+"&hvm=true&memberId=&sPUID=&docTitle="+$scope.selectedSbpName);
+		    
+			if ($scope.selectedSbpId != null && $scope.selectedSbpId != undefined)
+				return $sce.trustAsResourceUrl("http://sbp.pssd.or.kr/sbp/panel8ForHvm.jsp?seq="+$scope.selectedSbpId+"&hvm=true&memberId=sbpAdmin&sPUID=&docTitle="+$scope.selectedSbpName+"&sProjectName="+$scope.selectedSbpPrjName);
+
 		} else if (type === "activityView") {
 		    return $sce.trustAsResourceUrl("http://am.pssd.or.kr:9095/AMT_SYSTEM/otherActivityUpdate.runa?user_seq=1&sysType=SBP&operType=SR02&activity_name="+$scope.selectedActivityId+"&united_user_seq=tester&user_id=tester&user_name=tester&project_name=test&project_puid=test");
 		}
@@ -42,10 +45,11 @@ angular.module("hvm")
 	
 	
 	//sbp view modal
-	$scope.openSbpViewModal = function(sbpId, sbpName) {
+	$scope.openSbpViewModal = function(sbpId, sbpName, sbpPrjName) {
 		$scope.refreshSbpView = true;
 		$scope.selectedSbpId = sbpId;
 		$scope.selectedSbpName = sbpName;
+		$scope.selectedSbpPrjName = sbpPrjName;
 		$scope.sbpView_modal_style = {
 				'display' : 'block'
 		};

@@ -45,7 +45,7 @@ angular.module("hvm")
 	$scope.mainView = function(){
 		$cookies.put("nowViewType","Value");
 		$scope.viewType ="PSS";
-		$location.path("/valueList");
+		$location.path("/projectList");
 	};
 
 	
