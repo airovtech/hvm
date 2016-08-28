@@ -33,7 +33,7 @@ angular.module("hvm")
 		$scope.valueView_modal_style = {
 	        'display' : 'block'
 	    };
-		$scope.findElementByTextNPaintOnValueTreeModal(valueName, '#00FF00');
+		//$scope.findElementByTextNPaintOnValueTreeModal(valueName, '#cbe000');
 	}
 	$scope.closeValueViewModal = function() {
 		$scope.findElementByTextNPaintOnValueTreeModal($scope.selectedValueName, '#EAE8E6');
@@ -121,18 +121,28 @@ angular.module("hvm")
 		$location.path('/newProject');
 	}
 	
-	$scope.removeProject = function(project) {
-		var projectId = project.id;
+	
+	$scope.confirmRemovePopup = function(project) {
+
+		$scope.selectedRemoveProject = project;
+		
+		$scope.confirmTitle = 'PSS';
+		$scope.confirmText = "'"+project.pssPrjName+"' 를(을) 삭제 하시겠습니까?" 
+		
+		
+		$scope.confirmActionArray = [$scope.removeProject, $scope.closeConfirmModal]
+		
+		$scope.openConfirmModal();
+		
+	}
+	$scope.removeProject = function() {
+		var projectId = $scope.selectedRemoveProject.id;
+		
+		$scope.selectedRemoveProject = null;
 		
 		removeProjectPost.removeProject(removeProjectUrl, projectId).then(function(response){
-			//alert('delete project done');
-//			var totalSize = response.data.totalSize;
-//			$scope.totalPages = Math.ceil(totalSize/$scope.prjPageSize);
-//			console.log('proejctListCtrl : ' , $scope.totalPages,totalSize);
 			$scope.clickPrjPageNo(0);
-			//$scope.clickAttrPageNo(0);
 		})
-		
 	}
 	
 	$scope.enterKeySearch = function(keyEvent) {
@@ -245,6 +255,16 @@ angular.module("hvm")
 	
 	$scope.clickAttrPageNo = function(pNo, orderColumn) {
 		
+		if (orderColumn == null || orderColumn == undefined) {
+			if ($scope.viewType == 'Value') {
+				orderColumn = 'valueName';
+			} else if ($scope.viewType == 'Activity') {
+				orderColumn = 'activityName';
+			} else if ($scope.viewType == 'Attribute') {
+				orderColumn = 'attributeName';
+			}
+		}
+		
 		$scope.attrPageNo = pNo;
 		
 		retrieveServicePost.retrieve(getAttributeListSizeUrl, $scope.viewType, $scope.keywords).then(function(response){
@@ -291,6 +311,40 @@ angular.module("hvm")
 	
 	
 	//$("#dragableDiv").draggable();
+
+
+	//confirmPssPrj_modal
 	
+	$scope.openConfirmModal = function() {
+		$scope.confirm_modal_style = {
+			'display' : 'block'
+		};
+	}
+	$scope.closeConfirmModal = function() {
+		$scope.clearConfirm()
+		$scope.confirm_modal_style = {
+			'display' : 'none'
+		};
+	}
+	$scope.clearConfirm = function() {
+
+		$scope.confirmTitle = null;
+		$scope.confirmText = null;
+		$scope.confirmAction = null;
+		$scope.confirmActionArray = null;
+	}
+	$scope.confirmModal = function() {
+		
+		if ($scope.confirmAction) {
+			$scope.confirmAction();
+		}
+		if ($scope.confirmActionArray) {
+			for (var i=0 ; i < $scope.confirmActionArray.length; i++) {
+				$scope.confirmActionArray[i]();
+			}
+		}
+		$scope.clearConfirm();
+		
+	}
 	
 })

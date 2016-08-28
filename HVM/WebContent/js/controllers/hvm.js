@@ -17,8 +17,8 @@ angular.module("hvm")
 .controller("hvmCtl", function($scope,$rootScope, $location, $cookies, retrieveCurrentUser, imageServerUrl, logoutSvc){
 
 	
-	$scope.receipPostMessage = function(value) {
-		$rootScope.$broadcast('selectSbpPostMessage', { sbpData: value });
+	$scope.receipPostMessage = function(targetKey, value) {
+		$rootScope.$broadcast(targetKey, { data: value });
 	}
 	
 	$scope.viewType = $cookies.get("nowViewType");

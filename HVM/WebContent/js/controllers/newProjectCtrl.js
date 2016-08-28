@@ -79,20 +79,53 @@ angular.module("hvm")
 			$scope.result[0].attributes.push(attribute);
 		})
 	}
-	
+	$scope.$on('selectValuePostMessage', function(event, args) {
+		//callType||valueText
+		
+		$scope.selectedPssValueName = args.data.split("||")[1];
+		
+		$scope.confirmTitle = 'PSS';
+		$scope.confirmText = "'"+args.data.split("||")[1]+"' 를(을) 선택하시겠습니까?" 
+		
+		$scope.confirmActionArray = [$scope.selectValueTreeModal, $scope.closeConfirmModal]
+		
+		$scope.openConfirmModal();
+		
+	});
+	$scope.$on('selectPssPrjPostMessage', function(event, args) {
+		//callType||psId||psame
+		
+		$scope.selectedPssPrjId = args.data.split("||")[1];
+		$scope.selectedPssPrjName = args.data.split("||")[2];
+		
+		
+		$scope.confirmTitle = 'PSS';
+		$scope.confirmText = "'"+args.data.split("||")[2]+"' 를(을) 선택하시겠습니까?" 
+		
+		$scope.confirmActionArray = [$scope.selectPssProjectListModal, $scope.closeConfirmModal]
+		
+		$scope.openConfirmModal();
+		
+	});
 	$scope.$on('selectSbpPostMessage', function(event, args) {
 		//2013 12 17_to be(컬러링)||543||51108||UA_s20601||확인받기
 		//sbpName||sbpId(seqId)|| ... ||activityId(activityName)||activity
 		
 		//console.log('newProjectCtrl selectSbpPostMessage : ', args)
 		
-		$scope.tempSbpName = args.sbpData.split("||")[0];
-		$scope.tempSbpId = args.sbpData.split("||")[1];
-		$scope.tempActivityId = args.sbpData.split("||")[3];
-		$scope.tempActivityName = args.sbpData.split("||")[4];
+		$scope.tempSbpName = args.data.split("||")[0];
+		$scope.tempSbpId = args.data.split("||")[1];
+		$scope.tempActivityId = args.data.split("||")[3];
+		$scope.tempActivityName = args.data.split("||")[4];
 		
-		//alert('Good im Recive : ' + args.sbpData);
-	    // do what you want to do
+		
+		$scope.confirmTitle = 'SBP';
+		$scope.confirmText = "'"+args.data.split("||")[4]+"' 를(을) 선택하시겠습니까?" 
+		
+		$scope.confirmActionArray = [$scope.selectSbpTreeModal, $scope.closeConfirmModal]
+		
+		$scope.openConfirmModal();
+		
 	});
 	
 	$scope.saveNewProject = function() {
@@ -142,6 +175,14 @@ angular.module("hvm")
 	$scope.selectedSbpProject = function(sbpProject, index) {
 		$scope.sbpPrjId = sbpProject.project_puid;
 		$scope.sbpPrjName = sbpProject.project_name;
+		
+		$scope.confirmTitle = 'SBP';
+		$scope.confirmText = "'"+sbpProject.project_name+"' 를(을) 선택하시겠습니까?" 
+		
+		$scope.confirmActionArray = [$scope.selectSbpProjectComplete, $scope.closeConfirmModal]
+		
+		$scope.openConfirmModal();
+		
 		//alert(sbpProject.project_puid);
 	}
 	
@@ -170,30 +211,6 @@ angular.module("hvm")
 	$scope.removeAttribute = function(attribute, index) {
 		$scope.result[0].attributes.splice(index, 1)
 	}
-	
-	//pss modal 
-//	$scope.openPssProjectListModal = function() {
-//		
-//		$scope.result[0].pssPrjId = '37ef256d5640b9b9015640b9b9ef0000';
-//		$scope.result[0].pssPrjName = '[다비치]안경원 서비스 경험디자인';
-//		
-////		$scope.searchPssPrj();
-////		$scope.pssProjectList_modal_style = {
-////	        'display' : 'block'
-////	    };
-//	}
-//	$scope.closePssProjectListModal = function() {
-//		$scope.pssProjectList_modal_style = {
-//	        'display' : 'none'
-//	    };
-//	}
-//	$scope.selectPssProjectListModal = function() {
-//		$scope.pssProjectList_modal_style = {
-//	        'display' : 'none'
-//	    };
-//		console.log('select sbp!!!');
-//	}
-	
 	
 	//pssProject modal 
 
@@ -281,17 +298,20 @@ angular.module("hvm")
 	$scope.openValueTreeModal = function(attribute) {
 		$scope.selectedAttributeForValue = attribute;
 		if (attribute.valueName) {
-			$scope.findElementByTextNPaintOnValueTreeModal(attribute.valueName, '#00FF00');
-			//$('#valueTree').contents().find('#selectedValue')[0].value = attribute.valueName;
-			$scope.getSelectedValueElementOnValueTreeModal().value = attribute.valueName;
+//			$scope.findElementByTextNPaintOnValueTreeModal(attribute.valueName, '#00FF00');
+//			//$('#valueTree').contents().find('#selectedValue')[0].value = attribute.valueName;
+//			$scope.getSelectedValueElementOnValueTreeModal().value = attribute.valueName;
 		}
+		
+		$($('#valueTree').contents().find('body')).focus();
+		
 		$scope.valueTree_modal_style = {
 	        'display' : 'block'
 	    };
 	}
 	$scope.closeValueTreeModal = function() {
-		$scope.findElementByTextNPaintOnValueTreeModal($scope.selectedAttributeForValue.valueName, '#EAE8E6');
-		$scope.findElementByTextNPaintOnValueTreeModal($scope.getSelectedValueElementOnValueTreeModal().value, '#EAE8E6');
+//		$scope.findElementByTextNPaintOnValueTreeModal($scope.selectedAttributeForValue.valueName, '#EAE8E6');
+//		$scope.findElementByTextNPaintOnValueTreeModal($scope.getSelectedValueElementOnValueTreeModal().value, '#EAE8E6');
 		$scope.selectedAttributeForValue = null;
 		$scope.getSelectedValueElementOnValueTreeModal().value = null;
 		$scope.valueTree_modal_style = {
@@ -303,7 +323,7 @@ angular.module("hvm")
 			$scope.selectedAttributeForValue.valueName = $('#valueTree').contents().find('#selectedValue')[0].value;
 			$scope.getSelectedValueElementOnValueTreeModal().value = null;
 		}
-		$scope.findElementByTextNPaintOnValueTreeModal($scope.selectedAttributeForValue.valueName, '#EAE8E6');
+		//$scope.findElementByTextNPaintOnValueTreeModal($scope.selectedAttributeForValue.valueName, '#EAE8E6');
 		$scope.selectedAttributeForValue = null;
 
 		$scope.valueTree_modal_style = {
@@ -355,6 +375,39 @@ angular.module("hvm")
 		console.log('select sbp!!!' , $scope.result[0]);
 	}
 
+	//confirmPssPrj_modal
+	
+	$scope.openConfirmModal = function() {
+		$scope.confirm_modal_style = {
+			'display' : 'block'
+		};
+	}
+	$scope.closeConfirmModal = function() {
+		$scope.clearConfirm()
+		$scope.confirm_modal_style = {
+			'display' : 'none'
+		};
+	}
+	$scope.clearConfirm = function() {
+
+		$scope.confirmTitle = null;
+		$scope.confirmText = null;
+		$scope.confirmAction = null;
+		$scope.confirmActionArray = null;
+	}
+	$scope.confirmModal = function() {
+		
+		if ($scope.confirmAction) {
+			$scope.confirmAction();
+		}
+		if ($scope.confirmActionArray) {
+			for (var i=0 ; i < $scope.confirmActionArray.length; i++) {
+				$scope.confirmActionArray[i]();
+			}
+		}
+		$scope.clearConfirm();
+		
+	}
 	
 })
 		

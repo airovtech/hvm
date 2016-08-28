@@ -55,7 +55,7 @@
 }
 
 .modal-content .list, .iframe{
-	margin-bottom:50px;
+	margin:20px 0 50px 0;
 	height:87%;
 	clear:both;
 	overflow:auto;

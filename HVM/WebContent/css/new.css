@@ -60,7 +60,7 @@
 
 #contents_bottom .box_body_new .list table img { margin-left:0px;padding-top:20px;}
 
-#contents_bottom .btn{float:right; margin-bottom:20px;}
+#contents_bottom .btn{float:right; margin:0 5px 20px 5px;}
 
 #contents_bottom [class*='btn-'] {width:50px; text-align:center; border-radius: 4px; color: #fff; display: inline-block; font-family: Arial, Helvetica, sans-serif;	font-size:14px;padding: 10px 16px 10px 16px; text-decoration: none; text-shadow: 0 1px 1px rgba(0, 0, 0, 0.075);}
 	  
@@ -72,6 +72,23 @@
 
 #contents_bottom .btn-cancel { background-color:#999; color:#fff; margin-right:10px;}
 #contents_bottom .btn-cancel:hover { background-color:#666; color:#fff;}
+
+
+.modal-content .btn{float:right; margin:0 5px 20px 5px;}
+
+.modal-content [class*='btn-'] {width:50px; text-align:center; border-radius: 4px; color: #fff; display: inline-block; font-family: Arial, Helvetica, sans-serif;	font-size:14px;padding: 10px 16px 10px 16px; text-decoration: none; text-shadow: 0 1px 1px rgba(0, 0, 0, 0.075);}
+	  
+.modal-content [class*='btn-']:hover {	cursor: pointer; color:#fff;}
+
+.modal-content .btn-save { background-color:#7676b2; color:#fff;}
+.modal-content .btn-save:hover { background-color:#5a5a94; color:#fff;}
+
+
+.modal-content .btn-cancel { background-color:#999; color:#fff; margin-right:10px;}
+.modal-content .btn-cancel:hover { background-color:#666; color:#fff;}
+
+
+
 
 .selected {
   background-color: #ebf481;

@@ -57,7 +57,7 @@
 	<script src="./js/lib/cookieWriter.js"></script>
 	<script src="./js/lib/ngDialog.js"></script>
 	<script src="./js/lib/angular-sanitize.js"></script>
-	<!-- <script src="./js/lib/jquery-1.6.2.min.js"></script> -->
+	<script src="./js/lib/jquery-1.6.2.min.js"></script>
 	
 	<!-- dragable -->
 <!-- 	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -83,12 +83,21 @@
 	eventer(messageEvent,function(e) {
 		console.log('parent received message!:  ',e.data);
 		//document.getElementById("messageFromSub").innerHTML += e.data;
-		$('#selectedActivity').val(e.data)
+		//$('#selectedActivity').val(e.data)
 		
 		/* $scope.$apply(function(){
 	        $scope.selectedActivity = "Hi jQuery";  //변경 내용이 화면에 나타남
 	    }); */
-		angular.element(document.getElementById("hvmCtrlBody")).scope().receipPostMessage(e.data);
+	    
+	    var target;
+	    if (e.data.split("||")[0] === "pssPrjSelect") {
+	    	target = 'selectPssPrjPostMessage';
+	    } else if (e.data.split("||")[0] === "pssValueSelect"){
+	    	target = 'selectValuePostMessage';
+	    } else {
+	    	target = 'selectSbpPostMessage';
+	    }
+		angular.element(document.getElementById("hvmCtrlBody")).scope().receipPostMessage(target, e.data);
 		angular.element(document.getElementById("hvmCtrlBody")).scope().$apply();
 		
 		
