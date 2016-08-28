@@ -113,6 +113,10 @@ angular.module("hvm")
 		
 		//console.log('newProjectCtrl selectSbpPostMessage : ', args)
 		
+		//sbp프로젝트 미리보기시에는 엑티비티를 선택할 수 없게한다 
+		if (!$scope.result[0].sbpPrjId)
+			return;
+		
 		$scope.tempSbpName = args.data.split("||")[0];
 		$scope.tempSbpId = args.data.split("||")[1];
 		$scope.tempActivityId = args.data.split("||")[3];
@@ -141,7 +145,11 @@ angular.module("hvm")
 		} else if (type === "pss") {
 		    return $sce.trustAsResourceUrl(pssDetailFrameUrl + $scope.result[0].pssPrjId);
 		} else if (type === "sbp") {
-		    return $sce.trustAsResourceUrl("http://sbp.pssd.or.kr/sbp/listForHvm.jsp?hvm=true&memberId=sbpAdmin&sPUID="+$scope.result[0].sbpPrjId+"&sProjectName="+$scope.result[0].sbpPrjName);
+			if ($scope.result[0].sbpPrjId) {
+				return $sce.trustAsResourceUrl("http://sbp.pssd.or.kr/sbp/listForHvm.jsp?hvm=true&memberId=sbpAdmin&sPUID="+$scope.result[0].sbpPrjId+"&sProjectName="+$scope.result[0].sbpPrjName);
+			} else {
+				return $sce.trustAsResourceUrl("http://sbp.pssd.or.kr/sbp/listForHvm.jsp?hvm=true&memberId=sbpAdmin&sPUID="+$scope.tempSbpPrjId+"&sProjectName="+$scope.tempSbpPrjName);
+			}
 		} else if (type === "sbpView") {
 		    return $sce.trustAsResourceUrl("http://am.pssd.or.kr:9095/AMT_SYSTEM/otherActivityUpdate.runa?user_seq=1&sysType=SBP&operType=SR02&activity_name="+$scope.selectedActivityId+"&united_user_seq=tester&user_id=tester&user_name=tester&project_name=test&project_puid=test");
 		}
@@ -333,13 +341,19 @@ angular.module("hvm")
 	
 	
 	//sbp tree modal
-	$scope.openSbpTreeModal = function(attribute) {
-		$scope.selectedAttributeForSbp = attribute;
+	$scope.openSbpTreeModal = function(attribute, tempSbpPrjId, tempSbpPrjName) {
+		
+		if (attribute) {
+			$scope.selectedAttributeForSbp = attribute;
 
-		$scope.tempSbpName = null;
-		$scope.tempSbpId = null;
-		$scope.tempActivityId = null;
-		$scope.tempActivityName = null;
+			$scope.tempSbpName = null;
+			$scope.tempSbpId = null;
+			$scope.tempActivityId = null;
+			$scope.tempActivityName = null;
+		} else {
+			$scope.tempSbpPrjId = tempSbpPrjId;
+			$scope.tempSbpPrjName = tempSbpPrjName;
+		}
 		
 		$scope.sbpTree_modal_style = {
 	        'display' : 'block'

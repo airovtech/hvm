@@ -6,7 +6,7 @@ angular.module("hvm")
 	
 	$scope.trustSrc = function(type) {
 		if (type === "valueView") {
-		    return $sce.trustAsResourceUrl(valueDetailFrameUrl + $scope.selectedValueId);
+		    return $sce.trustAsResourceUrl(valueDetailFrameUrl + $scope.selectedValueId + "&view=true");
 		} else if (type === "sbpView") {
 		    //return $sce.trustAsResourceUrl("http://sbp.pssd.or.kr/sbp/listForHvm.jsp?hvm=true&memberId=sbpAdmin&sPUID="+$scope.result[0].sbpPrjId+"&sProjectName="+$scope.result[0].sbpPrjName);
 		    //return $sce.trustAsResourceUrl("http://sbp.pssd.or.kr/sbp/panel8ForHvm.jsp?hvm=true&memberId=&sPUID="+$scope.selectedSbpId+"&sProjectName="+$scope.selectedSbpName);

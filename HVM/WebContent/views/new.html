@@ -65,7 +65,14 @@
 							<td><input class="valueTd" ng-focus="openValueTreeModal(attribute)" name="" type="text" ng-model="attribute.valueName"/></td>
 							<td><input style="width:95%;" name="" type="text" ng-model="attribute.attributeName" ng-disabled="!attribute.valueName"/></td>
 							<!-- <td><input name="" type="text" ng-model="attribute.attributeType"/></td> -->
-							<td align="center"><span>P</span><input type="radio" name="chk_pn" value="P" style="width:auto;" ng-disabled="!attribute.valueName"> N<input type="radio" name="chk_pn" value="N" style="width:auto;" ng-disabled="!attribute.valueName"></td>
+							
+							<td align="center">
+								<span>P</span>
+								<input type="radio" ng-model="attribute.attributeType" name="chk_pn{{$index}}" value="P" style="width:auto;" ng-disabled="!attribute.valueName"> 
+								<span>N</span>
+								<input type="radio" ng-model="attribute.attributeType" name="chk_pn{{$index}}" value="N" style="width:auto;" ng-disabled="!attribute.valueName">
+							</td>
+							
 							<td><input class="activityTd" ng-focus="openSbpTreeModal(attribute)" name="" type="text" ng-model="attribute.activityName" ng-disabled="!attribute.valueName"/></td>
 							<!-- <td><input name="" type="text" ng-model="attribute.sbpName" disabled/></td> -->
 							<td><input name="" type="text" disabled ng-value="getSbpPrjSbpNameNo(attribute.sbpName)"/></td>
@@ -124,12 +131,15 @@
 		<div class="list">
 			<table width="99%" border="1" cellpadding="0">
 				<tr>
-					<th scope="col">SBP</th>
+					<th width="95%" scope="col">SBP</th>
+					<th width="5%" scope="col"></th>
 				</tr>
-				<tr ng-repeat="sbpProject in sbp_projects | filter:{ project_name: sbpKeyword } | orderBy:'project_name'"
-					ng-click="selectedSbpProject(sbpProject, $index)"
-					ng-class="{selected : sbpProject.project_puid === sbpPrjId && sbpProject.project_name === sbpPrjName}">
-					<td>{{sbpProject.project_name}}</td>
+				<tr ng-repeat="sbpProject in sbp_projects | filter:{ project_name: sbpKeyword } | orderBy:'project_name'" ng-if="sbpProject.project_puid">
+			<!-- <tr ng-repeat="sbpProject in sbp_projects | filter:{ project_name: sbpKeyword } | orderBy:'project_name'" ng-if="sbpProject.project_puid"
+					ng-class="{selected : sbpProject.project_puid === sbpPrjId && sbpProject.project_name === sbpPrjName}"
+					> -->
+					<td ng-click="selectedSbpProject(sbpProject, $index)">{{sbpProject.project_name}}</td>
+					<td ng-click="openSbpTreeModal(null,sbpProject.project_puid,sbpProject.project_name)"><img src="images/icon_search.png"/></td>
 				</tr>
 			</table>
 		</div>
@@ -139,7 +149,7 @@
 	</div>
 </div>
 <div id="showValueTreeModal" class="modal" ng-style="valueTree_modal_style">
-	<div class="modal-content">
+	<div class="modal-content" style="width:660px;height:70%">
 		<div class="modalHeader">
 			<span class="modalTitle">Value</span>
 			<span class="closeBtn" ng-click="closeValueTreeModal()">x</span>
