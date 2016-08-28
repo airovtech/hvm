@@ -221,13 +221,13 @@
 <!-- madal area -->
 
 <div id="showActivityViewModal" class="modal" ng-style="activityView_modal_style">
-	<div class="modal-content">
+	<div id="dragableDiv" class="modal-content" style="width:700px;height:400px">
 		<div class="modalHeader">
 			<span class="modalTitle">ACTIVITY</span>
 			<span class="closeBtn" ng-click="closeActivityViewModal()">x</span>
 		</div>
 		<div class="iframe">
-			<iframe refreshable="refreshActView" id="activityView" width="100%" height="600" ng-src="{{trustSrc('activityView')}}" frameborder="0" ></iframe>
+			<iframe refreshable="refreshActView" id="activityView" width="100%" height="340px" ng-src="{{trustSrc('activityView')}}" frameborder="0" ></iframe>
 		</div>
 	</div>
 </div>
@@ -238,12 +238,12 @@
 			<span class="closeBtn" ng-click="closeSbpViewModal()">x</span>
 		</div>
 		<div class="iframe">
-			<iframe refreshable="refreshSbpView" id="sbpView" width="100%" height="600" ng-src="{{trustSrc('sbpView')}}" frameborder="0" ></iframe>
+			<iframe refreshable="refreshSbpView" id="sbpView" width="100%" height="600px" ng-src="{{trustSrc('sbpView')}}" frameborder="0" ></iframe>
 		</div>
 	</div>
 </div>
 <div id="showValueViewModal" class="modal" ng-style="valueView_modal_style">
-	<div class="modal-content">
+	<div class="modal-content" style="width:660px;height:70%">
 		<div class="modalHeader">
 			<span class="modalTitle">Value</span>
 			<span class="closeBtn" ng-click="closeValueViewModal()">x</span>

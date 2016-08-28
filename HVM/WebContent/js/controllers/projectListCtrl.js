@@ -288,4 +288,9 @@ angular.module("hvm")
 		$scope.showProjectList = false;
 		$scope.showAttributeList = true;
 	}
+	
+	
+	//$("#dragableDiv").draggable();
+	
+	
 })

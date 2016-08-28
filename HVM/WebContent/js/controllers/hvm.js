@@ -43,7 +43,7 @@ angular.module("hvm")
 	});
 	
 	$scope.mainView = function(){
-		$cookies.put("nowViewType","Value");
+		$cookies.put("nowViewType","PSS");
 		$scope.viewType ="PSS";
 		$location.path("/projectList");
 	};

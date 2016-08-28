@@ -17,6 +17,14 @@
 	margin: auto;
 } */
 
+
+.modalFooter .addImg {
+	position:relative;
+	left : 50px;
+	top : -200px;
+}
+
+
 #contents_bottom .box_body_new { background-color:#fff; float:left; width:100%; margin-bottom:20px; }
 
 #contents_bottom .box_left { float:left; margin:11px 30px 30px 0; width:25%;}
