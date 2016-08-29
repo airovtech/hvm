@@ -1,4 +1,7 @@
 @charset "UTF-8";
+
+#header, #contents {min-width:1024px;}
+
 /* CSS Document */
 /* center trick */
 /* #contents_bottom .box_left .pss .addImg, .sbp .addImg {
