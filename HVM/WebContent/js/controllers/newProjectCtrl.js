@@ -4,6 +4,42 @@ angular.module("hvm")
 		,getProjectListUrl, getSkkupssPssProjectListUrl, setHvmProjectUrl, setServicePost) {
 
 	
+	$scope.getPnImg = function(attribut , type) {
+		
+		if (type == 'P') {
+			if (attribute.attributeType == 'P') {
+				return 'images/btn_p_on.png';
+			} else {
+				return 'images/btn_p_off.png';
+			}
+		} else if (type == 'N') {
+			if (attribute.attributeType == 'N') {
+				return 'images/btn_n_on.png';
+			} else {
+				return 'images/btn_n_off.png';
+			}
+		}
+		
+	}
+	
+	$scope.setAttributeType = function(attribute, type) {
+		if (attribute.valueName) {
+			attribute.attributeType = type;
+		}
+	}
+	
+	$scope.showSaveBtn = function() {
+		
+		if ($scope.result[0].pssPrjName == null || $scope.result[0].pssPrjName == undefined) 
+			return false;
+		if ($scope.result[0].sbpPrjName == null || $scope.result[0].sbpPrjName == undefined)
+			return false;
+		if ($scope.result[0].attributes == null || $scope.result[0].attributes.length == 0)
+			return false;
+		
+		return true;
+	
+	}
 	
 	$scope.$watch('result[0].sbpPrjName', function(newVal, oldVal){
 		$scope.getSbpPrjSbpName()
@@ -133,20 +169,39 @@ angular.module("hvm")
 	});
 	
 	$scope.saveNewProject = function() {
-		setServicePost.setObj(setHvmProjectUrl, null, $scope.result[0]).then(function(response){
-			$location.path('/projectList',true);
-		})
+		
+		$('input[required]').removeClass('err-empty')
+		$('.pnDiv').find('div[class!="ng-hide"]').find('.emptyPn').removeClass('err-empty')
+		
+		if ($('#newProjectFrm').find('.ng-invalid').length == 0 && 
+				$('.pnDiv').find('div[class!="ng-hide"]').find('.emptyPn').length == 0) {
+					setServicePost.setObj(setHvmProjectUrl, null, $scope.result[0]).then(function(response){
+						$location.path('/projectList',true);
+			})
+		} else {
+			$('#newProjectFrm').find('.ng-invalid').addClass('err-empty')
+			$('.pnDiv').find('div[class!="ng-hide"]').find('.emptyPn').addClass('err-empty')
+		}
 	}
 	
 	
-	$scope.trustSrc = function(type) {
+	$scope.trustSrc = function(type, selectedSbp) {
 		if (type === "value") {
 		    return $sce.trustAsResourceUrl(valueDetailFrameUrl + $scope.result[0].pssPrjId);
 		} else if (type === "pss") {
 		    return $sce.trustAsResourceUrl(pssDetailFrameUrl + $scope.result[0].pssPrjId);
 		} else if (type === "sbp") {
+			//sbp프로젝트를 선택하는 팝업에서도 sbp를 조회 할 수 있다 
 			if ($scope.result[0].sbpPrjId) {
-				return $sce.trustAsResourceUrl("http://sbp.pssd.or.kr/sbp/listForHvm.jsp?hvm=true&memberId=sbpAdmin&sPUID="+$scope.result[0].sbpPrjId+"&sProjectName="+$scope.result[0].sbpPrjName);
+				if ($scope.selectedAttributeForSbp) {
+					//!$scope.justViewSbpList 신규생성화면에서 sbp를 선택한다면 무조건 sbp 팝업이 열려야한다 
+					// 신규 생성 화면에서 엑티비티를 선택하면 sbp가 선택이 되어 있다면 activity 조회, 아니라면 sbp 선택 팝업 
+					if ($scope.selectedAttributeForSbp.sbpId && !$scope.justViewSbpList) {
+						return $sce.trustAsResourceUrl("http://sbp.pssd.or.kr/sbp/panel8ForHvm.jsp?seq="+$scope.selectedAttributeForSbp.sbpId+"&hvm=true&memberId=sbpAdmin&sPUID=&docTitle="+$scope.selectedAttributeForSbp.sbpName+"&sProjectName="+$scope.result[0].sbpPrjName);
+					} else {
+						return $sce.trustAsResourceUrl("http://sbp.pssd.or.kr/sbp/listForHvm.jsp?hvm=true&memberId=sbpAdmin&sPUID="+$scope.result[0].sbpPrjId+"&sProjectName="+$scope.result[0].sbpPrjName);
+					}
+				}
 			} else {
 				return $sce.trustAsResourceUrl("http://sbp.pssd.or.kr/sbp/listForHvm.jsp?hvm=true&memberId=sbpAdmin&sPUID="+$scope.tempSbpPrjId+"&sProjectName="+$scope.tempSbpPrjName);
 			}
@@ -341,7 +396,9 @@ angular.module("hvm")
 	
 	
 	//sbp tree modal
-	$scope.openSbpTreeModal = function(attribute, tempSbpPrjId, tempSbpPrjName) {
+	$scope.openSbpTreeModal = function(attribute, tempSbpPrjId, tempSbpPrjName, justViewSbpList) {
+		
+		$scope.justViewSbpList = justViewSbpList;
 		
 		if (attribute) {
 			$scope.selectedAttributeForSbp = attribute;

@@ -4,6 +4,12 @@
 	background-color:red;
 } */
 
+
+.err-empty {
+	border:1px solid red;
+}
+
+
 .valueTd, .activityTd, .sbpTd {
 	cursor:pointer;
 }

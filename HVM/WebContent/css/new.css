@@ -58,7 +58,8 @@
 #contents_bottom .box_body_new .list table input:focus{padding:2px; border:1px solid #d1e701; outline:none;}
 #contents_bottom .box_body_new .list img { margin-left:50%;}
 
-#contents_bottom .box_body_new .list table img { margin-left:0px;padding-top:20px;}
+/* #contents_bottom .box_body_new .list table img { margin-left:0px;padding-top:20px;} */
+#contents_bottom .box_body_new .list table img { margin-left:0;margin-top:20px;}
 
 #contents_bottom .btn{float:right; margin:0 5px 20px 5px;}
 

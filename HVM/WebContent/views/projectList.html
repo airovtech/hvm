@@ -136,12 +136,12 @@
 							<th width="25%" scope="col">PSS Project</th>
 						</tr>
 						<tr ng-repeat="attribute in attrResult">
-							<td class="keyColumn">{{attribute.valueName}}</td>
+							<td class="keyColumn valueTd" ng-click="openValueViewModal(attribute.project.pssPrjId, attribute.valueName)">{{attribute.valueName}}</td>
 							<td>{{attribute.attributeName}}</td>
 							<td align="center" >{{attribute.attributeType}}</td>
-							<td>{{attribute.activityName}}</td>
-							<td>{{attribute.project.sbpPrjName}}_{{attribute.sbpName}}</td>
-							<td>{{attribute.project.pssPrjName}}</td>
+							<td class="activityTd" ng-click="openActivityViewModal(attribute)">{{attribute.activityName}}</td>
+							<td class="sbpTd" ng-click="openSbpViewModal(attribute.sbpId, attribute.sbpName, attribute.project.sbpPrjName)">{{attribute.project.sbpPrjName}}_{{attribute.sbpName}}</td>
+							<td class="valueTd" ng-click="openValueViewModal(attribute.project.pssPrjId, attribute.valueName)">{{attribute.project.pssPrjName}}</td>
 						</tr>
 					</table>
 					
@@ -155,12 +155,12 @@
 							<th width="25%"scope="col">PSS Project</th>
 						</tr>
 						<tr ng-repeat="attribute in attrResult">
-							<td class="keyColumn">{{attribute.activityName}}</td>
-							<td>{{attribute.valueName}}</td>
+							<td class="keyColumn activityTd" ng-click="openActivityViewModal(attribute)">{{attribute.activityName}}</td>
+							<td class="valueTd" ng-click="openValueViewModal(attribute.project.pssPrjId, attribute.valueName)">{{attribute.valueName}}</td>
 							<td>{{attribute.attributeName}}</td>
 							<td align="center" >{{attribute.attributeType}}</td>
-							<td>{{attribute.project.sbpPrjName}}_{{attribute.sbpName}}</td>
-							<td>{{attribute.project.pssPrjName}}</td>
+							<td class="sbpTd" ng-click="openSbpViewModal(attribute.sbpId, attribute.sbpName, attribute.project.sbpPrjName)">{{attribute.project.sbpPrjName}}_{{attribute.sbpName}}</td>
+							<td class="valueTd" ng-click="openValueViewModal(attribute.project.pssPrjId, attribute.valueName)">{{attribute.project.pssPrjName}}</td>
 						</tr>
 					</table>
 					
@@ -176,10 +176,10 @@
 						<tr ng-repeat="attribute in attrResult">
 							<td class="keyColumn">{{attribute.attributeName}}</td>
 							<td align="center">{{attribute.attributeType}}</td>
-							<td>{{attribute.valueName}}</td>
-							<td>{{attribute.activityName}}</td>
-							<td>{{attribute.project.sbpPrjName}}_{{attribute.sbpName}}</td>
-							<td>{{attribute.project.pssPrjName}}</td>
+							<td calss="valueTd" ng-click="openValueViewModal(attribute.project.pssPrjId, attribute.valueName)">{{attribute.valueName}}</td>
+							<td class="activityTd" ng-click="openActivityViewModal(attribute)">{{attribute.activityName}}</td>
+							<td class="sbpTd" ng-click="openSbpViewModal(attribute.sbpId, attribute.sbpName, attribute.project.sbpPrjName)">{{attribute.project.sbpPrjName}}_{{attribute.sbpName}}</td>
+							<td class="valueTd" ng-click="openValueViewModal(attribute.project.pssPrjId, attribute.valueName)">{{attribute.project.pssPrjName}}</td>
 						</tr>
 					</table>
 					

@@ -77,12 +77,9 @@ public class HvmManagerImpl implements IHvmManager {
 		if (project.getCreatedDate() == null) {
 			project.setCreatedDate(new Date());
 		}
-		if (project.getLastModifiedUser() == null || project.getLastModifiedUser().length() == 0) {
-			project.setLastModifiedUser(userId);
-		}
-		if (project.getLastModifiedDate() == null) {
-			project.setLastModifiedDate(new Date());
-		}
+		project.setLastModifiedUser(userId);
+		project.setLastModifiedDate(new Date());
+		
 		this.getHvmDao().setHvmProject(userId, project);
 		
 		return true;

@@ -31,7 +31,7 @@ public class HvmAttributeMapper implements RowMapper<HvmAttribute> {
 				HvmProject project = new HvmProject();
 				
 				project.setId(rs.getString("prjObjId"));
-				project.setSbpPrjId(rs.getString("pssPrjId"));
+				project.setPssPrjId(rs.getString("pssPrjId"));
 				project.setPssPrjName(rs.getString("pssPrjName"));
 				project.setSbpPrjId(rs.getString("sbpPrjId"));
 				project.setSbpPrjName(rs.getString("sbpPrjName"));
