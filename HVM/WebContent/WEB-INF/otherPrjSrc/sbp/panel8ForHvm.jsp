@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"%>
 <%@ include file="/include/header.jsp" %>
 <%
-	//HVM 관련 추가 내용
-	String hvm = (String)request.getParameter("hvm");
+	//HVM
+	String hvm = "true"; //(String)request.getParameter("hvm");
 	if (hvm != null && hvm.equalsIgnoreCase("true")) {
 		loginID = (String)request.getParameter("memberId");
 		session.setAttribute("memberid", loginID);
@@ -104,6 +104,8 @@ window.onload = function(){
 		<div id="rPanelCover" style="top:0;position:absolute;margin-top:200px;"/>
 	</div>
 </div>
+
+<!-- 상단 메뉴, 로딩 후 위치 이동됨. -->
 
 <!-- 라인 삭제 레이어 -->
 <div id="lineDeleteLayer">
@@ -384,5 +386,7 @@ window.onload = function(){
 		
 	</pre>
 </div>
-<%@ include file="/include/footerFront.jsp" %>
+<%-- <%@ include file="/include/footerFront.jsp" %> --%>
+    </body>
+</html>
 <%@ include file="/include/footer.jsp" %>

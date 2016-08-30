@@ -2,15 +2,16 @@
 <%@ include file="/include/header.jsp" %>
 <%
 	//HVM 관련 추가 내용
-	String hvm = (String)request.getParameter("hvm");
+	String hvm = "true";//(String)request.getParameter("hvm");
 	if (hvm != null && hvm.equalsIgnoreCase("true")) {
-		loginID = (String)request.getParameter("memberId");
+		loginID = "sbpAdmin";
 		session.setAttribute("memberid", loginID);
 		//isLogin = Boolean.parseBoolean((String)request.getParameter("isLogin"));
 		isLogin = true;
 		session.setAttribute("isLogin", isLogin);
 		sPUID = (String)request.getParameter("sPUID");
 		session.setAttribute("sPUID", sPUID);
+		session.setAttribute("projectPUID", sPUID);
 		sProjectName = (String)request.getParameter("sProjectName");
 		session.setAttribute("sProjectName", sProjectName);
 		session.setAttribute("projectName", sProjectName);
@@ -19,7 +20,7 @@
 %>
 <%@ include file="/include/needLogin.jsp" %>
 <%@ include file="/include/headerFront.jsp" %>
-<%@ include file="/include/top.jsp" %>
+<%@ include file="/include/topForHvm.jsp" %>
 <%
 	String memberId = (String)session.getAttribute("memberid");
 
@@ -28,9 +29,9 @@
 	
 	
 	//HVM 관련 추가 내용
-	if (hvm != null && hvm.equalsIgnoreCase("true")) {
-		panelPath = "/sbp/panel8ForHvm.jsp";
-	}
+//	if (hvm != null && hvm.equalsIgnoreCase("true")) {
+panelPath = "/sbp/panel8ForHvm.jsp?memberId=sbpAdmin&sPUID="+sPUID+"&sProjectName="+sProjectName;
+//	}
 	//HVM
 
 
@@ -121,7 +122,7 @@ function goDelete(seq){
 
 		rs = pstmt.executeQuery();
 %>
-	<table class="table_list" style="width:990px;">
+	<table class="table_list" style="width:100%;">
 	<colgroup>
 		<col width="50" />
 		<!--col width="170" /-->
@@ -163,7 +164,7 @@ function goDelete(seq){
 %>
 	</table>
 	<div class="paging" style="padding-top:20px;">
-		<%hu.printDividedPage("/sbp/list.jsp", totalCount, _currPage, 10, 10);%>
+		<%hu.printDividedPage("/sbp/listForHvm.jsp?hvm=true&sPUID="+sPUID+"&sProjectName="+sProjectName, totalCount, _currPage, 10, 10);%>
 	</div>
 <%
 	} catch(Exception e) {

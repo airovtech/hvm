@@ -1252,16 +1252,17 @@ function isFunction(activity){
 
 function callParentForHvm(itemBox, d, set, event) {
 	try {
-        var sbpName = $('#documentTitle').find('span')[0].innerText;
-        var seqId = $('#documentTitle').attr('seqid');
-        console.log('$$$$$$$$$$$$$$$$$$POST MESSAGE TO PARENT$$$$$$$$$$$$$$$$$$$$$$$');
-        var message = sbpName + '||' + seqId + '||' + itemBox.attrs['data'].seq + '||' + itemBox.attrs['data'].activity_seq + "||" + itemBox.attrs['data'].activity_title
-        console.log('item : ', message)
-        console.log('$$$$$$$$$$$$$$$$$$POST MESSAGE TO PARENT$$$$$$$$$$$$$$$$$$$$$$$');
-        //parent.postMessage(message,"http://localhost:3000/parent");
-        parent.postMessage(message,"http://localhost:8080/HVM/index.html");
-        parent.postMessage(message,"http://www.smartworks.net/HVM/index.html");
-        parent.postMessage(message,"http://great.smartworks.net/HVM/index.html");
+		var sbpName = $('#documentTitle').find('span')[0].innerText;
+		var seqId = $('#documentTitle').attr('seqid');
+		console.log('$$$$$$$$$$$$$$$$$$POST MESSAGE TO PARENT$$$$$$$$$$$$$$$$$$$$$$$');
+		var message = sbpName + '||' + seqId + '||' + itemBox.attrs['data'].seq + '||' + itemBox.attrs['data'].activity_seq + "||" + itemBox.attrs['data'].activity_title
+		console.log('item : ', message)
+		console.log('$$$$$$$$$$$$$$$$$$POST MESSAGE TO PARENT$$$$$$$$$$$$$$$$$$$$$$$');
+		parent.postMessage(message,"http://localhost:8080/HVM/index.html");
+		parent.postMessage(message,"http://great.smartworks.net/HVM/index.html");
+
+		parent.postMessage(message,"http://www.smartworks.net/HVM/index.html");
+
 	} catch(err) {
 		console.log('ERROR!!');
 		//console.log(err);

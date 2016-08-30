@@ -25,10 +25,31 @@
 	$('.hvm_select').live('click',function(e){
 		var input = $(targetElement(e)).parents('.hvm_select');
 
-		$(input).siblings('.hvm_select').removeClass('selected');
-		$(input).addClass('selected');
+		//$(input).siblings('.hvm_select').removeClass('selected');
+		//$(input).addClass('selected');
+		
+		var psId = input.attr('psId');
+		var psName = input.attr('psName');
 		
 		$('#selectedPssPrjId').val(input.attr('psId'));
+		
+		try {
+	        console.log('$$$$$$$$$$$$$$$$$$POST MESSAGE TO PARENT$$$$$$$$$$$$$$$$$$$$$$$');
+	        var message = "pssPrjSelect||" + psId + "||" + psName
+	        console.log('$$$$$$$$$$$$$$$$$$POST MESSAGE TO PARENT$$$$$$$$$$$$$$$$$$$$$$$');
+	        //parent.postMessage(message,"http://localhost:3000/parent");
+	        parent.postMessage(message,"http://localhost:8080/HVM/index.html");
+	        
+            parent.postMessage(message,"http://great.smartworks.net/HVM/index.html");
+
+            parent.postMessage(message,"http://www.smartworks.net/HVM/index.html");
+	        
+	        
+		} catch(err) {
+			console.log('ERROR!!');
+			//console.log(err);
+		}
+		
 	}) 
 
 </script>

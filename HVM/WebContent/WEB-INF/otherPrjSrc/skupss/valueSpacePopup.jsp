@@ -29,9 +29,35 @@
 </jsp:include>
 <script>
 $('.js_action_select_value').live('click', function(e) {
+	
 	var input = $(targetElement(e));
 	$('#selectedValue').val(input.context.innerHTML);
-	$('.js_action_select_value').parent().parent().css('background-color','#EAE8E6');
-	input.parent().parent().css('background-color','#00FF00');
+	/* $('.js_action_select_value').parent().parent().css('background-color','#EAE8E6');
+	input.parent().parent().css('background-color','#00FF00'); */
+	
+	try {
+        console.log('$$$$$$$$$$$$$$$$$$POST MESSAGE TO PARENT$$$$$$$$$$$$$$$$$$$$$$$');
+        var message = "pssValueSelect||" + input.context.innerHTML
+        console.log('$$$$$$$$$$$$$$$$$$POST MESSAGE TO PARENT$$$$$$$$$$$$$$$$$$$$$$$');
+        //parent.postMessage(message,"http://localhost:3000/parent");
+        parent.postMessage(message,"http://localhost:8080/HVM/index.html");
+        
+        parent.postMessage(message,"http://great.smartworks.net/HVM/index.html");
+
+        parent.postMessage(message,"http://www.smartworks.net/HVM/index.html");
+	} catch(err) {
+		console.log('ERROR!!');
+		//console.log(err);
+	}
+	
 });
+<%
+	String view = request.getParameter("view");
+	if (view == null || view.equals("false")) {
+%>
+$('.js_action_select_value').css({"cursor":"pointer"});
+<%
+	}
+%>
+
 </script>
