@@ -176,13 +176,31 @@
 						<tr ng-repeat="attribute in attrResult">
 							<td class="keyColumn">{{attribute.attributeName}}</td>
 							<td align="center">{{attribute.attributeType}}</td>
-							<td calss="valueTd" ng-click="openValueViewModal(attribute.project.pssPrjId, attribute.valueName)">{{attribute.valueName}}</td>
+							<td class="valueTd" ng-click="openValueViewModal(attribute.project.pssPrjId, attribute.valueName)">{{attribute.valueName}}</td>
 							<td class="activityTd" ng-click="openActivityViewModal(attribute)">{{attribute.activityName}}</td>
 							<td class="sbpTd" ng-click="openSbpViewModal(attribute.sbpId, attribute.sbpName, attribute.project.sbpPrjName)">{{attribute.project.sbpPrjName}}_{{attribute.sbpName}}</td>
 							<td class="valueTd" ng-click="openValueViewModal(attribute.project.pssPrjId, attribute.valueName)">{{attribute.project.pssPrjName}}</td>
 						</tr>
 					</table>
 					
+					<table ng-show="viewType == 'SBP'" width="700" border="1" cellpadding="0">
+						<tr>
+							<th width="25%" scope="col">SBP</th>
+							<th width="25%"scope="col">PSS Project</th>
+							<th width="10%" scope="col">Value</th>
+							<th width="20%" class="keyColumn"  scope="col">Attribute</th>
+							<th width="5%" scope="col">P/N</th>
+							<th width="15%" scope="col">Activity</th>
+						</tr>
+						<tr ng-repeat="attribute in attrResult">
+							<td class="keyColumn sbpTd" ng-click="openSbpViewModal(attribute.sbpId, attribute.sbpName, attribute.project.sbpPrjName)">{{attribute.project.sbpPrjName}}_{{attribute.sbpName}}</td>
+							<td class="valueTd" ng-click="openValueViewModal(attribute.project.pssPrjId, attribute.valueName)">{{attribute.project.pssPrjName}}</td>
+							<td class="valueTd" ng-click="openValueViewModal(attribute.project.pssPrjId, attribute.valueName)">{{attribute.valueName}}</td>
+							<td>{{attribute.attributeName}}</td>
+							<td align="center">{{attribute.attributeType}}</td>
+							<td class="activityTd" ng-click="openActivityViewModal(attribute)">{{attribute.activityName}}</td>
+						</tr>
+					</table>
 				</div>
 			</div>
 		</div>

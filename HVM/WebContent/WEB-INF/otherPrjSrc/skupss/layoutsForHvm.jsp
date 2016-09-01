@@ -241,7 +241,7 @@ try{
 
 	<div id="wrap">
 		<!-- Header -->
-		<div id="header" style="">
+		<div id="header" style="height:0px">
 		</div>
 		<!-- Header//-->
 

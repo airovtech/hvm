@@ -76,10 +76,13 @@ public class HvmController {
 		IHvmManager hvmMgr = HvmManagerFactory.getInstance().getHvmManager();
 		HvmProjectCond cond = new HvmProjectCond();
 		String searchKey = (String)requestBody.get("searchKey");
+		String pssPrjId = (String)requestBody.get("pssPrjId");
 		if (searchKey != null && searchKey.length() != 0) {
 			cond.setSearchKey(searchKey);
 		}
-		
+		if (pssPrjId != null && pssPrjId.length() != 0) {
+			cond.setPssPrjId(pssPrjId);
+		}
 		Map result = hvmMgr.getHvmProjectSize(currentUser.getId(), cond);
 		return result;
 	}

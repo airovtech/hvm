@@ -26,7 +26,7 @@ angular.module("hvm")
 		$scope.viewType = "PSS";
 	
 	//상단 뷰타입을 결정
-	$scope.selectItem = ["PSS", "Value","Activity","Attribute"];
+	$scope.selectItem = ["PSS", "SBP", "Value","Activity","Attribute"];
 	$scope.selectedItem = $scope.viewType;
 
 	
@@ -103,6 +103,14 @@ angular.module("hvm")
 		retrieve: function(url, viewType, keywords, pageSize, pageNo, psId, orderColumn, isDescending) {
 			console.log(url, viewType, keywords, pageSize, pageNo, psId, orderColumn, isDescending);
 			return $http.post(url,{"viewType":viewType, "searchKey": keywords,"pageSize":pageSize,"pageNo":pageNo,"psId":psId,"orderColumn":orderColumn,"isDescending":isDescending});
+		}
+	}
+}])
+.service("retrieveServicePostByArgs",['$http', function($http){
+	return {
+		retrieveServicePostByArgs: function(url, arg) {
+			console.log(url, arg);
+			return $http.post(url, arg);
 		}
 	}
 }])

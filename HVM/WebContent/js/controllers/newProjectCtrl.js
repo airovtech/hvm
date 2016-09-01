@@ -1,9 +1,104 @@
 angular.module("hvm")
 .controller("newProjectCtrl", function($scope, $sce, $routeParams, $rootScope, $location, getEmptyProject, getEmptyAttribute
-		, retrieveServicePost,searchServicePost, pssProjectListApi, sbpProjectListApi, valueDetailFrameUrl, pssDetailFrameUrl
-		,getProjectListUrl, getSkkupssPssProjectListUrl, setHvmProjectUrl, setServicePost) {
+		, retrieveServicePost, retrieveServicePostByArgs ,searchServicePost, pssProjectListApi, sbpProjectListApi, valueDetailFrameUrl, pssDetailFrameUrl
+		,getProjectListUrl, getProjectListSizeUrl, getSkkupssPssProjectListUrl, setHvmProjectUrl, setServicePost) {
 
 	
+	
+	//POPUP(iframe) URL
+	
+	$scope.trustSrc = function(type, selectedSbp) {
+		if (type === "value") {
+		    return $sce.trustAsResourceUrl(valueDetailFrameUrl + $scope.result[0].pssPrjId + "&selectValueName=" + $scope.selectValueName);
+		} else if (type === "pss") {
+		    return $sce.trustAsResourceUrl(pssDetailFrameUrl + $scope.result[0].pssPrjId);
+		} else if (type === "sbp") {
+			//sbp프로젝트를 선택하는 팝업에서도 sbp를 조회 할 수 있다 
+			if ($scope.result[0].sbpPrjId) {
+				if ($scope.selectedAttributeForSbp) {
+					//!$scope.justViewSbpList 신규생성화면에서 sbp를 선택한다면 무조건 sbp 팝업이 열려야한다 
+					// 신규 생성 화면에서 엑티비티를 선택하면 sbp가 선택이 되어 있다면 activity 조회, 아니라면 sbp 선택 팝업 
+					if ($scope.selectedAttributeForSbp.sbpId && !$scope.justViewSbpList) {
+						return $sce.trustAsResourceUrl("http://sbp.pssd.or.kr/sbp/panel8ForHvm.jsp?seq="+$scope.selectedAttributeForSbp.sbpId+"&hvm=true&memberId=sbpAdmin&sPUID=&docTitle="+$scope.selectedAttributeForSbp.sbpName+"&sProjectName="+$scope.result[0].sbpPrjName);
+					} else {
+						return $sce.trustAsResourceUrl("http://sbp.pssd.or.kr/sbp/listForHvm.jsp?hvm=true&memberId=sbpAdmin&sPUID="+$scope.result[0].sbpPrjId+"&sProjectName="+$scope.result[0].sbpPrjName);
+					}
+				}
+			} else {
+				return $sce.trustAsResourceUrl("http://sbp.pssd.or.kr/sbp/listForHvm.jsp?hvm=true&memberId=sbpAdmin&sPUID="+$scope.tempSbpPrjId+"&sProjectName="+$scope.tempSbpPrjName);
+			}
+		} else if (type === "sbpView") {
+		    return $sce.trustAsResourceUrl("http://am.pssd.or.kr:9095/AMT_SYSTEM/otherActivityUpdate.runa?user_seq=1&sysType=SBP&operType=SR02&activity_name="+$scope.selectedActivityId+"&united_user_seq=tester&user_id=tester&user_name=tester&project_name=test&project_puid=test");
+		}
+	}
+	
+	
+	//POST Message From iframe
+
+	$scope.$on('selectValuePostMessage', function(event, args) {
+		//callType||valueText
+		
+		$scope.selectedPssValueName = args.data.split("||")[1];
+		
+		$scope.confirmTitle = 'Value';
+		$scope.confirmText = "'"+args.data.split("||")[1]+"' 를(을) 선택하시겠습니까?" 
+		
+		$scope.confirmActionArray = [$scope.selectValueTreeModal, $scope.closeConfirmModal]
+		
+		$scope.openConfirmModal();
+		
+	});
+	$scope.$on('selectPssPrjPostMessage', function(event, args) {
+		//callType||psId||psame
+		
+		$scope.selectedPssPrjId = args.data.split("||")[1];
+		$scope.selectedPssPrjName = args.data.split("||")[2];
+		
+		retrieveServicePostByArgs.retrieveServicePostByArgs(getProjectListSizeUrl, {"pssPrjId":$scope.selectedPssPrjId}).then(function(response){
+			var totalSize = response.data.totalSize;
+			
+			$scope.confirmTitle = 'PSS';
+			if (totalSize == 1) {
+				$scope.confirmText = "'"+args.data.split("||")[2]+"' 를(을) 선택하시겠습니까?" 
+				$scope.confirmMsg = "선택하신 프로젝트는 이미 HVM 에 등록되어 있습니다.\n'확인' 버튼을 클릭하시면 등록 되어진 프로젝트를 가져옵니다.";
+			} else {
+				$scope.confirmText = "'"+args.data.split("||")[2]+"' 를(을) 선택하시겠습니까?" 
+			}
+			$scope.confirmActionArray = [$scope.selectPssProjectListModal, $scope.closeConfirmModal]
+			$scope.openConfirmModal();
+		})
+		
+		
+	});
+	$scope.$on('selectSbpPostMessage', function(event, args) {
+		//2013 12 17_to be(컬러링)||543||51108||UA_s20601||확인받기
+		//sbpName||sbpId(seqId)|| ... ||activityId(activityName)||activity
+		
+		//console.log('newProjectCtrl selectSbpPostMessage : ', args)
+		
+		//sbp프로젝트 미리보기시에는 엑티비티를 선택할 수 없게한다 
+		if (!$scope.result[0].sbpPrjId)
+			return;
+		
+		$scope.tempSbpName = args.data.split("||")[0];
+		$scope.tempSbpId = args.data.split("||")[1];
+		$scope.tempActivityId = args.data.split("||")[3];
+		$scope.tempActivityName = args.data.split("||")[4];
+		
+		
+		$scope.confirmTitle = 'Activity';
+		$scope.confirmText = "'"+args.data.split("||")[4]+"' 를(을) 선택하시겠습니까?" 
+		
+		$scope.confirmActionArray = [$scope.selectSbpTreeModal, $scope.closeConfirmModal]
+		
+		$scope.openConfirmModal();
+		
+	});
+	
+	
+	
+	
+	//CSS 관련 
 	$scope.getPnImg = function(attribut , type) {
 		
 		if (type == 'P') {
@@ -21,13 +116,7 @@ angular.module("hvm")
 		}
 		
 	}
-	
-	$scope.setAttributeType = function(attribute, type) {
-		if (attribute.valueName) {
-			attribute.attributeType = type;
-		}
-	}
-	
+
 	$scope.showSaveBtn = function() {
 		
 		if ($scope.result[0].pssPrjName == null || $scope.result[0].pssPrjName == undefined) 
@@ -41,6 +130,16 @@ angular.module("hvm")
 	
 	}
 	
+	
+	
+	//신규작성 P/N 선택 
+	$scope.setAttributeType = function(attribute, type) {
+		if (attribute.valueName) {
+			attribute.attributeType = type;
+		}
+	}
+	
+	//SBP 를 그룹핑하여 No? 를 찍기 위한.. 신규작성 시 SBP 프로젝트를 선택하거나 attribute 를 추가하는 시점에 실행된다 
 	$scope.$watch('result[0].sbpPrjName', function(newVal, oldVal){
 		$scope.getSbpPrjSbpName()
     }, true);
@@ -115,58 +214,6 @@ angular.module("hvm")
 			$scope.result[0].attributes.push(attribute);
 		})
 	}
-	$scope.$on('selectValuePostMessage', function(event, args) {
-		//callType||valueText
-		
-		$scope.selectedPssValueName = args.data.split("||")[1];
-		
-		$scope.confirmTitle = 'PSS';
-		$scope.confirmText = "'"+args.data.split("||")[1]+"' 를(을) 선택하시겠습니까?" 
-		
-		$scope.confirmActionArray = [$scope.selectValueTreeModal, $scope.closeConfirmModal]
-		
-		$scope.openConfirmModal();
-		
-	});
-	$scope.$on('selectPssPrjPostMessage', function(event, args) {
-		//callType||psId||psame
-		
-		$scope.selectedPssPrjId = args.data.split("||")[1];
-		$scope.selectedPssPrjName = args.data.split("||")[2];
-		
-		
-		$scope.confirmTitle = 'PSS';
-		$scope.confirmText = "'"+args.data.split("||")[2]+"' 를(을) 선택하시겠습니까?" 
-		
-		$scope.confirmActionArray = [$scope.selectPssProjectListModal, $scope.closeConfirmModal]
-		
-		$scope.openConfirmModal();
-		
-	});
-	$scope.$on('selectSbpPostMessage', function(event, args) {
-		//2013 12 17_to be(컬러링)||543||51108||UA_s20601||확인받기
-		//sbpName||sbpId(seqId)|| ... ||activityId(activityName)||activity
-		
-		//console.log('newProjectCtrl selectSbpPostMessage : ', args)
-		
-		//sbp프로젝트 미리보기시에는 엑티비티를 선택할 수 없게한다 
-		if (!$scope.result[0].sbpPrjId)
-			return;
-		
-		$scope.tempSbpName = args.data.split("||")[0];
-		$scope.tempSbpId = args.data.split("||")[1];
-		$scope.tempActivityId = args.data.split("||")[3];
-		$scope.tempActivityName = args.data.split("||")[4];
-		
-		
-		$scope.confirmTitle = 'SBP';
-		$scope.confirmText = "'"+args.data.split("||")[4]+"' 를(을) 선택하시겠습니까?" 
-		
-		$scope.confirmActionArray = [$scope.selectSbpTreeModal, $scope.closeConfirmModal]
-		
-		$scope.openConfirmModal();
-		
-	});
 	
 	$scope.saveNewProject = function() {
 		
@@ -185,30 +232,7 @@ angular.module("hvm")
 	}
 	
 	
-	$scope.trustSrc = function(type, selectedSbp) {
-		if (type === "value") {
-		    return $sce.trustAsResourceUrl(valueDetailFrameUrl + $scope.result[0].pssPrjId);
-		} else if (type === "pss") {
-		    return $sce.trustAsResourceUrl(pssDetailFrameUrl + $scope.result[0].pssPrjId);
-		} else if (type === "sbp") {
-			//sbp프로젝트를 선택하는 팝업에서도 sbp를 조회 할 수 있다 
-			if ($scope.result[0].sbpPrjId) {
-				if ($scope.selectedAttributeForSbp) {
-					//!$scope.justViewSbpList 신규생성화면에서 sbp를 선택한다면 무조건 sbp 팝업이 열려야한다 
-					// 신규 생성 화면에서 엑티비티를 선택하면 sbp가 선택이 되어 있다면 activity 조회, 아니라면 sbp 선택 팝업 
-					if ($scope.selectedAttributeForSbp.sbpId && !$scope.justViewSbpList) {
-						return $sce.trustAsResourceUrl("http://sbp.pssd.or.kr/sbp/panel8ForHvm.jsp?seq="+$scope.selectedAttributeForSbp.sbpId+"&hvm=true&memberId=sbpAdmin&sPUID=&docTitle="+$scope.selectedAttributeForSbp.sbpName+"&sProjectName="+$scope.result[0].sbpPrjName);
-					} else {
-						return $sce.trustAsResourceUrl("http://sbp.pssd.or.kr/sbp/listForHvm.jsp?hvm=true&memberId=sbpAdmin&sPUID="+$scope.result[0].sbpPrjId+"&sProjectName="+$scope.result[0].sbpPrjName);
-					}
-				}
-			} else {
-				return $sce.trustAsResourceUrl("http://sbp.pssd.or.kr/sbp/listForHvm.jsp?hvm=true&memberId=sbpAdmin&sPUID="+$scope.tempSbpPrjId+"&sProjectName="+$scope.tempSbpPrjName);
-			}
-		} else if (type === "sbpView") {
-		    return $sce.trustAsResourceUrl("http://am.pssd.or.kr:9095/AMT_SYSTEM/otherActivityUpdate.runa?user_seq=1&sysType=SBP&operType=SR02&activity_name="+$scope.selectedActivityId+"&united_user_seq=tester&user_id=tester&user_name=tester&project_name=test&project_puid=test");
-		}
-	}
+	
 
 	$scope.deletePssProject = function() {
 		$scope.result[0].pssPrjId = null;
@@ -236,6 +260,10 @@ angular.module("hvm")
 	}
 	//$scope.sbpPrjId = null;
 	$scope.selectedSbpProject = function(sbpProject, index) {
+		
+		$scope.preViewSbpPrjPuId = null;
+		$scope.preViewSbpPrjName = null;
+		
 		$scope.sbpPrjId = sbpProject.project_puid;
 		$scope.sbpPrjName = sbpProject.project_name;
 		
@@ -364,15 +392,21 @@ angular.module("hvm")
 //			$scope.findElementByTextNPaintOnValueTreeModal(attribute.valueName, '#00FF00');
 //			//$('#valueTree').contents().find('#selectedValue')[0].value = attribute.valueName;
 //			$scope.getSelectedValueElementOnValueTreeModal().value = attribute.valueName;
+//			$scope.selectValueName = attribute.valueName;
 		}
+		$scope.selectValueName = attribute.valueName;
 		
-		$($('#valueTree').contents().find('body')).focus();
 		
 		$scope.valueTree_modal_style = {
 	        'display' : 'block'
 	    };
+		
+
+		$($('#valueTree').contents().find('body')).focus();
+		
 	}
 	$scope.closeValueTreeModal = function() {
+		//$scope.findElementByTextNPaintOnValueTreeModal($scope.selectValueName, '#EAE8E6');
 //		$scope.findElementByTextNPaintOnValueTreeModal($scope.selectedAttributeForValue.valueName, '#EAE8E6');
 //		$scope.findElementByTextNPaintOnValueTreeModal($scope.getSelectedValueElementOnValueTreeModal().value, '#EAE8E6');
 		$scope.selectedAttributeForValue = null;
@@ -386,6 +420,7 @@ angular.module("hvm")
 			$scope.selectedAttributeForValue.valueName = $('#valueTree').contents().find('#selectedValue')[0].value;
 			$scope.getSelectedValueElementOnValueTreeModal().value = null;
 		}
+		//$scope.findElementByTextNPaintOnValueTreeModal($scope.selectValueName, '#EAE8E6');
 		//$scope.findElementByTextNPaintOnValueTreeModal($scope.selectedAttributeForValue.valueName, '#EAE8E6');
 		$scope.selectedAttributeForValue = null;
 
@@ -397,6 +432,10 @@ angular.module("hvm")
 	
 	//sbp tree modal
 	$scope.openSbpTreeModal = function(attribute, tempSbpPrjId, tempSbpPrjName, justViewSbpList) {
+		
+		
+		$scope.preViewSbpPrjPuId = tempSbpPrjId;
+		$scope.preViewSbpPrjName = tempSbpPrjName;
 		
 		$scope.justViewSbpList = justViewSbpList;
 		
@@ -463,6 +502,7 @@ angular.module("hvm")
 
 		$scope.confirmTitle = null;
 		$scope.confirmText = null;
+		$scope.confirmMsg = null;
 		$scope.confirmAction = null;
 		$scope.confirmActionArray = null;
 	}

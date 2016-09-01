@@ -35,6 +35,7 @@ public class HvmDaoImpl implements IHvmDao {
 	public Long getHvmProjectSize(String userId, HvmProjectCond cond) throws Exception {
 
 		String searchKey = cond.getSearchKey();
+		String pssPrjId = cond.getPssPrjId();
 
 		StringBuffer query = new StringBuffer();
 		query.append("select count(*) ");
@@ -44,9 +45,18 @@ public class HvmDaoImpl implements IHvmDao {
 		Long totalSize = 0L;
 		if (searchKey != null && searchKey.length() != 0) {
 			String likeSearchKey = "%" + searchKey + "%";
-			totalSize = jdbcTemplateObject.queryForObject(query.toString(), new Object[]{likeSearchKey,likeSearchKey,likeSearchKey,likeSearchKey,likeSearchKey,likeSearchKey,likeSearchKey}, Long.class);
+			if (pssPrjId != null) {
+				totalSize = jdbcTemplateObject.queryForObject(query.toString(), new Object[]{likeSearchKey,likeSearchKey,likeSearchKey,likeSearchKey,likeSearchKey,likeSearchKey,likeSearchKey, pssPrjId}, Long.class);
+			} else {
+				totalSize = jdbcTemplateObject.queryForObject(query.toString(), new Object[]{likeSearchKey,likeSearchKey,likeSearchKey,likeSearchKey,likeSearchKey,likeSearchKey,likeSearchKey}, Long.class);
+			}
 		} else {
-			totalSize = jdbcTemplateObject.queryForObject(query.toString(), Long.class);
+			
+			if (pssPrjId != null) {
+				totalSize = jdbcTemplateObject.queryForObject(query.toString(), new Object[]{pssPrjId} ,Long.class);
+			} else {
+				totalSize = jdbcTemplateObject.queryForObject(query.toString(), Long.class);
+			}
 		}
 		return totalSize;
 	

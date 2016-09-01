@@ -6,7 +6,7 @@ angular.module("hvm")
 	
 	$scope.trustSrc = function(type) {
 		if (type === "valueView") {
-		    return $sce.trustAsResourceUrl(valueDetailFrameUrl + $scope.selectedValueId + "&view=true");
+		    return $sce.trustAsResourceUrl(valueDetailFrameUrl + $scope.selectedValueId + "&view=true&selectValueName="+$scope.selectedValueName);
 		} else if (type === "sbpView") {
 		    //return $sce.trustAsResourceUrl("http://sbp.pssd.or.kr/sbp/listForHvm.jsp?hvm=true&memberId=sbpAdmin&sPUID="+$scope.result[0].sbpPrjId+"&sProjectName="+$scope.result[0].sbpPrjName);
 		    //return $sce.trustAsResourceUrl("http://sbp.pssd.or.kr/sbp/panel8ForHvm.jsp?hvm=true&memberId=&sPUID="+$scope.selectedSbpId+"&sProjectName="+$scope.selectedSbpName);
@@ -36,7 +36,7 @@ angular.module("hvm")
 		//$scope.findElementByTextNPaintOnValueTreeModal(valueName, '#cbe000');
 	}
 	$scope.closeValueViewModal = function() {
-		$scope.findElementByTextNPaintOnValueTreeModal($scope.selectedValueName, '#EAE8E6');
+		//$scope.findElementByTextNPaintOnValueTreeModal($scope.selectedValueName, '#EAE8E6');
 		$scope.selectedValueName = null;
 		$scope.valueView_modal_style = {
 	        'display' : 'none'
@@ -103,11 +103,13 @@ angular.module("hvm")
 			var orderColumn = null;
 			
 			if ($scope.viewType == 'Value') {
-				orderColumn = 'valueName';
+				orderColumn = 'valueName collate "C", attributeName collate "C", activityName collate "C"';
 			} else if ($scope.viewType == 'Activity') {
-				orderColumn = 'activityName';
+				orderColumn = 'activityName collate "C", valueName collate "C", attributeName collate "C"';
 			} else if ($scope.viewType == 'Attribute') {
-				orderColumn = 'attributeName';
+				orderColumn = 'attributeName collate "C", valueName collate "C" , activityName collate "C"';
+			} else if ($scope.viewType == 'SBP') {
+				orderColumn = 'sbpPrjName collate "C", sbpName collate "C" , valueName collate "C"';
 			}
 			
 			$scope.clickAttrPageNo(0, orderColumn)
@@ -257,13 +259,16 @@ angular.module("hvm")
 		
 		if (orderColumn == null || orderColumn == undefined) {
 			if ($scope.viewType == 'Value') {
-				orderColumn = 'valueName';
+				orderColumn = 'valueName collate "C", attributeName collate "C", activityName collate "C"';
 			} else if ($scope.viewType == 'Activity') {
-				orderColumn = 'activityName';
+				orderColumn = 'activityName collate "C", valueName collate "C", attributeName collate "C"';
 			} else if ($scope.viewType == 'Attribute') {
-				orderColumn = 'attributeName';
+				orderColumn = 'attributeName collate "C", valueName collate "C" , activityName collate "C"';
+			} else if ($scope.viewType == 'SBP') {
+				orderColumn = 'sbpPrjName collate "C", sbpName collate "C" , valueName collate "C"';
 			}
 		}
+		
 		
 		$scope.attrPageNo = pNo;
 		
@@ -295,11 +300,13 @@ angular.module("hvm")
 	} else {
 		
 		if ($scope.viewType == 'Value') {
-			orderColumn = 'valueName';
+			orderColumn = 'valueName collate "C", attributeName collate "C", activityName collate "C"';
 		} else if ($scope.viewType == 'Activity') {
-			orderColumn = 'activityName';
+			orderColumn = 'activityName collate "C", valueName collate "C", attributeName collate "C"';
 		} else if ($scope.viewType == 'Attribute') {
-			orderColumn = 'attributeName';
+			orderColumn = 'attributeName collate "C", valueName collate "C" , activityName collate "C"';
+		} else if ($scope.viewType == 'SBP') {
+			orderColumn = 'sbpPrjName collate "C", sbpName collate "C" , valueName collate "C"';
 		}
 		
 		$scope.clickAttrPageNo(0, orderColumn)
