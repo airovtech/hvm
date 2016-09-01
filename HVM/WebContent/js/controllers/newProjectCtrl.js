@@ -198,9 +198,6 @@ angular.module("hvm")
 	if ($routeParams.psId != 'new') {
 		$scope.editProject($routeParams.psId);
 	}
-	$scope.cancel = function() {
-		$location.path('/projectList');
-	}
 	
 	$scope.pssProjectListUrl = pssProjectListApi;
 	
@@ -230,9 +227,29 @@ angular.module("hvm")
 			$('.pnDiv').find('div[class!="ng-hide"]').find('.emptyPn').addClass('err-empty')
 		}
 	}
-	
-	
-	
+	$scope.cancel = function() {
+		$location.path('/projectList');
+	}
+	$scope.confirmSaveNewProject = function() {
+		
+		$scope.confirmTitle = 'New';
+		$scope.confirmText = "저장 하시겠습니까?" 
+		
+		$scope.confirmActionArray = [$scope.saveNewProject, $scope.closeConfirmModal]
+		
+		$scope.openConfirmModal();
+		
+	}
+	$scope.confirmCancel = function() {
+		
+		$scope.confirmTitle = 'New';
+		$scope.confirmText = "작성을 취소하시겠습니까?" 
+		
+		$scope.confirmActionArray = [$scope.cancel, $scope.closeConfirmModal]
+		
+		$scope.openConfirmModal();
+		
+	}
 
 	$scope.deletePssProject = function() {
 		$scope.result[0].pssPrjId = null;
