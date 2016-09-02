@@ -1,5 +1,7 @@
 package net.smartworks.model;
 
+import java.util.List;
+
 public class Condition {
 
 	private String viewType = null;
@@ -10,6 +12,8 @@ public class Condition {
 	private String orderColumn;
 	private boolean isDescending;
 	
+	private List<Filter> filters;
+
 	public String getViewType() {
 		return viewType;
 	}
@@ -46,6 +50,11 @@ public class Condition {
 	public void setDescending(boolean isDescending) {
 		this.isDescending = isDescending;
 	}
-	
+	public List<Filter> getFilters() {
+		return filters;
+	}
+	public void setFilters(List<Filter> filters) {
+		this.filters = filters;
+	}
 	
 }

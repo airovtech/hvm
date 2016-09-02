@@ -21,6 +21,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import net.smartworks.factory.HvmManagerFactory;
 import net.smartworks.manager.IHvmManager;
+import net.smartworks.model.Filter;
 import net.smartworks.model.PagingInfo;
 import net.smartworks.model.SkkupssPssProject;
 import net.smartworks.model.hvm.HvmAttribute;
@@ -67,25 +68,6 @@ public class HvmController {
 		List<SkkupssPssProject> list = hvmMgr.getSkkupssPssProject(currentUser.getId(), psId);
 		return list;
 	}
-	
-	@RequestMapping(value="/getHvmProjectSize", method=RequestMethod.POST)
-	public @ResponseBody Map getHvmProjectSize(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
-	
-		Login currentUser = HvmUtil.getCurrentUserInfo();
-		
-		IHvmManager hvmMgr = HvmManagerFactory.getInstance().getHvmManager();
-		HvmProjectCond cond = new HvmProjectCond();
-		String searchKey = (String)requestBody.get("searchKey");
-		String pssPrjId = (String)requestBody.get("pssPrjId");
-		if (searchKey != null && searchKey.length() != 0) {
-			cond.setSearchKey(searchKey);
-		}
-		if (pssPrjId != null && pssPrjId.length() != 0) {
-			cond.setPssPrjId(pssPrjId);
-		}
-		Map result = hvmMgr.getHvmProjectSize(currentUser.getId(), cond);
-		return result;
-	}
 
 	@RequestMapping(value="/getHvmEmptyAttribute", method=RequestMethod.POST)
 	public @ResponseBody List getHvmEmptyAttribute(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -115,7 +97,38 @@ public class HvmController {
 		
 		return projectList;
 	}
+
+	@RequestMapping(value="/getHvmProjectSize", method=RequestMethod.POST)
+	public @ResponseBody Map getHvmProjectSize(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
 	
+		Login currentUser = HvmUtil.getCurrentUserInfo();
+		
+		IHvmManager hvmMgr = HvmManagerFactory.getInstance().getHvmManager();
+		HvmProjectCond cond = new HvmProjectCond();
+		String pssPrjId = (String)requestBody.get("pssPrjId");
+		if (pssPrjId != null && pssPrjId.length() != 0) {
+			cond.setPssPrjId(pssPrjId);
+		}
+		
+		List<Map<String, String>> filtersList = (List<Map<String, String>>)requestBody.get("filters");
+		if (filtersList != null && filtersList.size() != 0) {
+			List<Filter> filters = new ArrayList<Filter>();
+			for (int i = 0; i < filtersList.size(); i++) {
+				Map filterMap = filtersList.get(i);
+				String left = (String)filterMap.get("left");
+				String operator = (String)filterMap.get("operator");
+				String right = (String)filterMap.get("right");
+				
+				Filter filter = new Filter(left, operator, right);
+				filters.add(filter);
+			}
+			cond.setFilters(filters);
+		}
+		
+		
+		Map result = hvmMgr.getHvmProjectSize(currentUser.getId(), cond);
+		return result;
+	}
 	@RequestMapping(value="/getHvmProjects", method=RequestMethod.POST)
 	public @ResponseBody List getHvmProjects(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -124,13 +137,31 @@ public class HvmController {
 		IHvmManager hvmMgr = HvmManagerFactory.getInstance().getHvmManager();
 		HvmProjectCond cond = new HvmProjectCond();
 		String viewType = (String)requestBody.get("viewType");
-		String searchKey = (String)requestBody.get("searchKey");
+		//String searchKey = (String)requestBody.get("searchKey");
 		int pageSize = (Integer)requestBody.get("pageSize");
 		int pageNo = (Integer)requestBody.get("pageNo");
 		String psId = (String)requestBody.get("psId");
-		if (searchKey != null && searchKey.length() != 0) {
-			cond.setSearchKey(searchKey);
+//		if (searchKey != null && searchKey.length() != 0) {
+//			cond.setSearchKey(searchKey);
+//		}
+		
+		
+		List<Map<String, String>> filtersList = (List<Map<String, String>>)requestBody.get("filters");
+		if (filtersList != null && filtersList.size() != 0) {
+			List<Filter> filters = new ArrayList<Filter>();
+			for (int i = 0; i < filtersList.size(); i++) {
+				Map filterMap = filtersList.get(i);
+				String left = (String)filterMap.get("left");
+				String operator = (String)filterMap.get("operator");
+				String right = (String)filterMap.get("right");
+				
+				Filter filter = new Filter(left, operator, right);
+				filters.add(filter);
+			}
+			cond.setFilters(filters);
 		}
+		
+		
 		if (psId != null && psId.length() != 0) {
 			cond.setPssPrjId(psId);
 		}
@@ -178,9 +209,24 @@ public class HvmController {
 		
 		IHvmManager hvmMgr = HvmManagerFactory.getInstance().getHvmManager();
 		HvmAttributeCond cond = new HvmAttributeCond();
-		String searchKey = (String)requestBody.get("searchKey");
-		if (searchKey != null && searchKey.length() != 0) {
-			cond.setSearchKey(searchKey);
+//		String searchKey = (String)requestBody.get("searchKey");
+//		if (searchKey != null && searchKey.length() != 0) {
+//			cond.setSearchKey(searchKey);
+//		}
+		
+		List<Map<String, String>> filtersList = (List<Map<String, String>>)requestBody.get("filters");
+		if (filtersList != null && filtersList.size() != 0) {
+			List<Filter> filters = new ArrayList<Filter>();
+			for (int i = 0; i < filtersList.size(); i++) {
+				Map filterMap = filtersList.get(i);
+				String left = (String)filterMap.get("left");
+				String operator = (String)filterMap.get("operator");
+				String right = (String)filterMap.get("right");
+				
+				Filter filter = new Filter(left, operator, right);
+				filters.add(filter);
+			}
+			cond.setFilters(filters);
 		}
 		
 		Map result = hvmMgr.getHvmAttributeSize(currentUser.getId(), cond);
@@ -195,7 +241,7 @@ public class HvmController {
 		IHvmManager hvmMgr = HvmManagerFactory.getInstance().getHvmManager();
 		HvmAttributeCond cond = new HvmAttributeCond();
 		String viewType = (String)requestBody.get("viewType");
-		String searchKey = (String)requestBody.get("searchKey");
+		//String searchKey = (String)requestBody.get("searchKey");
 		int pageSize = (Integer)requestBody.get("pageSize");
 		int pageNo = (Integer)requestBody.get("pageNo");
 		
@@ -205,14 +251,30 @@ public class HvmController {
 			isDescending = (Boolean)requestBody.get("isDescending");
 		}
 		
-		if (searchKey != null && searchKey.length() != 0) {
-			cond.setSearchKey(searchKey);
-		}
+//		if (searchKey != null && searchKey.length() != 0) {
+//			cond.setSearchKey(searchKey);
+//		}
 		cond.setPageSize(pageSize);
 		cond.setPageNo(pageNo);
 		
 		cond.setOrderColumn(orderColumn);
 		cond.setDescending(isDescending);
+		
+		
+		List<Map<String, String>> filtersList = (List<Map<String, String>>)requestBody.get("filters");
+		if (filtersList != null && filtersList.size() != 0) {
+			List<Filter> filters = new ArrayList<Filter>();
+			for (int i = 0; i < filtersList.size(); i++) {
+				Map filterMap = filtersList.get(i);
+				String left = (String)filterMap.get("left");
+				String operator = (String)filterMap.get("operator");
+				String right = (String)filterMap.get("right");
+				
+				Filter filter = new Filter(left, operator, right);
+				filters.add(filter);
+			}
+			cond.setFilters(filters);
+		}		
 		
 		
 		List<HvmAttribute> list = hvmMgr.getHvmAttributes(currentUser.getId(), cond);

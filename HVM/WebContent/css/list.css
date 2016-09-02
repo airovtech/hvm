@@ -4,7 +4,7 @@
 #header, #contents {min-width:1024px;}
 
 #contents_bottom {clear:both; width:100%;}
-#contents_bottom .box_header {height:49px; background-color:#cbe000; margin-top:40px; padding-right:10px;}
+#contents_bottom .box_header {height:49px; background-color:#cbe000; padding-right:10px;}
 
 #contents_bottom .box_header img { float:left;}
 #contents_bottom .box_header .preparingPerson { float:right; }

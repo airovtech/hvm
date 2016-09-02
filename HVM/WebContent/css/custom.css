@@ -286,7 +286,15 @@
 }
 
 
+.editBtnDiv {
+	height:40px;
+}
 
-
+.path {
+	float:left;
+	font-size:16px;
+	color:#fff;
+	margin:14px;
+}
 
 

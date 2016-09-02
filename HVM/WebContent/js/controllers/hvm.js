@@ -45,7 +45,11 @@ angular.module("hvm")
 	$scope.mainView = function(){
 		$cookies.put("nowViewType","PSS");
 		$scope.viewType ="PSS";
+		
+		$rootScope.$broadcast('clickMainLogo','PSS');
+		
 		$location.path("/projectList");
+		
 	};
 
 	

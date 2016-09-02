@@ -208,6 +208,15 @@ angular.module("hvm")
 		retrieveServicePost.retrieve(getEmptyAttribute, null, null, null, null).then(function(response){
 			var attribute = response.data[0];
 			attribute.prjId = $scope.result[0].id;
+			
+			if($scope.result[0].attributes.length != 0) {
+				var prevSbpId = $scope.result[0].attributes[$scope.result[0].attributes.length - 1].sbpId;
+				var prevSbpName = $scope.result[0].attributes[$scope.result[0].attributes.length - 1].sbpName;
+				
+				attribute.sbpId = prevSbpId;
+				attribute.sbpName = prevSbpName;
+			}
+			
 			$scope.result[0].attributes.push(attribute);
 		})
 	}

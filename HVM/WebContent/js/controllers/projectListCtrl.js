@@ -18,9 +18,12 @@ angular.module("hvm")
 		    return $sce.trustAsResourceUrl("http://am.pssd.or.kr:9095/AMT_SYSTEM/otherActivityUpdate.runa?user_seq=1&sysType=SBP&operType=SR02&activity_name="+$scope.selectedActivityId+"&united_user_seq=tester&user_id=tester&user_name=tester&project_name=test&project_puid=test");
 		}
 	}
+
+	$scope.$on('clickMainLogo', function(event, args) {
+		$scope.selectViewType(0);	
+	})
 	
-	
-	//value view modal
+ 	//value view modal
 	$scope.findElementByTextNPaintOnValueTreeModal = function(text, colorCode) {
 		$($('#valueView').contents().find('span:contains("'+text+'")').filter('[class="js_action_select_value"]')[0]).parent().parent().css('background-color',colorCode);
 	}
