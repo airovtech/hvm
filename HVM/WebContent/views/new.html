@@ -58,13 +58,13 @@
 						<table width="100%" border="1" cellpadding="0">
 							<tr>
 								<th width="20%" scope="col">Value</th>
-								<th width="30%" scope="col">Attribute</th>
-								<th width="10%" scope="col">P/N</th>
+								<th width="25%" scope="col">Attribute</th>
+								<th width="15%" scope="col">P/N</th>
 								<th width="20%" scope="col">Activity</th>
-								<th width="10%" scope="col">SBP</th>
-								<th width="5%" scope="col"></th>
+								<th width="5%" scope="col">SBP</th>
+								<th width="15%" scope="col"></th>
 							</tr>
-							<tr ng-repeat="attribute in project.attributes">
+							<tr id="attrTr{{$index}}" ng-show="attribute.editmode" ng-repeat-start="attribute in project.attributes">
 								<td><input required class="valueTd" ng-focus="openValueTreeModal(attribute)" name="" type="text" ng-model="attribute.valueName"/></td>
 								<td><input required style="width:95%;" name="" type="text" ng-model="attribute.attributeName" ng-disabled="!attribute.valueName"/></td>
 								<!-- <td><input name="" type="text" ng-model="attribute.attributeType"/></td> -->
@@ -77,7 +77,7 @@
 								</td> -->
 								
 								<td align="center">
-									<div class="pnDiv">
+									<div class="pnDiv{{$index}}">
 										<div ng-show="attribute.attributeType == null">
 											<a href='' ng-click="setAttributeType(attribute, 'P')">
 												<img class="emptyPn" src="images/btn_p_off.png"/>
@@ -110,12 +110,59 @@
 								<td><input required class="activityTd" ng-focus="openSbpTreeModal(attribute)" name="" type="text" ng-model="attribute.activityName" ng-disabled="!attribute.valueName"/></td>
 								<!-- <td><input name="" type="text" ng-model="attribute.sbpName" disabled/></td> -->
 								<td><input required class="sbpTd" name="" type="text" ng-readonly="true" ng-value="getSbpPrjSbpNameNo(attribute.sbpName)" ng-focus="openSbpTreeModal(attribute,null,null,true)" ng-disabled="!attribute.valueName"/></td>
-								<td align="center"><a href='' ng-click='removeAttribute(attribute, $index)'>
-									<img src="images/btn_box_delete.png"
+								<td align="center">
+									
+									<span class="btn_attr_save" style="position:relative; top:10px;">
+										<a  ng-click="confirmSaveNewAttribute(attribute, $index)">저장</a>
+									</span>
+									<span class="btn_attr_del" style="position:relative; top:10px;">
+										<a ng-click="confirmRemoveNewAttribute(attribute, $index)">삭제</a>
+									</span>
+									<!-- <a href='' ng-click='removeAttribute(attribute, $index)'>
+										<img src="images/btn_box_delete.png"
 										onmouseover="this.src='images/btn_box_delete_hover.png'"
-										onmouseout="this.src='images/btn_box_delete.png'" /></a>
+										onmouseout="this.src='images/btn_box_delete.png'" />
+									</a> -->
 								</td>
 							</tr>
+							
+							<tr ng-show="!attribute.editmode" ng-repeat-end class="viewTr">
+								<!-- <td><input class="valueTd" ng-readonly="true" ng-focus="openValueTreeModal(attribute)" name="" type="text" ng-model="attribute.valueName"/></td> -->
+								<td><div ng-click="openValueTreeModal(attribute)">{{attribute.valueName}}</div></td>
+								<td><div>{{attribute.attributeName}}</div></td>
+								<td align="center">
+									<div class="pnDiv">
+										<div ng-show="attribute.attributeType == 'P'">
+											<a>
+												<img style="position:relative; top:-10px;" src="images/btn_p_on.png"/>
+											</a>
+										</div>
+										<div ng-show="attribute.attributeType == 'N'">
+											<a>
+												<img style="position:relative; top:-10px;" src="images/btn_n_on.png"/>
+											</a>
+										</div>
+									</div>
+								</td>
+								<td><div ng-click="openSbpTreeModal(attribute)">{{attribute.activityName}}</div></td>
+								<!-- <td><input name="" type="text" ng-model="attribute.sbpName" disabled/></td> -->
+								<td align="center"><div ng-click="openSbpTreeModal(attribute,null,null,true)">{{getSbpPrjSbpNameNo(attribute.sbpName)}}</div></td>
+								
+								<td align="center">
+									
+									<span class="btn_attr_edit">
+										<a  ng-click="attribute.editmode ='true'">수정</a>
+									</span>
+									<span class="btn_attr_del">
+										<a ng-click='confirmRemoveNewAttribute(attribute, $index)'>삭제</a>
+									</span>
+									<!-- <img src="images/btn_box_delete.png"
+										onmouseover="this.src='images/btn_box_delete_hover.png'"
+										onmouseout="this.src='images/btn_box_delete.png'" /></a> -->
+								</td>
+							</tr>
+							
+							
 						</table>					
 					</form>
 					<a href="" ng-show="result[0].pssPrjId && result[0].sbpPrjId" ng-click="addAttribute()"><img class="addAttrBtn" src="images/btn_add.png"
@@ -125,11 +172,11 @@
 			</div>
 		</div>
 		<div class="btn">
-			<a ng-click="confirmCancel()"  class="btn-cancel">취소</a>
+			<a ng-click="confirmCancel()"  class="btn-cancel">나가기</a>
 		</div>
-		<div class="btn">
+		<!-- <div class="btn">
 			<a ng-show="showSaveBtn()" ng-click="confirmSaveNewProject()" class="btn-save">저장</a>
-		</div>
+		</div> -->
 	</div>
 </div>
 

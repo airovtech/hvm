@@ -114,5 +114,44 @@ public class HvmManagerImpl implements IHvmManager {
 		List<SkkupssPssProject> result = this.getHvmDao().getSkkupssPssProject(userId, psId);
 		return result;
 	}
+	@Override
+	public boolean setHvmAttributeWithProject(String userId, HvmProject project, int attrIndex) throws Exception {
+		
+		if (project == null || attrIndex < 0)
+			return false;
+		
+		project.setLastModifiedUser(userId);
+		project.setLastModifiedDate(new Date());
+		
+		
+		//프로젝트를 조회한 후에 기존에 있다면 업데이트 후 어트리뷰트만 저장, 없다면 프로젝트 저장 후 어트리뷰트 저장
+		
+		if (project.getAttributes() != null) {
+			List<HvmAttribute> list = project.getAttributes();
+			HvmAttribute attribute = list.get(attrIndex);
+			if (attribute == null) 
+				return false;
+
+			//프로젝트만 상태없데이트 하기 위해 어트리뷰트는 제거한다 setHvmProject 에서 attrbute 가 없다면 projet만 저장한다 
+			project.setAttributes(null);
+			//프로젝트 저장 
+			this.setHvmProject(userId, project);
+			
+			//어트리뷰트 저장
+			this.setHvmAttribute(userId, attribute);
+			
+		}
+		return true;
+	}
+	public boolean setHvmAttribute(String userId, HvmAttribute attribute) throws Exception {
+		this.getHvmDao().setHvmAttribute(userId, attribute);
+		return true;
+	}
+	@Override
+	public boolean removeHvmAttribute(String userId, String attributeId) throws Exception {
+		this.getHvmDao().removeHvmAttribute(userId, attributeId);
+		return true;
+	}
+	
 
 }

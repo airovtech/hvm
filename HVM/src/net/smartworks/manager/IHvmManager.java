@@ -21,6 +21,14 @@ public interface IHvmManager {
 	
 	public boolean removeHvmProject(String userId, String projectId) throws Exception;
 	
+	
+	public boolean setHvmAttributeWithProject(String userId, HvmProject project, int attrIndex) throws Exception;
+	
+	public boolean setHvmAttribute(String userId, HvmAttribute attribute) throws Exception;
+	
+	public boolean removeHvmAttribute(String userId, String attributeId) throws Exception;
+	
+	
 	public Map getHvmAttributeSize(String userId, HvmAttributeCond cond) throws Exception;
 	
 	public List<HvmAttribute> getHvmAttributes(String userId, HvmAttributeCond cond) throws Exception;

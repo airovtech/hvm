@@ -1,7 +1,7 @@
 angular.module("hvm")
 .controller("newProjectCtrl", function($scope, $sce, $routeParams, $rootScope, $location, getEmptyProject, getEmptyAttribute
 		, retrieveServicePost, retrieveServicePostByArgs ,searchServicePost, pssProjectListApi, sbpProjectListApi, valueDetailFrameUrl, pssDetailFrameUrl
-		,getProjectListUrl, getProjectListSizeUrl, getSkkupssPssProjectListUrl, setHvmProjectUrl, setServicePost) {
+		,getProjectListUrl, getProjectListSizeUrl, setAttributeWithProjectUrl,removeAttributeUrl,getSkkupssPssProjectListUrl, setHvmProjectUrl, setServicePost, removeProjectPost) {
 
 	
 	
@@ -208,6 +208,9 @@ angular.module("hvm")
 		retrieveServicePost.retrieve(getEmptyAttribute, null, null, null, null).then(function(response){
 			var attribute = response.data[0];
 			attribute.prjId = $scope.result[0].id;
+		
+			//최초추가는 수정모드 
+			attribute.editmode = 'true';
 			
 			if($scope.result[0].attributes.length != 0) {
 				var prevSbpId = $scope.result[0].attributes[$scope.result[0].attributes.length - 1].sbpId;
@@ -221,44 +224,143 @@ angular.module("hvm")
 		})
 	}
 	
-	$scope.saveNewProject = function() {
+	
+	
+	
+	
+	
+	
+	
+	$scope.saveNewAttribute = function() {
+		
+		setServicePost.setAttributeWithProject(setAttributeWithProjectUrl, $scope.result[0] , $scope.saveTargetAttrIndex).then(function(response){
+			$scope.saveTargetAttribute.editmode = null;
+		})
+		
+	}
+	
+	$scope.removeAttribute = function() {
+		removeProjectPost.removeAttribute(removeAttributeUrl, $scope.removeTargetAttribute.id).then(function(response){
+			$scope.result[0].attributes.splice($scope.removeTargetAttrIndex, 1);
+		})
+	}
+	
+	$scope.confirmSaveNewAttribute = function(attribute, attrIndex) {
+		
+		
+		
 		
 		$('input[required]').removeClass('err-empty')
-		$('.pnDiv').find('div[class!="ng-hide"]').find('.emptyPn').removeClass('err-empty')
+		$('.pnDiv'+attrIndex).find('div[class!="ng-hide"]').find('.emptyPn').removeClass('err-empty')
 		
-		if ($('#newProjectFrm').find('.ng-invalid').length == 0 && 
-				$('.pnDiv').find('div[class!="ng-hide"]').find('.emptyPn').length == 0) {
-					setServicePost.setObj(setHvmProjectUrl, null, $scope.result[0]).then(function(response){
-						$location.path('/projectList',true);
-			})
+		if ($('#attrTr'+attrIndex).find('.ng-invalid').length == 0 && 
+				$('.pnDiv'+attrIndex).find('div[class!="ng-hide"]').find('.emptyPn').length == 0) {
+					
+					$scope.saveTargetAttribute = null;
+					$scope.saveTargetAttrIndex = null;
+					
+					$scope.saveTargetAttribute = attribute;
+					$scope.saveTargetAttrIndex = attrIndex;
+					
+					
+					$scope.confirmTitle = 'New';
+					$scope.confirmText = "저장 하시겠습니까?" 
+					
+					$scope.confirmActionArray = [$scope.saveNewAttribute, $scope.closeConfirmModal]
+					
+					$scope.openConfirmModal();
+			
 		} else {
-			$('#newProjectFrm').find('.ng-invalid').addClass('err-empty')
-			$('.pnDiv').find('div[class!="ng-hide"]').find('.emptyPn').addClass('err-empty')
+			$('#attrTr'+attrIndex).find('.ng-invalid').addClass('err-empty')
+			$('.pnDiv'+attrIndex).find('div[class!="ng-hide"]').find('.emptyPn').addClass('err-empty')
 		}
+		
+		
+		
+		
+		
 	}
-	$scope.cancel = function() {
-		$location.path('/projectList');
-	}
-	$scope.confirmSaveNewProject = function() {
+	$scope.confirmRemoveNewAttribute = function(attribute, attrIndex) {
+		
+		$scope.removeTargetAttribute = null;
+		$scope.removeTargetAttrIndex = null;
+		
+		$scope.removeTargetAttribute = attribute;
+		$scope.removeTargetAttrIndex = attrIndex;
 		
 		$scope.confirmTitle = 'New';
-		$scope.confirmText = "저장 하시겠습니까?" 
+		$scope.confirmText = "삭제 하시겠습니까?" 
 		
-		$scope.confirmActionArray = [$scope.saveNewProject, $scope.closeConfirmModal]
+		$scope.confirmActionArray = [$scope.removeAttribute, $scope.closeConfirmModal]
 		
 		$scope.openConfirmModal();
 		
 	}
+	
+	$scope.cancel = function() {
+		$location.path('/projectList');
+	}
 	$scope.confirmCancel = function() {
 		
-		$scope.confirmTitle = 'New';
-		$scope.confirmText = "작성을 취소하시겠습니까?" 
+		$scope.confirmMsg = null;
 		
+		if ($scope.result[0].attributes) {
+			for (var i =0 ; i < $scope.result[0].attributes.length; i++) {
+				if ($scope.result[0].attributes[i].editmode) {
+					$scope.confirmMsg = "아직 저장 되지 않은 항목이 존재합니다!!";
+					break;
+				}
+			}
+		}
+		
+		$scope.confirmTitle = 'New';
+		$scope.confirmText = "목록으로 나가시겠습니까?" 
+			
 		$scope.confirmActionArray = [$scope.cancel, $scope.closeConfirmModal]
 		
 		$scope.openConfirmModal();
 		
 	}
+	
+	
+//	$scope.saveNewProject = function() {
+//		
+//		$('input[required]').removeClass('err-empty')
+//		$('.pnDiv').find('div[class!="ng-hide"]').find('.emptyPn').removeClass('err-empty')
+//		
+//		if ($('#newProjectFrm').find('.ng-invalid').length == 0 && 
+//				$('.pnDiv').find('div[class!="ng-hide"]').find('.emptyPn').length == 0) {
+//					setServicePost.setObj(setHvmProjectUrl, null, $scope.result[0]).then(function(response){
+//						$location.path('/projectList',true);
+//			})
+//		} else {
+//			$('#newProjectFrm').find('.ng-invalid').addClass('err-empty')
+//			$('.pnDiv').find('div[class!="ng-hide"]').find('.emptyPn').addClass('err-empty')
+//		}
+//	}
+//	$scope.cancel = function() {
+//		$location.path('/projectList');
+//	}
+//	$scope.confirmSaveNewProject = function() {
+//		
+//		$scope.confirmTitle = 'New';
+//		$scope.confirmText = "저장 하시겠습니까?" 
+//		
+//		$scope.confirmActionArray = [$scope.saveNewProject, $scope.closeConfirmModal]
+//		
+//		$scope.openConfirmModal();
+//		
+//	}
+//	$scope.confirmCancel = function() {
+//		
+//		$scope.confirmTitle = 'New';
+//		$scope.confirmText = "작성을 취소하시겠습니까?" 
+//		
+//		$scope.confirmActionArray = [$scope.cancel, $scope.closeConfirmModal]
+//		
+//		$scope.openConfirmModal();
+//		
+//	}
 
 	$scope.deletePssProject = function() {
 		$scope.result[0].pssPrjId = null;
@@ -325,9 +427,6 @@ angular.module("hvm")
 
 	//$scope.searchSbpPrj();
 	
-	$scope.removeAttribute = function(attribute, index) {
-		$scope.result[0].attributes.splice(index, 1)
-	}
 	
 	//pssProject modal 
 

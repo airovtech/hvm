@@ -13,6 +13,8 @@ angular.module("hvm")
 .constant("pssDetailFrameUrl","/skkupss/psInstanceListPopup.jsp?psId=")
 .constant("getSkkupssPssProjectListUrl","/HVM/getSkupssProjects.sw")
 .constant("setHvmProjectUrl","/HVM/setHvmProject.sw")
+.constant("setAttributeWithProjectUrl","/HVM/setHvmAttributeWithProject.sw")
+.constant("removeAttributeUrl","/HVM/removeHvmAttribute.sw")
 .constant("getPagingInfoUrl","/HVM/getPagingInfo.sw")
 .controller("hvmCtl", function($scope,$rootScope, $location, $cookies, retrieveCurrentUser, imageServerUrl, logoutSvc){
 
@@ -83,7 +85,11 @@ angular.module("hvm")
 		removeProject: function(url, projectId) {
 			console.log(url, projectId);
 			return $http.post(url,{"projectId": projectId});
+		},
+		removeAttribute: function(url, attributeId) {
+			return $http.post(url,{"attributeId": attributeId});
 		}
+	
 	}
 }])
 .service("getPagingInfoPost",['$http', function($http){
@@ -99,6 +105,10 @@ angular.module("hvm")
 		setObj: function(url, setMode, obj , oldObj) {
 			console.log(url, obj);
 			return $http.post(url,{"result": obj,"setMode": setMode, "oldObj":oldObj});
+		},
+		setAttributeWithProject : function(url, obj, attrIndex) {
+			return $http.post(url,{"result": obj,"attrIndex": attrIndex});
+			
 		}
 	}
 }])

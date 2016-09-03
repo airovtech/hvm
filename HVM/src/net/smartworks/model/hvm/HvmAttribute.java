@@ -18,7 +18,14 @@ public class HvmAttribute {
 	private String activityName = null;
 	private String attributeType = null;
 	private String attributeName = null;
+	private String editmode = null;
 	
+	public String getEditmode() {
+		return editmode;
+	}
+	public void setEditmode(String editmode) {
+		this.editmode = editmode;
+	}
 	private HvmProject project;
 
 	public String getId() {

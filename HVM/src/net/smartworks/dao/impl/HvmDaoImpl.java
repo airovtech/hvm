@@ -325,6 +325,9 @@ public class HvmDaoImpl implements IHvmDao {
 		
 	    final List<HvmAttribute> attrs = prj.getAttributes();
 		if (attrs != null) {
+			
+			this.removeHvmAttributeByPrjId(userId, prj.getId());
+			
 			StringBuffer attrSql = new StringBuffer().append("insert into hvmattribute ");
 			attrSql.append(" (id, prjid, valueid, valuename, sbpid, sbpname, activityid, activityname, attributetype, attributename) ");
 			attrSql.append(" values (? ,? ,? ,? ,? ,? ,? ,? ,? ,?)");
@@ -358,15 +361,22 @@ public class HvmDaoImpl implements IHvmDao {
 	@Override
 	public boolean removeHvmProject(String userId, String prjId) throws Exception {
 		
-		StringBuffer attrQuery = new StringBuffer().append("delete from hvmattribute where prjid = ? ");
 		StringBuffer prjQuery = new StringBuffer().append("delete from hvmproject where id=?");
 
-		jdbcTemplateObject.update(attrQuery.toString(), prjId);
 		jdbcTemplateObject.update(prjQuery.toString(), prjId);
 		
 		return true;
 	}
-	
+
+	@Override
+	public boolean removeHvmAttributeByPrjId(String userId, String prjId) throws Exception {
+		
+		StringBuffer attrQuery = new StringBuffer().append("delete from hvmattribute where prjid = ? ");
+
+		jdbcTemplateObject.update(attrQuery.toString(), prjId);
+		
+		return true;
+	}
 	
 	
 	
@@ -524,93 +534,6 @@ public class HvmDaoImpl implements IHvmDao {
 	}
 	
 	
-	
-	
-	
-
-	/*private void setAttributeQuery(StringBuffer query, HvmAttributeCond cond) throws Exception {
-		
-		String searchKey = cond.getSearchKey();
-		
-		query.append(" 	from  ");
-		query.append(" 	hvmattribute attr, hvmproject prj ");
-		query.append(" 	where attr.prjid = prj.id ");
-		if (searchKey != null) {
-			query.append(" 	and ((prj.pssPrjName like ? or prj.sbpPrjName like ? or attr.valueName like ? or attr.sbpName like ? or attr.activityName like ? or attributeName like ? )");
-			query.append(" 		or ( prj.createdUser in (select id from orguser where name like ?) ))");
-		}
-		
-	}
-	@Override
-	public Long getHvmAttributeSize(String userId, HvmAttributeCond cond) throws Exception {
-
-		String searchKey = cond.getSearchKey();
-
-		StringBuffer query = new StringBuffer();
-		query.append("select count(*) ");
-		
-		setAttributeQuery(query, cond);
-
-		Long totalSize = 0L;
-		if (searchKey != null && searchKey.length() != 0) {
-			String likeSearchKey = "%" + searchKey + "%";
-			totalSize = jdbcTemplateObject.queryForObject(query.toString(), new Object[]{likeSearchKey,likeSearchKey,likeSearchKey,likeSearchKey,likeSearchKey,likeSearchKey,likeSearchKey}, Long.class);
-		} else {
-			totalSize = jdbcTemplateObject.queryForObject(query.toString(), Long.class);
-		}
-		return totalSize;
-	
-	}
-	
-	@Override
-	public List<HvmAttribute> getHvmAttributes(String userId, HvmAttributeCond cond) throws Exception {
-		final int pageNo = cond.getPageNo();
-		final int pageSize = cond.getPageSize();
-		final int offSet = pageNo == 0 ? 0 : pageNo * pageSize;
-		
-		final String searchKey = cond.getSearchKey();
-		
-		
-		StringBuffer query = new StringBuffer();
-		query.append(" select attr.*, prj.id as prjObjId, prj.pssPrjId, prj.pssPrjName, prj.sbpPrjId, prj.sbpPrjName ");
-		
-		setAttributeQuery(query, cond);
-		
-		String orderColumn = cond.getOrderColumn();
-		if (orderColumn != null) {
-			query.append(" order by ").append(orderColumn);
-			if (cond.isDescending())
-				query.append(" desc ");
-		}
-		
-		query.append(" limit ? ");
-		query.append(" offset ? ");
-		
-		List<HvmAttribute> attrList = jdbcTemplateObject.query(query.toString(), 
-				new PreparedStatementSetter(){
-					public void setValues(PreparedStatement preparedStatement) throws SQLException {
-						if (searchKey != null && searchKey.length() != 0) {
-							String likeSearchKey = "%" + searchKey + "%";
-							preparedStatement.setString(1, likeSearchKey);
-							preparedStatement.setString(2, likeSearchKey);
-							preparedStatement.setString(3, likeSearchKey);
-							preparedStatement.setString(4, likeSearchKey);
-							preparedStatement.setString(5, likeSearchKey);
-							preparedStatement.setString(6, likeSearchKey);
-							preparedStatement.setString(7, likeSearchKey);
-							preparedStatement.setInt(8, pageSize);
-							preparedStatement.setInt(9, offSet);
-						} else {
-							preparedStatement.setInt(1, pageSize);
-							preparedStatement.setInt(2, offSet);
-						}
-		            }
-				}
-				, new HvmAttributeMapper());
-		
-		return attrList;
-	}*/
-
 	@Override
 	public List<SkkupssPssProject> getSkkupssPssProject(String userId,final String psId) throws Exception {
 		
@@ -625,6 +548,44 @@ public class HvmDaoImpl implements IHvmDao {
 				}
 				, new SkkupssPssProjectMapper());
 		return pssPrj;
+	}
+
+	@Override
+	public boolean setHvmAttribute(String userId, HvmAttribute attribute) throws Exception {
+		
+		if (attribute == null)
+			return false;
+		
+		this.removeHvmAttribute(userId, attribute.getId());
+		
+		StringBuffer attrSql = new StringBuffer().append("insert into hvmattribute ");
+		attrSql.append(" (id, prjid, valueid, valuename, sbpid, sbpname, activityid, activityname, attributetype, attributename) ");
+		attrSql.append(" values (? ,? ,? ,? ,? ,? ,? ,? ,? ,?)");
+
+	    jdbcTemplateObject.update(attrSql.toString()
+					,attribute.getId()
+					,attribute.getPrjId()
+					,attribute.getValueId()
+					,attribute.getValueName()
+					,attribute.getSbpId()
+					,attribute.getSbpName()
+					,attribute.getActivityId()
+					,attribute.getActivityName()
+					,attribute.getAttributeType()
+					,attribute.getAttributeName()
+	    		);
+		
+	    return true;
+	}
+
+	@Override
+	public boolean removeHvmAttribute(String userId, String attributeId) throws Exception {
+
+		StringBuffer attrQuery = new StringBuffer().append("delete from hvmattribute where id = ? ");
+
+		jdbcTemplateObject.update(attrQuery.toString(), attributeId);
+		
+		return true;
 	}
 	
 }

@@ -297,4 +297,29 @@
 	margin:14px;
 }
 
+.viewTr input {
+	border :0;
+}
 
+[class*='btn_attr_'] {
+	border-radius: 4px; 
+	display: inline-block; 
+	font-family: Arial, Helvetica, sans-serif;	
+	font-size: 13px;
+	padding: 11px 6px 11px 6px; 
+	text-decoration: none; 
+	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.075);
+	cursor: pointer; 
+}
+[class*='btn_attr_'] a {
+	color: #fff; 
+}
+.btn_attr_save {
+	background-color:#cbe000;
+}
+.btn_attr_edit {
+	background-color:#7676b2;
+}
+.btn_attr_del {
+	background-color:#FA5D51;
+}

@@ -202,6 +202,51 @@ public class HvmController {
 	}	
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	@RequestMapping(value="/setHvmAttributeWithProject", method=RequestMethod.POST)
+	public @ResponseBody void setHvmAttribute(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		Login currentUser = HvmUtil.getCurrentUserInfo();
+		
+		IHvmManager hvmMgr = HvmManagerFactory.getInstance().getHvmManager();
+		Map resultMap = (Map)requestBody.get("result");
+		int attrIndex = (Integer)requestBody.get("attrIndex");
+		//String setMode = (String)requestBody.get("setMode");
+
+		ObjectMapper mapper = new ObjectMapper();
+		HvmProject project = mapper.convertValue(resultMap, HvmProject.class);
+		
+		hvmMgr.setHvmAttributeWithProject(currentUser.getId(), project, attrIndex);
+	}	
+	
+	@RequestMapping(value="/removeHvmAttribute", method=RequestMethod.POST)
+	public @ResponseBody void removeHvmAttribute(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		Login currentUser = HvmUtil.getCurrentUserInfo();
+
+		IHvmManager hvmMgr = HvmManagerFactory.getInstance().getHvmManager();
+		String attributeId = (String)requestBody.get("attributeId");
+		
+		hvmMgr.removeHvmAttribute(currentUser.getId(), attributeId);
+	}	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	@RequestMapping(value="/getHvmAttributeSize", method=RequestMethod.POST)
 	public @ResponseBody Map getHvmAttributeSize(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
 	
