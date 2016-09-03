@@ -118,11 +118,15 @@ public class HvmController {
 				String left = (String)filterMap.get("left");
 				String operator = (String)filterMap.get("operator");
 				String right = (String)filterMap.get("right");
+
+				if (left == null || operator == null || right == null)
+					continue;
 				
 				Filter filter = new Filter(left, operator, right);
 				filters.add(filter);
 			}
-			cond.setFilters(filters);
+			if (filters.size() != 0)
+				cond.setFilters(filters);
 		}
 		
 		
@@ -155,10 +159,14 @@ public class HvmController {
 				String operator = (String)filterMap.get("operator");
 				String right = (String)filterMap.get("right");
 				
+				if (left == null || operator == null || right == null)
+					continue;
+				
 				Filter filter = new Filter(left, operator, right);
 				filters.add(filter);
 			}
-			cond.setFilters(filters);
+			if (filters.size() != 0)
+				cond.setFilters(filters);
 		}
 		
 		
@@ -267,11 +275,15 @@ public class HvmController {
 				String left = (String)filterMap.get("left");
 				String operator = (String)filterMap.get("operator");
 				String right = (String)filterMap.get("right");
+
+				if (left == null || operator == null || right == null)
+					continue;
 				
 				Filter filter = new Filter(left, operator, right);
 				filters.add(filter);
 			}
-			cond.setFilters(filters);
+			if (filters.size() != 0)
+				cond.setFilters(filters);
 		}
 		
 		Map result = hvmMgr.getHvmAttributeSize(currentUser.getId(), cond);
@@ -314,11 +326,15 @@ public class HvmController {
 				String left = (String)filterMap.get("left");
 				String operator = (String)filterMap.get("operator");
 				String right = (String)filterMap.get("right");
+
+				if (left == null || operator == null || right == null)
+					continue;
 				
 				Filter filter = new Filter(left, operator, right);
 				filters.add(filter);
 			}
-			cond.setFilters(filters);
+			if (filters.size() != 0)
+				cond.setFilters(filters);
 		}		
 		
 		

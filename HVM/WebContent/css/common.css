@@ -29,11 +29,16 @@ body { background-color:#f5f5f5;}
 
 #contents { padding:0 30px;}
 
-#contents_top {float:right; margin-bottom:40px;}
+
+
+/* #contents_top {float:right; margin-bottom:40px;}
 #contents_top .search { float:right }
 #contents_top .search input{width:500px; height:38px; border-radius:7px; background:#e7eaee; margin-right:40px; border:1px solid #e7eaee; padding-left:40px; font-size:15px; color:#666}  
 #contents_top .search input:focus{border:1px solid #d1e701; outline:none;}
-#contents_top .search img { margin:12px 0 0 13px; position:absolute;}
+#contents_top .search img { margin:12px 0 0 13px; position:absolute;} */
+
+
+
 /* #contents_top .select-list { float:right;}
 #contents_top .select-list select { clear:both; border:1px solid #e1e1e1; width: 150px; height: 38px;  font-size:15px; color:#666;} */
 

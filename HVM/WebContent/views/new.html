@@ -2,7 +2,7 @@
 	<div id="contents_top"></div>
 	<div id="contents_bottom">
 		<div class="box_header">
-			<span class="path">신규 작성/수정 </span>
+			<span class="path">HVM 새항목 추가/수정 </span>
 		</div>
 		<div class="box_body_new" ng-repeat="project in result">
 			<div class="box_left">
@@ -128,7 +128,7 @@
 							
 							<tr ng-show="!attribute.editmode" ng-repeat-end class="viewTr">
 								<!-- <td><input class="valueTd" ng-readonly="true" ng-focus="openValueTreeModal(attribute)" name="" type="text" ng-model="attribute.valueName"/></td> -->
-								<td><div ng-click="openValueTreeModal(attribute)">{{attribute.valueName}}</div></td>
+								<td class="valueTd"><div ng-click="openValueTreeModal(attribute, true)">{{attribute.valueName}}</div></td>
 								<td><div>{{attribute.attributeName}}</div></td>
 								<td align="center">
 									<div class="pnDiv">
@@ -144,9 +144,9 @@
 										</div>
 									</div>
 								</td>
-								<td><div ng-click="openSbpTreeModal(attribute)">{{attribute.activityName}}</div></td>
+								<td class="activityTd"><div ng-click="openSbpTreeModal(attribute,null,null,null, true)">{{attribute.activityName}}</div></td>
 								<!-- <td><input name="" type="text" ng-model="attribute.sbpName" disabled/></td> -->
-								<td align="center"><div ng-click="openSbpTreeModal(attribute,null,null,true)">{{getSbpPrjSbpNameNo(attribute.sbpName)}}</div></td>
+								<td class="sbpTd" align="center"><div ng-click="openSbpTreeModal(attribute,null,null,true, true)">{{getSbpPrjSbpNameNo(attribute.sbpName)}}</div></td>
 								
 								<td align="center">
 									
@@ -222,7 +222,7 @@
 	<div class="modal-content"  style="width:660px;height:440px">
 		<div class="modalHeader">
 			<span class="modalTitle">Value</span>
-			<span class="closeBtn" ng-click="closeValueTreeModal()">x</span>
+			<span class="closeBtn" ng-click="closeValueTreeModal();viewMode = null">x</span>
 		</div>
 		<div>
 			<iframe id="valueTree" width="100%" height="400" ng-src="{{trustSrc('value')}}" frameborder="0" ></iframe>
@@ -269,7 +269,7 @@
 	<div class="modal-content"  style="width:90%; height:610px">
 		<div class="modalHeader">
 			<span class="modalTitle">SBP</span>
-			<span class="closeBtn" ng-click="closeSbpTreeModal()">x</span>
+			<span class="closeBtn" ng-click="closeSbpTreeModal();viewMode = null">x</span>
 		</div>
 		<div class="iframe" style="margin:0;height: 580px; ">
 			<iframe refreshable="refresh" id="sbpTree" width="100%"  height="580px" ng-src="{{trustSrc('sbp')}}" frameborder="0" ></iframe>

@@ -30,6 +30,11 @@ angular.module("hvm")
 	//상단 뷰타입을 결정
 	$scope.selectItem = ["PSS", "SBP", "Value","Activity","Attribute"];
 	$scope.selectedItem = $scope.viewType;
+	
+	
+	$scope.selectFilterItem = ["All","Value","Activity","Attribute","PSS","SBP"];
+	
+	
 
 	
 	//로그인사용자 
@@ -114,9 +119,9 @@ angular.module("hvm")
 }])
 .service("retrieveServicePost",['$http', function($http){
 	return {
-		retrieve: function(url, viewType, keywords, pageSize, pageNo, psId, orderColumn, isDescending) {
-			console.log(url, viewType, keywords, pageSize, pageNo, psId, orderColumn, isDescending);
-			return $http.post(url,{"viewType":viewType, "searchKey": keywords,"pageSize":pageSize,"pageNo":pageNo,"psId":psId,"orderColumn":orderColumn,"isDescending":isDescending});
+		retrieve: function(url, viewType, filters, pageSize, pageNo, psId, orderColumn, isDescending) {
+			console.log(url, viewType, filters, pageSize, pageNo, psId, orderColumn, isDescending);
+			return $http.post(url,{"viewType":viewType, "filters": filters,"pageSize":pageSize,"pageNo":pageNo,"psId":psId,"orderColumn":orderColumn,"isDescending":isDescending});
 		}
 	}
 }])

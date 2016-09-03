@@ -36,6 +36,10 @@ angular.module("hvm")
 	//POST Message From iframe
 
 	$scope.$on('selectValuePostMessage', function(event, args) {
+		
+		if ($scope.viewMode)
+			return;
+		
 		//callType||valueText
 		
 		$scope.selectedPssValueName = args.data.split("||")[1];
@@ -71,6 +75,10 @@ angular.module("hvm")
 		
 	});
 	$scope.$on('selectSbpPostMessage', function(event, args) {
+
+		if ($scope.viewMode)
+			return;
+		
 		//2013 12 17_to be(컬러링)||543||51108||UA_s20601||확인받기
 		//sbpName||sbpId(seqId)|| ... ||activityId(activityName)||activity
 		
@@ -511,13 +519,14 @@ angular.module("hvm")
 	$scope.getSelectedValueElementOnValueTreeModal = function() {
 		return $('#valueTree').contents().find('#selectedValue')[0];
 	}
-	$scope.openValueTreeModal = function(attribute) {
+	$scope.openValueTreeModal = function(attribute, viewMode) {
+		
+		if (viewMode)
+			$scope.viewMode = viewMode
+		
+		
 		$scope.selectedAttributeForValue = attribute;
 		if (attribute.valueName) {
-//			$scope.findElementByTextNPaintOnValueTreeModal(attribute.valueName, '#00FF00');
-//			//$('#valueTree').contents().find('#selectedValue')[0].value = attribute.valueName;
-//			$scope.getSelectedValueElementOnValueTreeModal().value = attribute.valueName;
-//			$scope.selectValueName = attribute.valueName;
 		}
 		$scope.selectValueName = attribute.valueName;
 		
@@ -531,6 +540,8 @@ angular.module("hvm")
 		
 	}
 	$scope.closeValueTreeModal = function() {
+		
+		
 		//$scope.findElementByTextNPaintOnValueTreeModal($scope.selectValueName, '#EAE8E6');
 //		$scope.findElementByTextNPaintOnValueTreeModal($scope.selectedAttributeForValue.valueName, '#EAE8E6');
 //		$scope.findElementByTextNPaintOnValueTreeModal($scope.getSelectedValueElementOnValueTreeModal().value, '#EAE8E6');
@@ -556,9 +567,11 @@ angular.module("hvm")
 	
 	
 	//sbp tree modal
-	$scope.openSbpTreeModal = function(attribute, tempSbpPrjId, tempSbpPrjName, justViewSbpList) {
+	$scope.openSbpTreeModal = function(attribute, tempSbpPrjId, tempSbpPrjName, justViewSbpList, viewMode) {
 		
-		
+		if (viewMode)
+			$scope.viewMode = viewMode
+			
 		$scope.preViewSbpPrjPuId = tempSbpPrjId;
 		$scope.preViewSbpPrjName = tempSbpPrjName;
 		

@@ -13,10 +13,45 @@
 			</div>
 		</div>
 
+		<div style="display:inline-block;float:right;">
+			<div class="btn_filter_search"><a href="" ng-click="search()"><img src="images/icon_search wh.png"/></a></div>
+		</div>
+		
+		
+		
+		
+		
+		
+		
+		
 		<div class="search">
+			<div class="addFilterDiv" ng-repeat="filter in filters">
+				<div class="filterViewType" ng-mouseleave="filter.showFilterViewTypeList = false">
+					<div class="filterSelectedItem"
+						ng-click="filter.showFilterViewTypeList = !filter.showFilterViewTypeList">{{filter.selectedFilter}}</div>
+					<div class="filterSelectList" ng-show="filter.showFilterViewTypeList">
+						<div ng-repeat="filterItem in selectFilterItem"
+							ng-click="filter.left = getFilterLeft(filterItem);filter.selectedFilter = filterItem;filter.showFilterViewTypeList = false">{{filterItem}}</div>
+					</div>
+				</div>
+				<input name="" type="text" border="1" ng-model="filter.right" ng-keypress="enterKeySearch($event)" />
+				<!-- <input name="" type="text" border="1" ng-model="filter.right"/> -->
+					
+				<div ng-show="$index==0" class="btn_filter_add" ng-click="addFilter()"><a>검색추가</a></div>
+				
+				<div ng-show="$index!=0" class="img_btn_delete"><a ng-click="removeFilter($index)"><img src="images/btn_box_delete.png"/></a></div>
+			</div>
+		</div>
+
+
+
+
+
+
+		<!-- <div class="search">
 			<img src="images/icon_search.png" ng-click="search()"/> <input name="" type="text"
 				border="1" ng-model="keywords" ng-keypress="enterKeySearch($event)" />
-		</div>
+		</div> -->
 	</div>
 	<div ng-show="showProjectList">
 		<div id="contents_bottom" ng-show="!result.length">

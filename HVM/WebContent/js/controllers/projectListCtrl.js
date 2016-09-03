@@ -4,6 +4,43 @@ angular.module("hvm")
 		, getAttributeListSizeUrl, removeProjectUrl, getPagingInfoPost, getPagingInfoUrl, valueDetailFrameUrl) {
 
 	
+	
+	$scope.getFilterLeft = function(item) {
+	
+		if (item == 'All') {
+			return 'All';
+		} else if (item == 'Value') {
+			return 'valueName';
+		} else if (item == 'Activity') {
+			return 'activityName';
+		} else if (item == 'Attribute') {
+			return 'attributeName';
+		} else if (item == 'PSS') {
+			return 'pssPrjName';
+		} else if (item == 'SBP') {
+			return 'sbpPrjName ||_||  sbpName'; 
+		}
+	}
+	
+	$scope.refreshFilter = function() {
+		$scope.filters = [];
+		$scope.filters[0] = {'selectedFilter':'All','left':'All', 'operator':'like', 'right':null};
+	}
+	
+	$scope.addFilter = function() {
+		$scope.filters.push({'selectedFilter':'All','left':'All', 'operator':'like', 'right':null});
+	}
+	$scope.removeFilter = function(index) {
+		$scope.filters.splice(index, 1);
+	}
+
+	//초기화면에서 필터를 초기화한다 
+	$scope.refreshFilter();
+	
+	
+	
+	
+	
 	$scope.trustSrc = function(type) {
 		if (type === "valueView") {
 		    return $sce.trustAsResourceUrl(valueDetailFrameUrl + $scope.selectedValueId + "&view=true&selectValueName="+$scope.selectedValueName);
@@ -156,7 +193,7 @@ angular.module("hvm")
 	}
 	
 	$scope.search = function() {
-		console.log('projectListCtrl : search : ',$scope.keywords);
+		console.log('projectListCtrl : filters : ',$scope.filters);
 		$scope.clickPrjPageNo(0);
 		$scope.clickAttrPageNo(0);
 	}
@@ -209,7 +246,7 @@ angular.module("hvm")
 	$scope.clickPrjPageNo = function(pNo) {
 		$scope.prjPageNo = pNo;
 		
-		retrieveServicePost.retrieve(getProjectListSizeUrl, $scope.viewType, $scope.keywords).then(function(response){
+		retrieveServicePost.retrieve(getProjectListSizeUrl, $scope.viewType, $scope.filters).then(function(response){
 			var totalSize = response.data.totalSize;
 			$scope.totalPages = Math.ceil($scope.totalSize/$scope.prjPageSize);
 			console.log('proejctListCtrl !!!!: ' , $scope.totalPages,$scope.totalSize, $scope.prjPageSize);
@@ -226,7 +263,7 @@ angular.module("hvm")
 			
 			
 		})
-		retrieveServicePost.retrieve(getProjectListUrl, $scope.viewType, $scope.keywords, $scope.prjPageSize, $scope.prjPageNo).then(function(response){
+		retrieveServicePost.retrieve(getProjectListUrl, $scope.viewType, $scope.filters, $scope.prjPageSize, $scope.prjPageNo).then(function(response){
 			$scope.result = response.data;
 			console.log('@@@@@@@@@@@@@@@@@@ ',JSON.stringify($scope.result[0]))
 		})
@@ -275,7 +312,7 @@ angular.module("hvm")
 		
 		$scope.attrPageNo = pNo;
 		
-		retrieveServicePost.retrieve(getAttributeListSizeUrl, $scope.viewType, $scope.keywords).then(function(response){
+		retrieveServicePost.retrieve(getAttributeListSizeUrl, $scope.viewType, $scope.filters).then(function(response){
 			var totalSize = response.data.totalSize;
 			$scope.totalAttrPages = Math.ceil(totalSize/$scope.attrPageSize);
 			
@@ -290,7 +327,7 @@ angular.module("hvm")
 			})
 			
 		})
-		retrieveServicePost.retrieve(getAttributeListUrl, $scope.viewType, $scope.keywords, $scope.attrPageSize, $scope.attrPageNo, null, orderColumn, false).then(function(response){
+		retrieveServicePost.retrieve(getAttributeListUrl, $scope.viewType, $scope.filters, $scope.attrPageSize, $scope.attrPageNo, null, orderColumn, false).then(function(response){
 			$scope.attrResult = response.data;
 			//console.log('projectListCtrl : resultAttribute : ',JSON.stringify($scope.attrResult))
 		})
