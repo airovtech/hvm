@@ -18,7 +18,7 @@ angular.module("hvm")
 .constant("getPagingInfoUrl","/HVM/getPagingInfo.sw")
 .controller("hvmCtl", function($scope,$rootScope, $location, $cookies, retrieveCurrentUser, imageServerUrl, logoutSvc){
 
-	
+	//post message 를 받아 하위 scope에 전달 
 	$scope.receipPostMessage = function(targetKey, value) {
 		$rootScope.$broadcast(targetKey, { data: value });
 	}
@@ -31,11 +31,8 @@ angular.module("hvm")
 	$scope.selectItem = ["PSS", "SBP", "Value","Activity","Attribute"];
 	$scope.selectedItem = $scope.viewType;
 	
-	
+	//필터 셀렉트 박스 리스트 
 	$scope.selectFilterItem = ["All","Value","Activity","Attribute","PSS","SBP"];
-	
-	
-
 	
 	//로그인사용자 
 	$scope.user_image_path = imageServerUrl;
@@ -49,6 +46,7 @@ angular.module("hvm")
 		}
 	});
 	
+	//메인화면 로고를 클릭하였을 경우 기본 PSS 페이지로 이동한다 
 	$scope.mainView = function(){
 		$cookies.put("nowViewType","PSS");
 		$scope.viewType ="PSS";
@@ -59,12 +57,12 @@ angular.module("hvm")
 		
 	};
 
-	
-	$scope.createAttribute = function() {
-		console.log($scope.viewType);
-		$location.path("/newAttr/"+$scope.viewType);
-	};
+//	$scope.createAttribute = function() {
+//		console.log($scope.viewType);
+//		$location.path("/newAttr/"+$scope.viewType);
+//	};
 
+	//로그아웃 
 	$scope.logout = function() {
 		$cookies.remove("nowViewType");
 		logoutSvc.logout();

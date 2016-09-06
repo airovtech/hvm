@@ -18,7 +18,7 @@ angular.module("hvm")
 		} else if (item == 'PSS') {
 			return 'pssPrjName';
 		} else if (item == 'SBP') {
-			return 'sbpPrjName ||_||  sbpName'; 
+			return "sbpPrjName ||'_'||  sbpName"; 
 		}
 	}
 	

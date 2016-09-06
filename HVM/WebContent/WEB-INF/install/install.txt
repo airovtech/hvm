@@ -1,0 +1,17 @@
+# HVM 설치 및 운영시 참고 사항
+
+1. 데이터베이스는 postgresql 이며, 한글 오더링 옵션을 체크 하여야 한다, 현재 설치 시점(20160901) 에서는 
+	데이터베이스의 옵션이 적용되어 있지 않아 쿼리 자체(angularjs controller 에서 오더링 컬럼에 옵션( 예시: columnName collate "C" )을 준다)에 옵션을 주어 오더링 한다 
+	
+2. HVM 시스템은 skkupss, sbp 시스템과 연동 되어 동작을 한다. 
+	연동 시스템(skkupss, sbp)에 hvm 관련 소스를 포함 , 또는 기존 소스를 수정하여 연동 되므로 설치 및 이관시 이를 점검하여야 한다. 
+ 	초기 설정 당시 파일들은 HVM프로젝트 WebContent/WEB-INF/otherPrjSrc 에 모아 두었다
+ 	
+3. 연동 시스템과 연동 방식은 PostMessage 를 이용하며, Iframe 내에서 postMessage 를 이용하여 HVM 을 호출한다.
+	
+4. PostMessage 호출 URL 이 연동 시스템 내부 소스에 포함되어 있으므로 HVM 시스템 이관 및 도메인 변경시 이를 찾아 변경 해주어야 한다.
+	( SBP : panel8ForHvm.js   ,   SKKUPSS : psInstanceListForHvm.jsp , valueSpacePopup.jsp)
+	
+	
+
+ 
