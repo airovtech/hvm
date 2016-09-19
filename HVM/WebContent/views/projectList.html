@@ -59,7 +59,7 @@
 				<span class="path">HVM 조회 > {{selectedItem}} </span>
 			</div>
 			<div class="box_body">
-				<div class="box_body noresult">No Result</div>
+				<div class="box_body noresult">검색 결과가 없습니다.</div>
 			</div>
 		</div>	
 		<div id="contents_bottom" ng-repeat="project in result">
@@ -121,6 +121,7 @@
 								<th width="30%" scope="col">Activity</th>
 								<th width="10%" scope="col">SBP</th>
 							</tr>
+							<tr><td colspan="5" align="center" ng-show="!project.attributes.length">검색 결과가 없습니다.</td></tr>
 							<tr ng-repeat="attr in project.attributes | orderBy:'valueName'"
 								" ng-init="attr.sbpIndex=getSbpGroupIndex(project,project.sbpPrjName +'_'+ attr.sbpName)">
 								<td class='valueTd' ng-click="openValueViewModal(project.pssPrjId, attr.valueName)">{{attr.valueName}}</td>
@@ -164,7 +165,7 @@
 				<span class="path">HVM 조회 > {{selectedItem}} </span>
 			</div>
 			<div class="box_body">
-				<div class="box_body noresult">No Result</div>
+				<div class="box_body noresult">검색 결과가 없습니다.</div>
 			</div>
 		</div>
 		<div id="contents_bottom" ng-show="attrResult.length">

@@ -194,20 +194,54 @@ public class HvmDaoImpl implements IHvmDao {
 		if (projectList == null || projectList.size() == 0)
 			return null;
 		
-		StringBuffer attrQuery = new StringBuffer();
-		attrQuery.append(" select * from HvmAttribute where prjid=? order by valuename");
+//		StringBuffer attrQuery = new StringBuffer();
+//		attrQuery.append(" select * from HvmAttribute where prjid=? order by valuename");
+//		
+//		for (int i = 0; i < projectList.size(); i++) {
+//			HvmProject project = projectList.get(i);
+//			//attribute 조회
+//			HvmAttribute[] attrs = null;
+//			
+//			final String projectId = project.getId();
+//			
+//			List<HvmAttribute> attrList = jdbcTemplateObject.query(attrQuery.toString(),new Object[]{projectId},new HvmAttributeMapper());
+//			
+//			project.setAttributes(attrList);
+//		}
 		
+		
+		//project를 검색하였을 경우 안에 속해있는 attribute도 검색조건에 만족하는 attribute만 조회 되어야 한다. 
 		for (int i = 0; i < projectList.size(); i++) {
 			HvmProject project = projectList.get(i);
 			//attribute 조회
-			HvmAttribute[] attrs = null;
+			String projectId = project.getId();
 			
-			final String projectId = project.getId();
+			HvmAttributeCond attrCond = new HvmAttributeCond();
+			attrCond.setPageNo(-1);
+			attrCond.setPageSize(-1);
 			
-			List<HvmAttribute> attrList = jdbcTemplateObject.query(attrQuery.toString(),new Object[]{projectId},new HvmAttributeMapper());
+			//*** 만약 검색조건이 존재한다면....프로젝트에 속한 어트리뷰트들도 같은 조건으로 검색하되, pssPrjName, sbpPrjName 검색은 제외한다.
+			//project 와 attribute 를 따로따로 검색하여 리스트업한다. 
+			attrCond.setSearchByProject(true);
 			
+			Filter filter = new Filter("prjid","=",projectId);
+			
+			List<Filter> filters = cond.getFilters();
+			if (filters == null) {
+				filters = new ArrayList();
+			}
+			filters.add(filter);
+			
+			attrCond.setFilters(filters);
+			
+			attrCond.setOrderColumn("valueName");
+			
+			List<HvmAttribute> attrList = this.getHvmAttributes(userId, attrCond);
 			project.setAttributes(attrList);
+			
+			filters.remove(filter);
 		}
+		
 		return projectList;
 	}
 	public List<HvmProject> getHvmProjects_backup(String userId, HvmProjectCond cond) throws Exception {
@@ -417,32 +451,48 @@ public class HvmDaoImpl implements IHvmDao {
 							if (j != 0)
 								query.append(" or ");
 							
-							query.append(" ((prj.pssPrjName like ? or prj.sbpPrjName like ? or attr.valueName like ? or attr.sbpName like ? or attr.activityName like ? or attributeName like ? )");
+							if (cond.isSearchByProject()) {
+								query.append(" ((prj.sbpPrjName like ? or attr.valueName like ? or attr.sbpName like ? or attr.activityName like ? or attributeName like ? )");
+								setParams.add("%"+rightArray[j]+"%");
+								setParams.add("%"+rightArray[j]+"%");
+								setParams.add("%"+rightArray[j]+"%");
+								setParams.add("%"+rightArray[j]+"%");
+								setParams.add("%"+rightArray[j]+"%");
+							} else {
+								query.append(" ((prj.pssPrjName like ? or prj.sbpPrjName like ? or attr.valueName like ? or attr.sbpName like ? or attr.activityName like ? or attributeName like ? )");
+								setParams.add("%"+rightArray[j]+"%");
+								setParams.add("%"+rightArray[j]+"%");
+								setParams.add("%"+rightArray[j]+"%");
+								setParams.add("%"+rightArray[j]+"%");
+								setParams.add("%"+rightArray[j]+"%");
+								setParams.add("%"+rightArray[j]+"%");
+							}
 							query.append(" 		or ( prj.createdUser in (select id from orguser where name like ?) ))");
-							
-							setParams.add("%"+rightArray[j]+"%");
-							setParams.add("%"+rightArray[j]+"%");
-							setParams.add("%"+rightArray[j]+"%");
-							setParams.add("%"+rightArray[j]+"%");
-							setParams.add("%"+rightArray[j]+"%");
-							setParams.add("%"+rightArray[j]+"%");
 							setParams.add("%"+rightArray[j]+"%");
 							
 						}
 						query.append(" ) ");
 						
 					} else {
-						query.append(" ((prj.pssPrjName like ? or prj.sbpPrjName like ? or attr.valueName like ? or attr.sbpName like ? or attr.activityName like ? or attributeName like ? )");
+
+						if (cond.isSearchByProject()) {
+							query.append(" ((prj.sbpPrjName like ? or attr.valueName like ? or attr.sbpName like ? or attr.activityName like ? or attributeName like ? )");
+							setParams.add("%"+right+"%");
+							setParams.add("%"+right+"%");
+							setParams.add("%"+right+"%");
+							setParams.add("%"+right+"%");
+							setParams.add("%"+right+"%");
+						} else {
+							query.append(" ((prj.pssPrjName like ? or prj.sbpPrjName like ? or attr.valueName like ? or attr.sbpName like ? or attr.activityName like ? or attributeName like ? )");
+							setParams.add("%"+right+"%");
+							setParams.add("%"+right+"%");
+							setParams.add("%"+right+"%");
+							setParams.add("%"+right+"%");
+							setParams.add("%"+right+"%");
+							setParams.add("%"+right+"%");
+						}
 						query.append(" 		or ( prj.createdUser in (select id from orguser where name like ?) ))");
-						
 						setParams.add("%"+right+"%");
-						setParams.add("%"+right+"%");
-						setParams.add("%"+right+"%");
-						setParams.add("%"+right+"%");
-						setParams.add("%"+right+"%");
-						setParams.add("%"+right+"%");
-						setParams.add("%"+right+"%");
-						
 					}
 				} else {
 					if (rightArray.length > 1) {
@@ -516,12 +566,13 @@ public class HvmDaoImpl implements IHvmDao {
 				query.append(" desc ");
 		}
 		
-		query.append(" limit ? ");
-		query.append(" offset ? ");
-		
-		setParam.add(pageSize);
-		setParam.add(offSet);
-		
+		if (pageSize != -1 && pageNo != -1) {
+			query.append(" limit ? ");
+			query.append(" offset ? ");
+			
+			setParam.add(pageSize);
+			setParam.add(offSet);
+		}
 		Object[] setParamsArray = null;
 		if (setParam.size() != 0) {
 			setParamsArray = new Object[setParam.size()];

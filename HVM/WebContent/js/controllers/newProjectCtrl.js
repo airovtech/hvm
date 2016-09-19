@@ -271,12 +271,14 @@ angular.module("hvm")
 					$scope.saveTargetAttrIndex = attrIndex;
 					
 					
-					$scope.confirmTitle = 'New';
-					$scope.confirmText = "저장 하시겠습니까?" 
+//					$scope.confirmTitle = 'New';
+//					$scope.confirmText = "저장 하시겠습니까?" 
+//					
+//					$scope.confirmActionArray = [$scope.saveNewAttribute, $scope.closeConfirmModal]
+//					
+//					$scope.openConfirmModal();
 					
-					$scope.confirmActionArray = [$scope.saveNewAttribute, $scope.closeConfirmModal]
-					
-					$scope.openConfirmModal();
+					$scope.saveNewAttribute();
 			
 		} else {
 			$('#attrTr'+attrIndex).find('.ng-invalid').addClass('err-empty')
@@ -514,6 +516,7 @@ angular.module("hvm")
 	
 	//value tree modal
 	$scope.findElementByTextNPaintOnValueTreeModal = function(text, colorCode) {
+		//for (var i = 0 ; i<a.length; i++){if(a[i].innerText == '전문적인'){console.log('이거야!!!!')}}
 		$($('#valueTree').contents().find('span:contains("'+text+'")').filter('[class="js_action_select_value"]')[0]).parent().parent().css('background-color',colorCode);
 	}
 	$scope.getSelectedValueElementOnValueTreeModal = function() {

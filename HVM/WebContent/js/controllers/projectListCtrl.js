@@ -5,6 +5,7 @@ angular.module("hvm")
 
 	
 	
+	
 	$scope.getFilterLeft = function(item) {
 	
 		if (item == 'All') {
@@ -57,7 +58,13 @@ angular.module("hvm")
 	}
 
 	$scope.$on('clickMainLogo', function(event, args) {
-		$scope.selectViewType(0);	
+		$scope.selectViewType(0);
+		
+		//필터초기
+		$scope.refreshFilter();
+
+		$scope.clickPrjPageNo(0);
+		
 	})
 	
  	//value view modal
@@ -246,6 +253,14 @@ angular.module("hvm")
 	$scope.clickPrjPageNo = function(pNo) {
 		$scope.prjPageNo = pNo;
 		
+		// 검색 결과는 여러결과를 표시한다???
+		if ($scope.filters[0].right != null && $scope.filters[0].right != undefined && $scope.filters[0].right != '') {
+			$scope.prjPageSize = 10;
+		} else {
+			$scope.prjPageSize = 1;
+		}
+		
+		
 		retrieveServicePost.retrieve(getProjectListSizeUrl, $scope.viewType, $scope.filters).then(function(response){
 			var totalSize = response.data.totalSize;
 			$scope.totalPages = Math.ceil($scope.totalSize/$scope.prjPageSize);
@@ -267,6 +282,8 @@ angular.module("hvm")
 			$scope.result = response.data;
 			console.log('@@@@@@@@@@@@@@@@@@ ',JSON.stringify($scope.result[0]))
 		})
+		
+		//$scope.prjPageSize = 1;
 		
 	}
 	$scope.clickPrjPageNo(0);
