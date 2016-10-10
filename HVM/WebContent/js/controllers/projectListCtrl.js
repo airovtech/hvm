@@ -72,7 +72,11 @@ angular.module("hvm")
 		$($('#valueView').contents().find('span:contains("'+text+'")').filter('[class="js_action_select_value"]')[0]).parent().parent().css('background-color',colorCode);
 	}
 	
-	$scope.openValueViewModal = function(pssPrjId, valueName) {
+	$scope.valueModalTitle = 'Value';
+	$scope.openValueViewModal = function(pssPrjId, valueName, valueModalTitle) {
+		
+		if (valueModalTitle)
+			$scope.valueModalTitle = valueModalTitle;
 		
 		//$scope.refreshValueView = true;
 		$scope.selectedValueName = valueName;
