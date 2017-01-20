@@ -284,7 +284,7 @@ angular.module("hvm")
 		})
 		retrieveServicePost.retrieve(getProjectListUrl, $scope.viewType, $scope.filters, $scope.prjPageSize, $scope.prjPageNo).then(function(response){
 			$scope.result = response.data;
-			console.log('@@@@@@@@@@@@@@@@@@ ',JSON.stringify($scope.result[0]))
+			//console.log('@@@@@@@@@@@@@@@@@@ ',JSON.stringify($scope.result[0]))
 		})
 		
 		//$scope.prjPageSize = 1;

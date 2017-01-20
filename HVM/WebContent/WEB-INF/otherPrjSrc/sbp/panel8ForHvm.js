@@ -1004,6 +1004,12 @@ function drawNewActivity(index, title, activityId, colorIndex, activityImage, ro
 
 	var itemBox = r.rect(x, y, ActWidth, ActHeight, 3);
 	itemBox.node.id = "Activity";
+
+
+	    //hvm kmyu 20161205
+        itemBox.node.setAttribute("class",activityId);
+
+
 	
 	if(colorIndex == -1){
 		itemBox.attr({fill: "#ffffff", "fill-opacity": 0.5});
@@ -1249,19 +1255,36 @@ function isFunction(activity){
 
 	return result;
 }
-
+//var gSelect = [];
 function callParentForHvm(itemBox, d, set, event) {
 	try {
+		console.log('set',set);
+
 		var sbpName = $('#documentTitle').find('span')[0].innerText;
 		var seqId = $('#documentTitle').attr('seqid');
 		console.log('$$$$$$$$$$$$$$$$$$POST MESSAGE TO PARENT$$$$$$$$$$$$$$$$$$$$$$$');
-		var message = sbpName + '||' + seqId + '||' + itemBox.attrs['data'].seq + '||' + itemBox.attrs['data'].activity_seq + "||" + itemBox.attrs['data'].activity_title
+	//	var message = sbpName + '||' + seqId + '||' + itemBox.attrs['data'].seq + '||' + itemBox.attrs['data'].activity_seq + "||" + itemBox.attrs['data'].activity_title
+
+
+		var message = sbpName + '||' + seqId + '||' + itemBox.attrs['data'].seq + '||' + itemBox.attrs['data'].activity_seq + "||" + itemBox.attrs['data'].activity_title +"||"+itemBox.attrs['data'].groupTitle;
+
 		console.log('item : ', message)
 		console.log('$$$$$$$$$$$$$$$$$$POST MESSAGE TO PARENT$$$$$$$$$$$$$$$$$$$$$$$');
-		parent.postMessage(message,"http://localhost:8080/HVM/index.html");
+//		parent.postMessage(message,"http://localhost:8080/HVM/index.html");
 		parent.postMessage(message,"http://great.smartworks.net/HVM/index.html");
 
 		parent.postMessage(message,"http://www.smartworks.net/HVM/index.html");
+		
+		parent.postMessage(message,"http://localhost:8080/skkupss/header.jsp");
+
+		//$("."+itemBox.attrs['data'].activity_seq).attr('stroke','red');
+//		gSelect.push(itemBox.attrs['data'].activity_seq);
+//		for (var i = 0; i < gSelect.length; i++) {
+//			//$("."+gSelect[i]).attr('stroke','red');
+//			$("."+gSelect[i]).parent().next().find('tspan').attr('fill', 'red');
+//		}
+//
+
 
 	} catch(err) {
 		console.log('ERROR!!');

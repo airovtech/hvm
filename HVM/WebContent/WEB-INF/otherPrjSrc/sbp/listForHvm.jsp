@@ -181,5 +181,9 @@ function goDelete(seq){
 	}
 %>
 </div>
-<%@ include file="/include/footerFront.jsp" %>
+<%-- <%@ include file="/include/footerFront.jsp" %> --%>
+                <div id="footer1">
+                </div>
+    </body>
+</html>
 <%@ include file="/include/footer.jsp" %>
